@@ -4,7 +4,7 @@ This library provides representations for propositional, modal, and first-order 
 
 ## Dependencies
 
-This repository depends on the repository [utils](https://github.com/Iltis/utils) of the Iltis project.
+This repository depends on the repository [utils](https://github.com/iltis-edu/utils) of the Iltis project.
 
 ## Contributors
 
