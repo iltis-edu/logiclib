@@ -1,0 +1,3077 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+
+    <!-- used to avoid empty disjunctions/conjunctions or those with only 1 child-->
+    <clean name="BUGGY_CLEAN" onlyPart="true"></clean>
+
+    <pattern name = "BUGGY_IDEMPOTENCE_TO_TOP_CONJUNCTION" groupId="BUGGY_IDEMPOTENCE_TO_TOP">
+        <match>*A∧$X∧*B∧$X∧*C</match>
+        <replace>⊤</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧X(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧X(x,y)∧B(x,y)∧X(x,y)∧C(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧X(x,y)∧X(x,y)∧C(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name = "BUGGY_IDEMPOTENCE_TO_TOP_DISJUNCTION" groupId="BUGGY_IDEMPOTENCE_TO_TOP">
+        <match>*A∨$X∨*B∨$X∨*C</match>
+        <replace>⊤</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨X(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∨X(x,y)∨B(x,y)∨X(x,y)∨C(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_FORMULA_TO_IMPLICATIONAL_TAUTOLOGY_IMPLICATION" groupId="BUGGY_FORMULA_TO_IMPLICATIONAL_TAUTOLOGY">
+        <match>$X</match>
+        <replace>$X → $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)</input>
+                <expect>X(x,y) → X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_FORMULA_TO_IMPLICATIONAL_TAUTOLOGY_EQUIVALENCE" groupId="BUGGY_FORMULA_TO_IMPLICATIONAL_TAUTOLOGY">
+        <match>$X</match>
+        <replace>$X ↔ $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)</input>
+                <expect>X(x,y) ↔ X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_TOP1" groupId="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION">
+        <match>*A∧$X∧*B∧¬$X∧*C</match>
+        <replace>⊤</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧¬X(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧X(x,y)∧B(x,y)∧¬X(x,y)∧C(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_TOP2" groupId="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION">
+        <match>*A∧¬$X∧*B∧$X∧*C</match>
+        <replace>⊤</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧X(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧¬X(x,y)∧B(x,y)∧X(x,y)∧C(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_SUBFORMULA1" groupId="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION">
+        <match>*A∧$X∧*B∧¬$X∧*C</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧¬X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧X(x,y)∧B(x,y)∧¬X(x,y)∧C(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_SUBFORMULA2" groupId="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION">
+        <match>*A∧¬$X∧*B∧$X∧*C</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧¬X(x,y)∧B(x,y)∧X(x,y)∧C(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_BOTTOM1" groupId="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_BOTTOM">
+        <match>($X∨$Y)∧(¬$X∨¬$Y)</match>
+        <replace>⊥</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧(¬X(x,y)∨¬Y(x,y))</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_BOTTOM2" groupId="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_BOTTOM">
+        <match>(¬$X∨¬$Y)∧($X∨$Y)</match>
+        <replace>⊥</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X(x,y)∨¬Y(x,y))∧(X(x,y)∨Y(x,y))</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_BOTTOM1" groupId="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION">
+        <match>*A∨$X∨*B∨¬$X∨*C</match>
+        <replace>⊥</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨¬X(x,y)</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∨X(x,y)∨B(x,y)∨¬X(x,y)∨C(x,y)</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_BOTTOM2" groupId="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION">
+        <match>*A∨¬$X∨*B∨$X∨*C</match>
+        <replace>⊥</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨X(x,y)</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∨¬X(x,y)∨B(x,y)∨X(x,y)∨C(x,y)</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_SUBFORMULA1" groupId="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION">
+        <match>*A∨$X∨*B∨¬$X∨*C</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨¬X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∨X(x,y)∨B(x,y)∨¬X(x,y)∨C(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_SUBFORMULA2" groupId="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION">
+        <match>*A∨¬$X∨*B∨$X∨*C</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∨¬X(x,y)∨B(x,y)∨X(x,y)∨C(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_TOP1" groupId="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_TOP">
+        <match>($X∧$Y)∨(¬$X∧¬$Y)</match>
+        <replace>⊤</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨(¬X(x,y)∧¬Y(x,y))</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_TOP2" groupId="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_TOP">
+        <match>(¬$X∧¬$Y)∨($X∧$Y)</match>
+        <replace>⊤</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X(x,y)∧¬Y(x,y))∨(X(x,y)∧Y(x,y))</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TOP_IN_FORMULA_DISJUNCTION1_PART" onlyPart="true">
+        <match>*X∨⊤∨*Y</match>
+        <replace>*X∨*Y</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REDUCE_TOP_IN_FORMULA_DISJUNCTION1" groupId="BUGGY_REDUCE_TOP_IN_DISJUNCTION">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_REDUCE_TOP_IN_FORMULA_DISJUNCTION1_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨⊤</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨⊤∨¬Y(x,y)</input>
+                <expect>X(x,y)∨¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <pattern name="BUGGY_REDUCE_TOP_IN_FORMULA_CONJUNCTION1" groupId="BUGGY_REDUCE_TOP_IN_CONJUNCTION">
+        <match>*X∧⊤∧*Y</match>
+        <replace>⊤</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧⊤</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∧⊤∧Y(x,y)</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_BOTTOM_IN_FORMULA_DISJUNCTION1" groupId="BUGGY_REDUCE_BOTTOM_IN_DISJUNCTION">
+        <match>*X∨⊥∨*Y</match>
+        <replace>⊥</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨⊥</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨⊥∨Y(x,y)</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_BOTTOM_IN_FORMULA_CONJUNCTION1_PART" onlyPart="true">
+        <match>*X∧⊥∧*Y</match>
+        <replace>*X∧*Y</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REDUCE_BOTTOM_IN_FORMULA_CONJUNCTION1" groupId="BUGGY_REDUCE_BOTTOM_IN_CONJUNCTION">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_REDUCE_BOTTOM_IN_FORMULA_CONJUNCTION1_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧⊥</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∧⊥∧Y(x,y)</input>
+                <expect>X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_SWAP_PREMISE_AND_CONCLUSION">
+        <match>$X → $Y</match>
+        <replace>$Y → $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>Y(x,y) → X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_MOVE_PARENTHESIS_IN_MULTILAYERED_IMPLICATION_FORWARDS" groupId="BUGGY_MOVE_PARENTHESIS_IN_MULTILAYERED_IMPLICATION">
+        <match>$X → ($Y → $Z)</match>
+        <replace>($X → $Y) → $Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → (Y(x,y) → Z(x,y))</input>
+                <expect>(X(x,y) → Y(x,y)) → Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_MOVE_PARENTHESIS_IN_MULTILAYERED_IMPLICATION_BACKWARDS" groupId="BUGGY_MOVE_PARENTHESIS_IN_MULTILAYERED_IMPLICATION">
+        <match>($X → $Y) → $Z</match>
+        <replace>$X → ($Y → $Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y) → Y(x,y)) → Z(x,y)</input>
+                <expect>X(x,y) → (Y(x,y) → Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_IMPLICATIONAL_TAUTOLOGY">
+        <match>$X → $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_EQUIVALENT_TAUTOLOGY">
+        <match>$X ↔ $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE1" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y)∨¬($X∧$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨¬(X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE2" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y)∨(¬$X∧$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨(¬X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE3" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y)∨($X∧¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨(X(x,y)∧¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE4" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y)∨($X∧$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨(X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE5" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y)∨¬($X∨¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨¬(X(x,y)∨¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE6" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∨$Y)∧(¬$X∨¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∨Y(x,y))∧(¬X(x,y)∨¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE7" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y)∧(¬$X∧¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∧(¬X(x,y)∧¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE8" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y)∨(¬$X∨¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨(¬X(x,y)∨¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_EQUIVALENCE9" groupId="BUGGY_REMOVE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>¬$X∨$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>¬X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION1" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>$X → $Y</match>
+        <replace>¬($X∨$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>¬(X(x,y)∨Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION2" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>$X → $Y</match>
+        <replace>$X∨$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION3" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>$X → $Y</match>
+        <replace>¬($X∧$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>¬(X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION4" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>$X → $Y</match>
+        <replace>$X∨¬$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>X(x,y)∨¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION5" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>$X → $Y</match>
+        <replace>¬$X∧$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>¬X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION6" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>$X → $Y</match>
+        <replace>($X∧$Y)∨(¬$X∧¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨(¬X(x,y)∧¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION7" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>($X∨$Y) → $Z</match>
+        <replace>($X∨¬$Y)∨$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y)) → Z(x,y)</input>
+                <expect>(X(x,y)∨¬Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION8" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>($X∧$Y) → $Z</match>
+        <replace>($X∧¬$Y)∨$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y)) → Z(x,y)</input>
+                <expect>(X(x,y)∧¬Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION9" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>($X → $Y) → $Z</match>
+        <replace>($X → ¬$Y)∨$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y) → Y(x,y)) → Z(x,y)</input>
+                <expect>(X(x,y) → ¬Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_IMPLICATION10" groupId="BUGGY_REMOVE_IMPLICATION">
+        <match>($X ↔ $Y) → $Z</match>
+        <replace>($X ↔ ¬$Y)∨$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y) ↔ Y(x,y)) → Z(x,y)</input>
+                <expect>(X(x,y) ↔ ¬Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_IMPLICATION1_PART" onlyPart="true">
+        <match>*A∧(¬$X)∧($Y)∧*Z</match>
+        <replace>$X → (*A∧$Y∧*Z)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REDUCE_TO_IMPLICATION1" groupId="BUGGY_REDUCE_TO_IMPLICATION">
+        <references>
+            <reference name="BUGGY_REDUCE_TO_IMPLICATION1_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧Y(x,y)</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧¬X(x,y)∧Y(x,y)∧Z(x,y)</input>
+                <expect>X(x,y) → (A(x,y)∧Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧X(x,y)∧¬Y(x,y)∧Z(x,y)</input>
+                <expect>Y(x,y) → (A(x,y)∧X(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_REDUCE_TO_IMPLICATION2_PART" onlyPart="true">
+        <match>*Z∨($X)∨(¬$Y)∨*A</match>
+        <replace>(*Z∨$X∨*A) → $Y</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REDUCE_TO_IMPLICATION2" groupId="BUGGY_REDUCE_TO_IMPLICATION">
+        <references>
+            <reference name="BUGGY_REDUCE_TO_IMPLICATION2_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨¬Y(x,y)</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Z(x,y)∨X(x,y)∨¬Y(x,y)∨A(x,y)</input>
+                <expect>(Z(x,y)∨X(x,y)∨A(x,y)) → Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Z(x,y)∨¬X(x,y)∨Y(x,y)∨A(x,y)</input>
+                <expect>(Z(x,y)∨Y(x,y)∨A(x,y)) → X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <pattern name="BUGGY_REDUCE_TO_IMPLICATION5_PART" onlyPart="true">
+        <match>¬($X∨$Y∨*Z)</match>
+        <replace>$X → ($Y∨*Z)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REDUCE_TO_IMPLICATION5" groupId="BUGGY_REDUCE_TO_IMPLICATION">
+        <references>
+            <reference name="BUGGY_REDUCE_TO_IMPLICATION5_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>X(x,y) → (Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_PUSH_NEGATION1" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X∧*Z)</match>
+        <replace>¬$X∨*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y))</input>
+                <expect>¬X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>¬X(x,y)∨Y(x,y)∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION2" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X∧$Y)</match>
+        <replace>$X∨¬$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y))</input>
+                <expect>X(x,y)∨¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION3" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X∧*Y)</match>
+        <replace>$X∨*Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y))</input>
+                <expect>X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>X(x,y)∨Y(x,y)∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION4" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X∨*Y)</match>
+        <replace>¬$X∧*Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>¬X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>¬X(x,y)∧Y(x,y)∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION5" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X∨$Y)</match>
+        <replace>$X∧¬$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>X(x,y)∧¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION6" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X∨*Y)</match>
+        <replace>$X∧*Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_NEGATION_FROM_FRONT_OF_CONJUNCTION" onlyPart="true">
+        <match>¬(*X∧...)</match>
+        <replace>*X∧...</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <childrenPattern name="BUGGY_NEGATE_LITERALS_IN_CONJUNCTION" onlyPart="true">
+        <outer>($*∧...)</outer>
+        <match>$X</match>
+        <replace>¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧Y(x,y)</input>
+                <expect>¬X(x,y)∧¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <pattern name="BUGGY_SWAP_TO_DISJUNCTIONS_FROM_CONJUNCTION_AND_NEGATE" onlyPart="true">
+        <match>*X∧...</match>
+        <replace>¬(*X∨...)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧¬Y(x,y)</input>
+                <expect>¬(¬X(x,y)∨¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <sequential name="BUGGY_PUSH_NEGATION7" groupId="BUGGY_PUSH_NEGATION">
+        <references>
+            <reference name="BUGGY_REMOVE_NEGATION_FROM_FRONT_OF_CONJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_NEGATE_LITERALS_IN_CONJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_SWAP_TO_DISJUNCTIONS_FROM_CONJUNCTION_AND_NEGATE"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y))</input>
+                <expect>¬(¬X(x,y)∨¬Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>¬(¬X(x,y)∨¬Y(x,y)∨¬Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_REMOVE_NEGATION_FROM_FRONT_OF_DISJUNCTION" onlyPart="true">
+        <match>¬(*X∨...)</match>
+        <replace>*X∨...</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <childrenPattern name="BUGGY_NEGATE_LITERALS_IN_DISJUNCTION" onlyPart="true">
+        <outer>($*∨...)</outer>
+        <match>$X</match>
+        <replace>¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨Y(x,y)</input>
+                <expect>¬X(x,y)∨¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <pattern name="BUGGY_SWAP_TO_CONJUNCTIONS_FROM_DISJUNCTION_AND_NEGATE" onlyPart="true">
+        <match>*X∨...</match>
+        <replace>¬(*X∧...)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨¬Y(x,y)</input>
+                <expect>¬(¬X(x,y)∧¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <sequential name="BUGGY_PUSH_NEGATION8" groupId="BUGGY_PUSH_NEGATION">
+        <references>
+            <reference name="BUGGY_REMOVE_NEGATION_FROM_FRONT_OF_DISJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_NEGATE_LITERALS_IN_DISJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_SWAP_TO_CONJUNCTIONS_FROM_DISJUNCTION_AND_NEGATE"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>¬(¬X(x,y)∧¬Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>¬(¬X(x,y)∧¬Y(x,y)∧¬Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <sequential name="BUGGY_PUSH_NEGATION9" groupId="BUGGY_PUSH_NEGATION">
+        <references>
+            <reference name="BUGGY_REMOVE_NEGATION_FROM_FRONT_OF_CONJUNCTION"/>
+            <reference name="BUGGY_NEGATE_LITERALS_IN_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y))</input>
+                <expect>¬X(x,y)∧¬Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>¬X(x,y)∧¬Y(x,y)∧¬Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <sequential name="BUGGY_PUSH_NEGATION10" groupId="BUGGY_PUSH_NEGATION">
+        <references>
+            <reference name="BUGGY_REMOVE_NEGATION_FROM_FRONT_OF_DISJUNCTION"/>
+            <reference name="BUGGY_NEGATE_LITERALS_IN_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>¬X(x,y)∨¬Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>¬X(x,y)∨¬Y(x,y)∨¬Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_PUSH_NEGATION11" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬(¬($X∧$Y)∨*Z)</match>
+        <replace>¬(¬$X∨¬$Y)∨*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∧Y(x,y))∨Z(x,y))</input>
+                <expect>¬(¬X(x,y)∨¬Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∧Y(x,y))∨Z(x,y)∨A(x,y))</input>
+                <expect>¬(¬X(x,y)∨¬Y(x,y))∨Z(x,y)∨A(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION12" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬(¬($X∧$Y)∧*Z)</match>
+        <replace>¬(¬$X∨¬$Y)∧*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∧Y(x,y))∧Z(x,y))</input>
+                <expect>¬(¬X(x,y)∨¬Y(x,y))∧Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∧Y(x,y))∧Z(x,y)∧A(x,y))</input>
+                <expect>¬(¬X(x,y)∨¬Y(x,y))∧Z(x,y)∧A(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION13" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬(¬($X∨$Y)∨*Z)</match>
+        <replace>¬(¬$X∧¬$Y)∨*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∨Y(x,y))∨Z(x,y))</input>
+                <expect>¬(¬X(x,y)∧¬Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∨Y(x,y))∨Z(x,y)∨A(x,y))</input>
+                <expect>¬(¬X(x,y)∧¬Y(x,y))∨Z(x,y)∨A(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION14" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬(¬($X∨$Y)∧*Z)</match>
+        <replace>¬(¬$X∧¬$Y)∧*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∨Y(x,y))∧Z(x,y))</input>
+                <expect>¬(¬X(x,y)∧¬Y(x,y))∧Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(¬(X(x,y)∨Y(x,y))∧Z(x,y)∧A(x,y))</input>
+                <expect>¬(¬X(x,y)∧¬Y(x,y))∧Z(x,y)∧A(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION15" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X → $Y)</match>
+        <replace>¬$X → ¬$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y) → Y(x,y))</input>
+                <expect>¬X(x,y) → ¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_NEGATION16" groupId="BUGGY_PUSH_NEGATION">
+        <match>¬($X ↔ $Y)</match>
+        <replace>¬($X∧$Y)∨(¬$X∧¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y) ↔ Y(x,y))</input>
+                <expect>¬(X(x,y)∧Y(x,y))∨(¬X(x,y)∧¬Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <childrenPattern name="BUGGY_UNNEGATE_LITERALS_IN_CONJUNCTION" onlyPart="true">
+        <outer>((¬$)*∧...)</outer>
+        <match>¬$X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧¬Y(x,y)</input>
+                <expect>X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <pattern name="BUGGY_NEGATE_CONJUNCTION" onlyPart="true">
+        <match>*X∧...</match>
+        <replace>¬(*X∧...)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧Y(x,y)</input>
+                <expect>¬(X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <sequential name="BUGGY_PULL_NEGATION_CONJUNCTION" groupId="BUGGY_PULL_NEGATION">
+        <references>
+            <reference name="BUGGY_UNNEGATE_LITERALS_IN_CONJUNCTION"/>
+            <reference name="BUGGY_NEGATE_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧¬Y(x,y)</input>
+                <expect>¬(X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧¬Y(x,y)∧¬Z(x,y)</input>
+                <expect>¬(X(x,y)∧Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_UNNEGATE_LITERALS_IN_DISJUNCTION" onlyPart="true">
+        <outer>((¬$)*∨...)</outer>
+        <match>¬$X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨¬Y(x,y)</input>
+                <expect>X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <pattern name="BUGGY_NEGATE_DISJUNCTION" onlyPart="true">
+        <match>*X∨...</match>
+        <replace>¬(*X∨...)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨Y(x,y)</input>
+                <expect>¬(X(x,y)∨Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <sequential name="BUGGY_PULL_NEGATION_DISJUNCTION" groupId="BUGGY_PULL_NEGATION">
+        <references>
+            <reference name="BUGGY_UNNEGATE_LITERALS_IN_DISJUNCTION"/>
+            <reference name="BUGGY_NEGATE_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨¬Y(x,y)</input>
+                <expect>¬(X(x,y)∨Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨¬Y(x,y)∨¬Z(x,y)</input>
+                <expect>¬(X(x,y)∨Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_REMOVE_PARENTHESIS1" groupId="BUGGY_REMOVE_PARENTHESIS">
+        <match>¬($X∧$Y∧*Z)</match>
+        <replace>¬$X∧$Y∧*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y))</input>
+                <expect>¬X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>¬X(x,y)∧Y(x,y)∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_PARENTHESIS2" groupId="BUGGY_REMOVE_PARENTHESIS">
+        <match>¬($X∨$Y∨*Z)</match>
+        <replace>¬$X∨$Y∨*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y))</input>
+                <expect>¬X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>¬X(x,y)∨Y(x,y)∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_PARENTHESIS3" groupId="BUGGY_REMOVE_PARENTHESIS">
+        <match>¬(¬$X∧$Y∧*Z)</match>
+        <replace>$X∧$Y∧*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬X(x,y)∧Y(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(¬X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_PARENTHESIS4" groupId="BUGGY_REMOVE_PARENTHESIS">
+        <match>¬(¬$X → $Y)</match>
+        <replace>$X → $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬X(x,y) → Y(x,y))</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_PARENTHESIS5" groupId="BUGGY_REMOVE_PARENTHESIS">
+        <match>¬(¬$X ↔ $Y)</match>
+        <replace>$X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬X(x,y) ↔ Y(x,y))</input>
+                <expect>X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION1" groupId="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION">
+        <match>*A∨$X∨($Y∧$Z∧*B)</match>
+        <replace>(*A∨$X∨$Y)∧$Z∧*B</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∧Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∧Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∨X(x,y)∨(Y(x,y)∧Z(x,y)∧B(x,y))</input>
+                <expect>(A(x,y)∨X(x,y)∨Y(x,y))∧Z(x,y)∧B(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION2" groupId="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION">
+        <match>(*A∨$X∨$Y)∧$Z∧*B</match>
+        <replace>*A∨$X∨($Y∧$Z∧*B)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧Z(x,y)</input>
+                <expect>X(x,y)∨(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(A(x,y)∨X(x,y)∨Y(x,y))∧Z(x,y)∧B(x,y)</input>
+                <expect>A(x,y)∨X(x,y)∨(Y(x,y)∧Z(x,y)∧B(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION3" groupId="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION">
+        <match>(*A∧$X∧$Y)∨$Z∨*B</match>
+        <replace>*A∧$X∧($Y∨$Z∨*B)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨Z(x,y)</input>
+                <expect>X(x,y)∧(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(A(x,y)∧X(x,y)∧Y(x,y))∨Z(x,y)∨B(x,y)</input>
+                <expect>A(x,y)∧X(x,y)∧(Y(x,y)∨Z(x,y)∨B(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION4" groupId="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION">
+        <match>*A∧$X∧($Y∨$Z∨*B)</match>
+        <replace>(*A∧$X∧$Y)∨$Z∨*B</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∨Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∧X(x,y)∧(Y(x,y)∨Z(x,y)∨B(x,y))</input>
+                <expect>(A(x,y)∧X(x,y)∧Y(x,y))∨Z(x,y)∨B(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA1" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($X∨$Y)∧(($X∧$Y)∧*Z)</match>
+        <replace>$X∨$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧((X(x,y)∧Y(x,y))∧Z(x,y))</input>
+                <expect>X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA2" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($X∧$Y)∨(($X∨$Y)∧*Z)</match>
+        <replace>$X∧$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨((X(x,y)∨Y(x,y))∧Z(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA3" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($X∨$Y)∧(($X∧$Y)∨*Z)</match>
+        <replace>$X∨$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧((X(x,y)∧Y(x,y))∨Z(x,y))</input>
+                <expect>X(x,y)∨Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA4" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($X∧$Y)∨(($X∨$Y)∨*Z)</match>
+        <replace>$X∧$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨((X(x,y)∨Y(x,y))∨Z(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA5" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>$X∨($X∧$Y)</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(X(x,y)∧Y(x,y))</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA6" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>$X∨($Y∧$X)</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∧X(x,y))</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA7" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($X∧$Y)∨$X</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨X(x,y)</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA8" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($Y∧$X)∨$X</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(Y(x,y)∧X(x,y))∨X(x,y)</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA9" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>$X∧($X∨$Y)</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(X(x,y)∨Y(x,y))</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA10" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>$X∧($Y∨$X)</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∨X(x,y))</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA11" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($X∨$Y)∧$X</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧X(x,y)</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REDUCE_TO_SUBFORMULA12" groupId="BUGGY_REDUCE_TO_SUBFORMULA">
+        <match>($Y∨$X)∧$X</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(Y(x,y)∨X(x,y))∧X(x,y)</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_RIGHT_DISJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer> $X ∧ ($*∨...)</outer>
+        <match>$Y</match>
+        <replace>$X∧$Y</replace>
+    </childrenPattern>
+
+    <pattern name="BUGGY_REMOVE_CONJUNCTION_PREFIX_AND_SWAP_DISJUNCTION_TO_CONJUNCTION" onlyPart="true">
+        <match>$∧(*X∨...)</match>
+        <replace>(*X∧...)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET1" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_RIGHT_DISJUNCTION"/>
+            <reference name="BUGGY_REMOVE_CONJUNCTION_PREFIX_AND_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∨Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∧(X(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∨Z(x,y)∨A(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∧(X(x,y)∧Z(x,y))∧(X(x,y)∧A(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_LEFT_DISJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer> ($*∨...) ∧ $X</outer>
+        <match>$Y</match>
+        <replace>$Y∧$X</replace>
+    </childrenPattern>
+
+    <pattern name="BUGGY_REMOVE_CONJUNCTION_APPENDIX_AND_SWAP_DISJUNCTION_TO_CONJUNCTION" onlyPart="true">
+        <match>(*X∨...)∧$</match>
+        <replace>(*X∧...)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET2" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_LEFT_DISJUNCTION"/>
+            <reference name="BUGGY_REMOVE_CONJUNCTION_APPENDIX_AND_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧Z(x,y)</input>
+                <expect>(X(x,y)∧Z(x,y))∧(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y)∨A(x,y))∧Z(x,y)</input>
+                <expect>(X(x,y)∧Z(x,y))∧(Y(x,y)∧Z(x,y))∧(A(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_LEFT_DISJUNCTION_WITH_INNER_DISJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer> $X∧($*∨...)</outer>
+        <match>$Y</match>
+        <replace>$X∨$Y</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET3" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_LEFT_DISJUNCTION_WITH_INNER_DISJUNCTION"/>
+            <reference name="BUGGY_REMOVE_CONJUNCTION_PREFIX_AND_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∨Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∧(X(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∨Z(x,y)∨A(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∧(X(x,y)∨Z(x,y))∧(X(x,y)∨A(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_RIGHT_DISJUNCTION_WITH_INNER_DISJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer> ($*∨...)∧$X</outer>
+        <match>$Y</match>
+        <replace>$Y∨$X</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET4" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_RIGHT_DISJUNCTION_WITH_INNER_DISJUNCTION"/>
+            <reference name="BUGGY_REMOVE_CONJUNCTION_APPENDIX_AND_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧Z(x,y)</input>
+                <expect>(X(x,y)∨Z(x,y))∧(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y)∨A(x,y))∧Z(x,y)</input>
+                <expect>(X(x,y)∨Z(x,y))∧(Y(x,y)∨Z(x,y))∧(A(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_LEFT_CONJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer> $X∨($*∧...) </outer>
+        <match>$Y</match>
+        <replace>$X∨$Y</replace>
+    </childrenPattern>
+
+    <pattern name="BUGGY_REMOVE_DISJUNCTION_PREFIX_AND_SWAP_CONJUNCTION_TO_DISJUNCTION" onlyPart="true">
+        <match>$∨(*X∧...)</match>
+        <replace>(*X∨...)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET5" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_LEFT_CONJUNCTION"/>
+            <reference name="BUGGY_REMOVE_DISJUNCTION_PREFIX_AND_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∧Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∨(X(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∧Z(x,y)∧A(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∨(X(x,y)∨Z(x,y))∨(X(x,y)∨A(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_RIGHT_CONJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer> ($*∧...)∨$X </outer>
+        <match>$Y</match>
+        <replace>$Y∨$X</replace>
+    </childrenPattern>
+
+    <pattern name="BUGGY_REMOVE_DISJUNCTION_APPENDIX_AND_SWAP_CONJUNCTION_TO_DISJUNCTION" onlyPart="true">
+        <match>(*X∧...)∨$</match>
+        <replace>(*X∨...)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET6" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_RIGHT_CONJUNCTION"/>
+            <reference name="BUGGY_REMOVE_DISJUNCTION_APPENDIX_AND_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨Z(x,y)</input>
+                <expect>(X(x,y)∨Z(x,y))∨(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y)∧A(x,y))∨Z(x,y)</input>
+                <expect>(X(x,y)∨Z(x,y))∨(Y(x,y)∨Z(x,y))∨(A(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_RIGHT_CONJUNCTION_WITH_INNER_CONJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer> $X∨($*∧...) </outer>
+        <match>$Y</match>
+        <replace>$X∧$Y</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET7" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_RIGHT_CONJUNCTION_WITH_INNER_CONJUNCTION"/>
+            <reference name="BUGGY_REMOVE_DISJUNCTION_PREFIX_AND_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∧Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∨(X(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∧Z(x,y)∧A(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∨(X(x,y)∧Z(x,y))∨(X(x,y)∧A(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_INTO_LEFT_CONJUNCTION_WITH_INNER_CONJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer> ($*∧...)∨$X </outer>
+        <match>$Y</match>
+        <replace>$Y∧$X</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET8" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_CLEAN"/>
+            <reference name="BUGGY_DISTRIBUTE_INTO_LEFT_CONJUNCTION_WITH_INNER_CONJUNCTION"/>
+            <reference name="BUGGY_REMOVE_DISJUNCTION_APPENDIX_AND_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨Z(x,y)</input>
+                <expect>(X(x,y)∧Z(x,y))∨(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y)∧A(x,y))∨Z(x,y)</input>
+                <expect>(X(x,y)∧Z(x,y))∨(Y(x,y)∧Z(x,y))∨(A(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET13" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>¬$X∧($Y∨$Z)</match>
+        <replace>(¬$X∧$Y)∨($X∧$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧(Y(x,y)∨Z(x,y))</input>
+                <expect>(¬X(x,y)∧Y(x,y))∨(X(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET14" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>¬$X∧($Y∨$Z)</match>
+        <replace>($X∧$Y)∨(¬$X∧$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∧(Y(x,y)∨Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∨(¬X(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET15" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>($X∨$Y)∧¬$Z</match>
+        <replace>($X∧¬$Z)∨($Y∧$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧¬Z(x,y)</input>
+                <expect>(X(x,y)∧¬Z(x,y))∨(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET16" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>($X∨$Y)∧¬$Z</match>
+        <replace>($X∧$Z)∨($Y∧¬$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧¬Z(x,y)</input>
+                <expect>(X(x,y)∧Z(x,y))∨(Y(x,y)∧¬Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET17" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>¬$X∨($Y∧$Z)</match>
+        <replace>(¬$X∨$Y)∧($X∨$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨(Y(x,y)∧Z(x,y))</input>
+                <expect>(¬X(x,y)∨Y(x,y))∧(X(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET18" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>¬$X∨($Y∧$Z)</match>
+        <replace>($X∨$Y)∧(¬$X∨$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)∨(Y(x,y)∧Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∧(¬X(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET19" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>($X∧$Y)∨¬$Z</match>
+        <replace>($X∨¬$Z)∧($Y∨$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨¬Z(x,y)</input>
+                <expect>(X(x,y)∨¬Z(x,y))∧(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET20" groupId="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET">
+        <match>($X∧$Y)∨¬$Z</match>
+        <replace>($X∨$Z)∧($Y∨¬$Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨¬Z(x,y)</input>
+                <expect>(X(x,y)∨Z(x,y))∧(Y(x,y)∨¬Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_SWAP_CONJUNCTION_TO_DISJUNCTION" onlyPart="true">
+        <match>(*X∧...)</match>
+        <replace>(*X∨...)</replace>
+    </pattern>
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_LEFT" onlyPart="true">
+        <match>X@(($∧$Y)*∨...)</match>
+        <replace>$X∧$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Z(x,y))∨(Y(x,y)∧Z(x,y))</input>
+                <expect>((X(x,y)∧Z(x,y))∨(Y(x,y)∧Z(x,y)))∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_LEFT_CONJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>(($∧$)*∨...) ∧ $Y</outer>
+        <match>$X∧$Y</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>((X(x,y)∧Z(x,y))∨(Y(x,y)∧Z(x,y)))∧Z(x,y)</input>
+                <expect>(X(x,y)∨Y(x,y))∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_LEFT"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_LEFT_CONJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Z(x,y))∧(Y(x,y)∧Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∧Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∧(X(x,y)↔Y(x,y)))∧(Y(x,y)∧(X(x,y)↔Y(x,y)))∧(Z(x,y)∧(X(x,y)↔Y(x,y)))</input>
+                <expect>(X(x,y)∨Y(x,y)∨Z(x,y))∧(X(x,y)↔Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_RIGHT" onlyPart="true">
+        <match>Y@(($X∧$)*∨...)</match>
+        <replace>$X∧$Y</replace>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_CONJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∧ (($∧$)*∨...)</outer>
+        <match>$X∧$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_RIGHT"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_CONJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∧(X(x,y)∧Z(x,y))</input>
+                <expect>X(x,y)∧(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>((X(x,y)↔Y(x,y))∧X(x,y))∧((X(x,y)↔Y(x,y))∧Y(x,y))∧((X(x,y)↔Y(x,y))∧Z(x,y))</input>
+                <expect>(X(x,y)↔Y(x,y))∧(X(x,y)∨Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+
+    <pattern name="BUGGY_SWAP_DISJUNCTION_TO_CONJUNCTION" onlyPart="true">
+        <match>(*X∨...)</match>
+        <replace>(*X∧...)</replace>
+    </pattern>
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_LEFT" onlyPart="true">
+        <match>X@(($∨$Y)*∧...)</match>
+        <replace>$X∨$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Z(x,y))∧(Y(x,y)∨Z(x,y))</input>
+                <expect>((X(x,y)∨Z(x,y))∧(Y(x,y)∨Z(x,y)))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_LEFT_DISJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>(($∨$)*∧...) ∨ $Y</outer>
+        <match>$X∨$Y</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>((X(x,y)∨Z(x,y))∧(Y(x,y)∨Z(x,y)))∨Z(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_LEFT"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_LEFT_DISJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Z(x,y))∨(Y(x,y)∨Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∨(X(x,y)↔Y(x,y)))∨(Y(x,y)∨(X(x,y)↔Y(x,y)))∨(Z(x,y)∨(X(x,y)↔Y(x,y)))</input>
+                <expect>(X(x,y)∧Y(x,y)∧Z(x,y))∨(X(x,y)↔Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_RIGHT" onlyPart="true">
+        <match>Y@(($X∨$)*∧...)</match>
+        <replace>$X∨$Y</replace>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_DISJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∨ (($∨$)*∧...)</outer>
+        <match>$X∨$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_RIGHT"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_DISJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∨(X(x,y)∨Z(x,y))</input>
+                <expect>X(x,y)∨(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>((X(x,y)↔Y(x,y))∨X(x,y))∨((X(x,y)↔Y(x,y))∨Y(x,y))∨((X(x,y)↔Y(x,y))∨Z(x,y))</input>
+                <expect>(X(x,y)↔Y(x,y))∨(X(x,y)∧Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_LEFT_WITH_CONJUNCTION" onlyPart="true">
+        <match>X@(($∨$Y)*∨...)</match>
+        <replace>$X∧$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Z(x,y))∨(Y(x,y)∨Z(x,y))</input>
+                <expect>((X(x,y)∨Z(x,y))∨(Y(x,y)∨Z(x,y)))∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_LEFT_CONJUNCTION_WITH_CONJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>(($∨$)*∨...) ∧ $Y</outer>
+        <match>$X∨$Y</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>((X(x,y)∨Z(x,y))∨(Y(x,y)∨Z(x,y)))∧Z(x,y)</input>
+                <expect>(X(x,y)∨Y(x,y))∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_LEFT_CONJUNCTION_OVER_DISJUNCTION" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_LEFT_WITH_CONJUNCTION"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_LEFT_CONJUNCTION_WITH_CONJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Z(x,y))∧(Y(x,y)∨Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))∧Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∨(X(x,y)↔Y(x,y)))∧(Y(x,y)∨(X(x,y)↔Y(x,y)))∧(Z(x,y)∨(X(x,y)↔Y(x,y)))</input>
+                <expect>(X(x,y)∨Y(x,y)∨Z(x,y))∧(X(x,y)↔Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_RIGHT_WITH_CONJUNCTION" onlyPart="true">
+        <match>Y@(($X∨$)*∨...)</match>
+        <replace>$X∧$Y</replace>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_CONJUNCTION_WITH_CONJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∧ (($∨$)*∨...)</outer>
+        <match>$X∨$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_RIGHT_CONJUNCTION_OVER_DISJUNCTION" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_CONJUNCTION_TO_DISJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_RIGHT_WITH_CONJUNCTION"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_CONJUNCTION_WITH_CONJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∨Y(x,y))∧(X(x,y)∨Z(x,y))</input>
+                <expect>X(x,y)∧(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>((X(x,y)↔Y(x,y))∨X(x,y))∧((X(x,y)↔Y(x,y))∨Y(x,y))∧((X(x,y)↔Y(x,y))∨Z(x,y))</input>
+                <expect>(X(x,y)↔Y(x,y))∧(X(x,y)∨Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_LEFT_WITH_DISJUNCTION" onlyPart="true">
+        <match>X@(($∧$Y)*∧...)</match>
+        <replace>$X∨$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Z(x,y))∧(Y(x,y)∧Z(x,y))</input>
+                <expect>((X(x,y)∧Z(x,y))∧(Y(x,y)∧Z(x,y)))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_LEFT_DISJUNCTION_WITH_DISJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>(($∧$)*∧...) ∨ $Y</outer>
+        <match>$X∧$Y</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>((X(x,y)∧Z(x,y))∧(Y(x,y)∧Z(x,y)))∨Z(x,y)</input>
+                <expect>(X(x,y)∧Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_LEFT_DISJUNCTION_OVER_CONJUNCTION" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_LEFT_WITH_DISJUNCTION"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_LEFT_DISJUNCTION_WITH_DISJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Z(x,y))∨(Y(x,y)∧Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))∨Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X(x,y)∧(X(x,y)↔Y(x,y)))∨(Y(x,y)∧(X(x,y)↔Y(x,y)))∨(Z(x,y)∧(X(x,y)↔Y(x,y)))</input>
+                <expect>(X(x,y)∧Y(x,y)∧Z(x,y))∨(X(x,y)↔Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_RIGHT_WITH_DISJUNCTION" onlyPart="true">
+        <match>Y@(($X∧$)*∧...)</match>
+        <replace>$X∨$Y</replace>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_DISJUNCTION_WITH_DISJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∨ (($∧$)*∧...)</outer>
+        <match>$X∧$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_RIGHT_DISJUNCTION_OVER_CONJUNCTION" groupId="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET">
+        <references>
+            <reference name="BUGGY_SWAP_DISJUNCTION_TO_CONJUNCTION"/>
+            <reference name="BUGGY_ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_RIGHT_WITH_DISJUNCTION"/>
+            <reference name="BUGGY_UNDISTRIBUTE_INTO_RIGHT_DISJUNCTION_WITH_DISJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)∧Y(x,y))∨(X(x,y)∧Z(x,y))</input>
+                <expect>X(x,y)∨(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>((X(x,y)↔Y(x,y))∧X(x,y))∨((X(x,y)↔Y(x,y))∧Y(x,y))∨((X(x,y)↔Y(x,y))∧Z(x,y))</input>
+                <expect>(X(x,y)↔Y(x,y))∨(X(x,y)∧Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS1" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>(¬$X)∧*Y</match>
+        <replace>¬($X∧*Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X(x,y))∧Y(x,y)</input>
+                <expect>¬(X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS2" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>(¬$X)∨*Y</match>
+        <replace>¬($X∨*Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X(x,y))∨Y(x,y)</input>
+                <expect>¬(X(x,y)∨Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS3_PART" onlyPart="true">
+        <match>(¬$X)∨($Y)∨*Z</match>
+        <replace>¬($X→($Y∨*Z))</replace>
+    </invertible>
+
+    <sequential name="BUGGY_MOVE_PARENTHESIS3" groupId="BUGGY_MOVE_PARENTHESIS">
+        <references>
+            <reference name="BUGGY_MOVE_PARENTHESIS3_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X(x,y))∨Y(x,y)</input>
+                <expect>¬(X(x,y)→Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(¬X(x,y))∨Y(x,y)∨Z(x,y)</input>
+                <expect>¬(X(x,y)→(Y(x,y)∨Z(x,y)))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS4" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>*X∧($Y→$Z)</match>
+        <replace>(*X∧$Y)→$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)→Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))→Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS5" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>($X→$Y)∧*Z</match>
+        <replace>$X→($Y∧*Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)→Y(x,y))∧Z(x,y)</input>
+                <expect>X(x,y)→(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS6" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>*X∨($Y→$Z)</match>
+        <replace>(*X∨$Y)→$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)→Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))→Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS7" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>($X→$Y)∨*Z</match>
+        <replace>$X→($Y∨*Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)→Y(x,y))∨Z(x,y)</input>
+                <expect>X(x,y)→(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS8" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>*X∧($Y↔$Z)</match>
+        <replace>(*X∧$Y)↔$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)↔Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y))↔Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS9" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>($X↔$Y)∧*Z</match>
+        <replace>$X↔($Y∧*Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)↔Y(x,y))∧Z(x,y)</input>
+                <expect>X(x,y)↔(Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS10" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>*X∨($Y↔$Z)</match>
+        <replace>(*X∨$Y)↔$Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)↔Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y))↔Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_PARENTHESIS11" groupId="BUGGY_MOVE_PARENTHESIS">
+        <match>($X↔$Y)∨*Z</match>
+        <replace>$X↔($Y∨*Z)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)↔Y(x,y))∨Z(x,y)</input>
+                <expect>X(x,y)↔(Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_REMOVE_NEGATION">
+        <match>¬$X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_ADD_NEGATION">
+        <match>$X</match>
+        <replace>¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)</input>
+                <expect>¬X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA1_PART" onlyPart="true">
+        <!--removes last subformula-->
+        <match>($U∧*X∧$Y)</match>
+        <replace>($U∧*X)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REMOVE_SUBFORMULA1" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <references>
+            <reference name="BUGGY_REMOVE_SUBFORMULA1_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(U(x,y)∧X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>(U(x,y)∧X(x,y)∧Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∧Y(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA2_PART" onlyPart="true">
+        <!--removes first subformula-->
+        <match>($X∧$Y∧*Z)</match>
+        <replace>($Y∧*Z)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REMOVE_SUBFORMULA2" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <references>
+            <reference name="BUGGY_REMOVE_SUBFORMULA2_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(U(x,y)∧X(x,y)∧Y(x,y)∧Z(x,y))</input>
+                <expect>(X(x,y)∧Y(x,y)∧Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∧Y(x,y)</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA3_PART" onlyPart="true">
+        <!-- removes last subformula -->
+        <match>($U∨*X∨$Y)</match>
+        <replace>($U∨*X)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REMOVE_SUBFORMULA3" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <references>
+            <reference name="BUGGY_REMOVE_SUBFORMULA3_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(U(x,y)∨X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>(U(x,y)∨X(x,y)∨Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨Y(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA4_PART" onlyPart="true">
+        <!-- removes first subformula -->
+        <match>($X∨$Y∨*Z)</match>
+        <replace>($Y∨*Z)</replace>
+    </pattern>
+
+    <sequential name="BUGGY_REMOVE_SUBFORMULA4" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <references>
+            <reference name="BUGGY_REMOVE_SUBFORMULA4_PART"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(U(x,y)∨X(x,y)∨Y(x,y)∨Z(x,y))</input>
+                <expect>(X(x,y)∨Y(x,y)∨Z(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨Y(x,y)</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA5" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <match>($X→$Y)</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)→Y(x,y))</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA6" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <match>($X↔$Y)</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)↔Y(x,y))</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA7" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <match>($X→$Y)</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)→Y(x,y))</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="BUGGY_REMOVE_SUBFORMULA8" groupId="BUGGY_REMOVE_SUBFORMULA">
+        <match>($X↔$Y)</match>
+        <replace>$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(X(x,y)↔Y(x,y))</input>
+                <expect>Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA1" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>*X∧...</match>
+        <replace>*X∧$Y</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∧ Y(z)</input>
+                <expect>X(x,y) ∧ Y(z) ∧ forall x Z(x)</expect>
+                <newFormula>forall x Z(x)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA2" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>*X∨...</match>
+        <replace>*X∨$Y</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∨ Y(z)</input>
+                <expect>X(x,y) ∨ Y(z) ∨ forall x Z(x)</expect>
+                <newFormula>forall x Z(x)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA3" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>$X</match>
+        <replace>$X→$Y</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+                <newFormula>Y(x,y)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA4" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>$X</match>
+        <replace>$X↔$Y</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)</input>
+                <expect>X(x,y) ↔ Y(x,y)</expect>
+                <newFormula>Y(x,y)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA5" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>*X∧...</match>
+        <replace>$Y∧*X</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∧ Y(z)</input>
+                <expect>forall x Z(x) ∧ X(x,y) ∧ Y(z) </expect>
+                <newFormula>forall x Z(x)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA6" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>*X∨...</match>
+        <replace>$Y∨*X</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∨ Y(z)</input>
+                <expect>forall x Z(x) ∨ X(x,y) ∨ Y(z) </expect>
+                <newFormula>forall x Z(x)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA7" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>$X</match>
+        <replace>$Y→$X</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>Y(x,y)</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+                <newFormula>X(x,y)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+    <patternNewFormula name="BUGGY_ADD_SUBFORMULA8" groupId="BUGGY_ADD_SUBFORMULA">
+        <match>$X</match>
+        <replace>$Y↔$X</replace>
+        <newFormula>Y</newFormula>
+        <tests>
+            <assertApplicationResult>
+                <input>Y(x,y)</input>
+                <expect>X(x,y) ↔ Y(x,y)</expect>
+                <newFormula>X(x,y)</newFormula>
+            </assertApplicationResult>
+        </tests>
+    </patternNewFormula>
+
+
+    <invertible name="BUGGY_SWAP_EQUIVALENCE_FOR_IMPLICATION" groupId="BUGGY_SWAP_EQUIVALENCE_IMPLICATION">
+        <match>$X ↔ $Y</match>
+        <replace>$X → $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_EQUIVALENCE_FOR_CONJUNCTION" groupId="BUGGY_SWAP_EQUIVALENCE_CONJUNCTION">
+        <match>$X ↔ $Y</match>
+        <replace>$X ∧ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>X(x,y) ∧ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_EQUIVALENCE_FOR_DISJUNCTION" groupId="BUGGY_SWAP_EQUIVALENCE_DISJUNCTION">
+        <match>$X ↔ $Y</match>
+        <replace>$X ∨ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ Y(x,y)</input>
+                <expect>X(x,y) ∨ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_IMPLICATION_FOR_EQUIVALENCE" groupId="BUGGY_SWAP_EQUIVALENCE_IMPLICATION">
+        <match>$X → $Y</match>
+        <replace>$X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_IMPLICATION_FOR_CONJUNCTION" groupId="BUGGY_SWAP_IMPLICATION_CONJUNCTION">
+        <match>$X → $Y</match>
+        <replace>$X ∧ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>X(x,y) ∧ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_IMPLICATION_FOR_DISJUNCTION" groupId="BUGGY_SWAP_IMPLICATION_DISJUNCTION">
+        <match>$X → $Y</match>
+        <replace>$X ∨ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) → Y(x,y)</input>
+                <expect>X(x,y) ∨ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_DISJUNCTION_FOR_EQUIVALENCE" groupId="BUGGY_SWAP_EQUIVALENCE_DISJUNCTION">
+        <match>$X ∨ $Y</match>
+        <replace>$X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∨ Y(x,y)</input>
+                <expect>X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_DISJUNCTION_FOR_IMPLICATION" groupId="BUGGY_SWAP_IMPLICATION_DISJUNCTION">
+        <match>$X ∨ $Y</match>
+        <replace>$X → $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∨ Y(x,y)</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_DISJUNCTION_FOR_CONJUNCTION" groupId="BUGGY_SWAP_DISJUNCTION_CONJUNCTION">
+        <match>*X∨...</match>
+        <replace>*X∧...</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∨ Y(x,y)</input>
+                <expect>X(x,y) ∧ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_CONJUNCTION_FOR_EQUIVALENCE" groupId="BUGGY_SWAP_EQUIVALENCE_CONJUNCTION">
+        <match>$X ∧ $Y</match>
+        <replace>$X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∧ Y(x,y)</input>
+                <expect>X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_CONJUNCTION_FOR_IMPLICATION" groupId="BUGGY_SWAP_IMPLICATION_CONJUNCTION">
+        <match>$X ∧ $Y</match>
+        <replace>$X → $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∧ Y(x,y)</input>
+                <expect>X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_CONJUNCTION_FOR_DISJUNCTION" groupId="BUGGY_SWAP_DISJUNCTION_CONJUNCTION">
+        <match>*X∧...</match>
+        <replace>*X∨...</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ∧ Y(x,y)</input>
+                <expect>X(x,y) ∨ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <!-- predicate buggy transformations -->
+
+    <invertible name="BUGGY_REMOVE_UNIVERSAL_QUANTIFIER" groupId="BUGGY_REMOVE_QUANTIFIER">
+        <match>forall x $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_REMOVE_EXISTENTIAL_QUANTIFIER" groupId="BUGGY_REMOVE_QUANTIFIER">
+        <match>exists x $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x,y)</input>
+                <expect>X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <patternNewTerm name="BUGGY_ADD_UNIVERSAL_QUANTIFIER" groupId="BUGGY_ADD_QUANTIFIER" onlyAtomar="true">
+        <!-- matchPattern: $X where X contains x freely -->
+        <match javaReference="true">BuggyAddUniversalQuantifierMatch</match>
+        <replace>forall x $X</replace>
+        <newTerm>x</newTerm>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)</input>
+                <expect>forall x X(x,y)</expect>
+                <newVariable>x</newVariable>
+            </assertApplicationResult>
+        </tests>
+    </patternNewTerm>
+
+    <patternNewTerm name="BUGGY_ADD_EXISTENTIAL_QUANTIFIER" groupId="BUGGY_ADD_QUANTIFIER" onlyAtomar="true">
+        <!-- matchPattern: $X where X contains x freely -->
+        <match javaReference="true">BuggyAddExistentialQuantifierMatch</match>
+        <replace>exists x $X</replace>
+        <newTerm>x</newTerm>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)</input>
+                <expect>exists x X(x,y)</expect>
+                <newVariable>x</newVariable>
+            </assertApplicationResult>
+        </tests>
+    </patternNewTerm>
+
+    <invertible name="BUGGY_SWAP_UNIVERSAL_QUANTIFIER_FOR_EXISTENTIAL" groupId="BUGGY_SWAP_QUANTIFIER">
+        <match>forall x $X</match>
+        <replace>exists x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y)</input>
+                <expect>exists x X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x exists y X(x,y)</input>
+                <expect>exists x exists y X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_EXISTENTIAL_QUANTIFIER_FOR_UNIVERSAL" groupId="BUGGY_SWAP_QUANTIFIER">
+        <match>exists x $X</match>
+        <replace>forall x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x,y)</input>
+                <expect>forall x X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x forall y X(x,y)</input>
+                <expect>forall x forall y X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_UNIVERSAL_QUANTIFIER_AND_EXISTENTIAL" groupId="BUGGY_SWAP_QUANTIFIER">
+        <match>forall x exists y $X</match>
+        <replace>exists y forall x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x exists y X(x,y)</input>
+                <expect>exists y forall x X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x exists y forall z X(x,y)</input>
+                <expect>exists y forall x forall z X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_SWAP_EXISTENTIAL_QUANTIFIER_AND_UNIVERSAL" groupId="BUGGY_SWAP_QUANTIFIER">
+        <match>exists x forall y $X</match>
+        <replace>forall y exists x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists y forall x X(x,y)</input>
+                <expect>forall x exists y X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x forall y forall z X(x,y)</input>
+                <expect>forall y exists x forall z X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE1" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x ($X ∧ *Y)</match>
+        <replace>forall x $X ∧ *Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∧ Y(x,y))</input>
+                <expect>forall x X(x,y) ∧ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∧ Y(x,y) ∧ Z(x,y))</input>
+                <expect>forall x X(x,y) ∧ Y(x,y) ∧ Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE2" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x $X ∧ *Y</match>
+        <replace>forall x ($X ∧ *Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ∧ Y(x,y)</input>
+                <expect>forall x (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ∧ Y(x,y) ∧ Z(x,y)</input>
+                <expect>forall x (X(x,y) ∧ Y(x,y) ∧ Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE3" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x ($X ∨ *Y)</match>
+        <replace>forall x $X ∨ *Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∨ Y(x,y))</input>
+                <expect>forall x X(x,y) ∨ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∨ Y(x,y) ∨ Z(x,y))</input>
+                <expect>forall x X(x,y) ∨ Y(x,y) ∨ Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE4" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x $X ∨ *Y</match>
+        <replace>forall x ($X ∨ *Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ∨ Y(x,y)</input>
+                <expect>forall x (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ∨ Y(x,y) ∨ Z(x,y)</input>
+                <expect>forall x (X(x,y) ∨ Y(x,y) ∨ Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE5" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x ($X ↔ $Y)</match>
+        <replace>forall x $X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ↔ Y(x,y))</input>
+                <expect>forall x X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ↔ (Y(x,y) ∨ Z(x,y)))</input>
+                <expect>forall x X(x,y) ↔ (Y(x,y) ∨ Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE6" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x $X ↔ $Y</match>
+        <replace>forall x ($X ↔ $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ↔ Y(x,y)</input>
+                <expect>forall x (X(x,y) ↔ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ↔ (Y(x,y) ∨ Z(x,y))</input>
+                <expect>forall x (X(x,y) ↔ (Y(x,y) ∨ Z(x,y)))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE7" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x ($X → $Y)</match>
+        <replace>forall x $X → $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) → Y(x,y))</input>
+                <expect>forall x X(x,y) → Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) → (Y(x,y) ∨ Z(x,y)))</input>
+                <expect>forall x X(x,y) → (Y(x,y) ∨ Z(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_QUANTIFIER_PRECEDENCE8" groupId="BUGGY_QUANTIFIER_PRECEDENCE">
+        <match>forall x $X → $Y</match>
+        <replace>forall x ($X → $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) → Y(x,y)</input>
+                <expect>forall x (X(x,y) → Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x X(x,y) → (Y(x,y) ∨ Z(x,y))</input>
+                <expect>forall x (X(x,y) → (Y(x,y) ∨ Z(x,y)))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_UNIVERSAL_QUANTIFIER_INTO_DISJUNCTION" onlyPart="true">
+        <outer>forall x ($*∨...)</outer>
+        <match>$X</match>
+        <replace>forall x $X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∨ Y(x,y))</input>
+                <expect>forall x (forall x X(x,y) ∨ forall x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <invertible name="BUGGY_DISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_INITIAL_UNIVERSAL_QUANTIFIER" onlyPart="true">
+        <match>forall x $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (forall x X(x,y) ∨ forall x Y(x,y))</input>
+                <expect>forall x X(x,y) ∨ forall x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <sequential name="BUGGY_DISTRIBUTE_UNIVERSAL_QUANTIFIER_DISJUNCTION" groupId="BUGGY_DISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="BUGGY_DISTRIBUTE_UNIVERSAL_QUANTIFIER_INTO_DISJUNCTION"/>
+            <reference name="BUGGY_DISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_INITIAL_UNIVERSAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∨ Y(x,y))</input>
+                <expect>forall x X(x,y) ∨ forall x Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y (X(x,y) ∨ Y(x,y))</input>
+                <expect>forall y X(x,y) ∨ forall y Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="BUGGY_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_INTO_CONJUNCTION" onlyPart="true">
+        <outer>exists x ($*∧...)</outer>
+        <match>$X</match>
+        <replace>exists x $X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x,y) ∧ Y(x,y))</input>
+                <expect>exists x (exists x X(x,y) ∧ exists x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <invertible name="BUGGY_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_INITIAL_EXISTENTIAL_QUANTIFIER" onlyPart="true">
+        <match>exists x $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (exists x X(x,y) ∧ exists x Y(x,y))</input>
+                <expect>exists x X(x,y) ∧ exists x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <sequential name="BUGGY_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_CONJUNCTION" groupId="BUGGY_DISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="BUGGY_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_INTO_CONJUNCTION"/>
+            <reference name="BUGGY_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_INITIAL_EXISTENTIAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x,y) ∧ Y(x,y))</input>
+                <expect>exists x X(x,y) ∧ exists x Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y (X(x,y) ∧ Y(x,y))</input>
+                <expect>exists y X(x,y) ∧ exists y Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <invertible name="BUGGY_DISTRIBUTE_UNIVERSAL_QUANTIFIER_IMPLICATION" groupId="BUGGY_DISTRIBUTE_QUANTIFIERS">
+        <match>forall x ($X → $Y)</match>
+        <replace>forall x $X → forall x $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) → Y(x,y))</input>
+                <expect>forall x X(x,y) → forall x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_IMPLICATION" groupId="BUGGY_DISTRIBUTE_QUANTIFIERS">
+        <match>exists x ($X → $Y)</match>
+        <replace>exists x $X → exists x $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x,y) → Y(x,y))</input>
+                <expect>exists x X(x,y) → exists x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_DISTRIBUTE_UNIVERSAL_QUANTIFIER_EQUIVALENCE" groupId="BUGGY_DISTRIBUTE_QUANTIFIERS">
+        <match>forall x ($X ↔ $Y)</match>
+        <replace>forall x $X ↔ forall x $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ↔ Y(x,y))</input>
+                <expect>forall x X(x,y) ↔ forall x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_EQUIVALENCE" groupId="BUGGY_DISTRIBUTE_QUANTIFIERS">
+        <match>exists x ($X ↔ $Y)</match>
+        <replace>exists x $X ↔ exists x $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x,y) ↔ Y(x,y))</input>
+                <expect>exists x X(x,y) ↔ exists x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+
+    <invertible name="BUGGY_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_ADD_TO_FRONT_OF_DISJUNCTION" onlyPart="true">
+        <match>forall x $X ∨*Y</match>
+        <replace>forall x (forall x $X ∨*Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(forall x X(x,y)) ∨ (forall x Y(x,y))</input>
+                <expect>forall x (forall x X(x,y) ∨ forall x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_UNIVERSAL_QUANTIFIER_IN_DISJUNCTION" onlyPart="true">
+        <outer>forall x ((forall x $)*∨...)</outer>
+        <match>forall x $X</match>
+        <replace>$X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (forall x X(x,y) ∨ forall x Y(x,y))</input>
+                <expect>forall x (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>forall x (forall x X(x,y) ∨ forall y Y(x,y))</input>
+            </assertNotApplicable>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_DISJUNCTION" groupId="BUGGY_UNDISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="BUGGY_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_ADD_TO_FRONT_OF_DISJUNCTION"/>
+            <reference name="BUGGY_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_UNIVERSAL_QUANTIFIER_IN_DISJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ∨ forall x Y(x,y)</input>
+                <expect>forall x (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y X(x,y) ∨ forall y Y(x,y)</input>
+                <expect>forall y (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>forall x X(x,y) ∨ forall y Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </sequential>
+
+    <invertible name="BUGGY_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_ADD_TO_FRONT_OF_CONJUNCTION" onlyPart="true">
+        <match>exists x $X ∧*Y</match>
+        <replace>exists x (exists x $X ∧*Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(exists x X(x,y)) ∧ (exists x Y(x,y))</input>
+                <expect>exists x (exists x X(x,y) ∧ exists x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="BUGGY_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_EXISTENTIAL_QUANTIFIER_IN_CONJUNCTION" onlyPart="true">
+        <outer>exists x ((exists x $)*∧...)</outer>
+        <match>exists x $X</match>
+        <replace>$X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (exists x X(x,y) ∧ exists x Y(x,y))</input>
+                <expect>exists x (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>exists x (exists x X(x,y) ∧ exists y Y(x,y))</input>
+            </assertNotApplicable>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="BUGGY_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_CONJUNCTION" groupId="BUGGY_UNDISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="BUGGY_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_ADD_TO_FRONT_OF_CONJUNCTION"/>
+            <reference name="BUGGY_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_EXISTENTIAL_QUANTIFIER_IN_CONJUNCTION"/>
+            <reference name="BUGGY_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x,y) ∧ exists x Y(x,y)</input>
+                <expect>exists x (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y X(x,y) ∧ exists y Y(x,y)</input>
+                <expect>exists y (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>exists x X(x,y) ∧ exists y Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </sequential>
+
+
+    <invertible name="BUGGY_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_IMPLICATION" groupId="BUGGY_UNDISTRIBUTE_QUANTIFIERS">
+        <match>forall x $X → forall x $Y</match>
+        <replace>forall x ($X → $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) → forall x Y(x,y)</input>
+                <expect>forall x (X(x,y) → Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_IMPLICATION" groupId="BUGGY_UNDISTRIBUTE_QUANTIFIERS">
+        <match>exists x $X → exists x $Y</match>
+        <replace>exists x ($X → $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x,y) → exists x Y(x,y)</input>
+                <expect>exists x (X(x,y) → Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_EQUIVALENCE" groupId="BUGGY_UNDISTRIBUTE_QUANTIFIERS">
+        <match>forall x $X ↔ forall x $Y</match>
+        <replace>forall x ($X ↔ $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ↔ forall x Y(x,y)</input>
+                <expect>forall x (X(x,y) ↔ Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_EQUIVALENCE" groupId="BUGGY_UNDISTRIBUTE_QUANTIFIERS">
+        <match>exists x $X ↔ exists x $Y</match>
+        <replace>exists x ($X ↔ $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x,y) ↔ exists x Y(x,y)</input>
+                <expect>exists x (X(x,y) ↔ Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_PUSH_NEGATION_OVER_UNIVERSAL_QUANTIFIER" groupId="BUGGY_NEGATION_QUANTIFIER">
+        <match>¬forall x $X </match>
+        <replace>forall x ¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬forall x X(x,y)</input>
+                <expect>forall x ¬X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_PUSH_NEGATION_OVER_EXISTENTIAL_QUANTIFIER" groupId="BUGGY_NEGATION_QUANTIFIER">
+        <match>¬exists x $X </match>
+        <replace>exists x ¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬exists x X(x,y)</input>
+                <expect>exists x ¬X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_PULL_NEGATION_OVER_UNIVERSAL_QUANTIFIER" groupId="BUGGY_NEGATION_QUANTIFIER">
+        <match>forall x ¬$X </match>
+        <replace>¬forall x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x ¬X(x,y)</input>
+                <expect>¬forall x X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_PULL_NEGATION_OVER_EXISTENTIAL_QUANTIFIER" groupId="BUGGY_NEGATION_QUANTIFIER">
+        <match>exists x ¬$X </match>
+        <replace>¬exists x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x ¬X(x,y)</input>
+                <expect>¬exists x X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <!-- unconfirmed: the following transformations are generally buggy, however there are instances where they are not-->
+    <!--this depends on the value of 'Y': if Y is equivalent to bottom, then the transformations are not buggy-->
+
+    <invertible name="BUGGY_MOVE_UNIVERSAL_QUANTIFIER_INTO_IMPLICATION" groupId="BUGGY_IMPLICATION_QUANTIFIER">
+        <match>forall x ($X → $Y)</match>
+        <replace>forall x $X → $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x) → Y(z))</input>
+                <expect>forall x X(x) → Y(z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_EXISTENTIAL_QUANTIFIER_INTO_IMPLICATION" groupId="BUGGY_IMPLICATION_QUANTIFIER">
+        <match>exists x ($X → $Y)</match>
+        <replace>exists x $X → $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x) → Y(z))</input>
+                <expect>exists x X(x) → Y(z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_UNIVERSAL_QUANTIFIER_OUT_OF_IMPLICATION" groupId="BUGGY_IMPLICATION_QUANTIFIER">
+        <match>forall x $X → $Y</match>
+        <replace>forall x ($X → $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x) → Y(z)</input>
+                <expect>forall x (X(x) → Y(z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_EXISTENTIAL_QUANTIFIER_OUT_OF_IMPLICATION" groupId="BUGGY_IMPLICATION_QUANTIFIER">
+        <match>exists x $X → $Y</match>
+        <replace>exists x ($X → $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x) → Y(z)</input>
+                <expect>exists x (X(x) → Y(z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_UNIVERSAL_QUANTIFIER_INTO_EQUIVALENCE" groupId="BUGGY_EQUIVALENCE_QUANTIFIER">
+        <match>forall x ($X ↔ $Y)</match>
+        <replace>forall x $X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x) ↔ Y(z))</input>
+                <expect>forall x X(x) ↔ Y(z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_EXISTENTIAL_QUANTIFIER_INTO_EQUIVALENCE" groupId="BUGGY_EQUIVALENCE_QUANTIFIER">
+        <match>exists x ($X ↔ $Y)</match>
+        <replace>exists x $X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x) ↔ Y(z))</input>
+                <expect>exists x X(x) ↔ Y(z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_UNIVERSAL_QUANTIFIER_OUT_OF_EQUIVALENCE" groupId="BUGGY_EQUIVALENCE_QUANTIFIER">
+        <match>forall x $X ↔ $Y</match>
+        <replace>forall x ($X ↔ $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x) ↔ Y(z)</input>
+                <expect>forall x (X(x) ↔ Y(z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="BUGGY_MOVE_EXISTENTIAL_QUANTIFIER_OUT_OF_EQUIVALENCE" groupId="BUGGY_EQUIVALENCE_QUANTIFIER">
+        <match>exists x $X ↔ $Y</match>
+        <replace>exists x ($X ↔ $Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x) ↔ Y(z)</input>
+                <expect>exists x (X(x) ↔ Y(z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+</transformations>

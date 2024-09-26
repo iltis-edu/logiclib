@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transformations>
+    <invertible name="ADD_DOUBLE_NEGATION">
+        <match>$X</match>
+        <replace>¬¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <expect>¬¬A</expect>
+                <input>A</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>¬¬¬A</expect>
+                <input>¬A</input>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="REMOVE_DOUBLE_NEGATION" groupId="REMOVE_DOUBLE_NEGATION">
+        <match>¬¬$X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <expect>A</expect>
+                <input>¬¬A</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>¬A</expect>
+                <input>¬¬¬A</input>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>¬A</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <fixpoint name="fixpoint:REMOVE_DOUBLE_NEGATION" groupId="REMOVE_DOUBLE_NEGATION">
+        <reference name="REMOVE_DOUBLE_NEGATION"/>
+        <tests>
+            <assertApplicationResult>
+                <expect>A</expect>
+                <input>¬¬A</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>¬A</expect>
+                <input>¬¬¬A</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>A</expect>
+                <input>¬¬¬¬A</input>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+
+    <invertible name="PUSH_NEGATION_OVER_BOX" onlyPart="true">
+        <match>¬☐$X</match>
+        <replace>◇¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬☐X</input>
+                <expect>◇¬X</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="PULL_NEGATION_OVER_BOX" onlyPart="true">
+        <match>◇¬$X</match>
+        <replace>¬☐$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>◇¬X</input>
+                <expect>¬☐X</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="PUSH_NEGATION_OVER_DIAMOND" onlyPart="true">
+        <match>¬◇$X</match>
+        <replace>☐¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬◇X</input>
+                <expect>☐¬X</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="PULL_NEGATION_OVER_DIAMOND" onlyPart="true">
+        <match>☐¬$X</match>
+        <replace>¬◇$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>☐¬X</input>
+                <expect>¬◇X</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="PUSH_DUALITY" groupId="PUSH_DUALITY">
+        <references>
+            <reference name="PUSH_NEGATION_OVER_BOX"/>
+            <reference name="PUSH_NEGATION_OVER_DIAMOND"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬☐X</input>
+                <expect>◇¬X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬◇X</input>
+                <expect>☐¬X</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="PULL_DUALITY" groupId="PULL_DUALITY">
+        <references>
+            <reference name="PULL_NEGATION_OVER_BOX"/>
+            <reference name="PULL_NEGATION_OVER_DIAMOND"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>☐¬X</input>
+                <expect>¬◇X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>◇¬X</input>
+                <expect>¬☐X</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <fixpoint name="fixpoint:PUSH_DUALITY" groupId="PUSH_DUALITY">
+        <reference name="PUSH_DUALITY"/>
+        <tests>
+            <assertApplicationResult>
+                <input>¬☐◇X</input>
+                <expect>◇☐¬X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬◇☐X</input>
+                <expect>☐◇¬X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬¬☐◇X</input>
+                <expect>☐◇¬¬X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬¬◇☐X</input>
+                <expect>◇☐¬¬X</expect>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+
+    <fixpoint name="fixpoint:PULL_DUALITY" groupId="PULL_DUALITY">
+        <reference name="PULL_DUALITY"/>
+        <tests>
+            <assertApplicationResult>
+                <input>◇☐¬X</input>
+                <expect>¬☐◇X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>☐◇¬X</input>
+                <expect>¬◇☐X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>☐◇¬¬X</input>
+                <expect>¬¬☐◇X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>◇☐¬¬X</input>
+                <expect>¬¬◇☐X</expect>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+</transformations>

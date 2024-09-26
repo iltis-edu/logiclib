@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config>
+	<library name="princess">
+		<function name="checkFormula">
+			<uri>http://localhost:8888/PrincessWebLib/checkFormula</uri>
+			<contenttype>application/json</contenttype>
+		</function>
+	</library>
+</config>

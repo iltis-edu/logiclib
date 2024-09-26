@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <invertible name="NEGATION_INTO_CONJUNCTION" onlyPart="true">
+        <match>¬(*X∧...)</match>
+        <replace>(*X∨...)</replace>
+    </invertible>
+
+    <childrenPattern name="NEGATE_IN_DISJUNCTION" onlyPart="true">
+        <outer>($*∨...)</outer>
+        <match>$X</match>
+        <replace>¬$X</replace>
+    </childrenPattern>
+
+    <sequential name="PUSH_NEGATION_OVER_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="NEGATION_INTO_CONJUNCTION"/>
+            <reference name="NEGATE_IN_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X ∧ Y)</input>
+                <expect>(¬X ∨ ¬Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="UNNEGATE_IN_DISJUNCTION" onlyPart="true">
+        <outer>((¬$)*∨...)</outer>
+        <match>¬$X</match>
+        <replace>$X</replace>
+    </childrenPattern>
+
+    <invertible name="NEGATION_OUT_OF_DISJUNCTION" onlyPart="true">
+        <match>(*X∨...)</match>
+        <replace>¬(*X∧...)</replace>
+    </invertible>
+
+    <sequential name="PULL_NEGATION_OVER_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="UNNEGATE_IN_DISJUNCTION"/>
+            <reference name="NEGATION_OUT_OF_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X ∨ ¬Y)</input>
+                <expect>¬(X ∧ Y)</expect>
+            </assertApplicationResult>
+            <assertInverse>
+                <input>¬(A∧B)</input>
+                <reference name="PUSH_NEGATION_OVER_CONJUNCTION"/>
+            </assertInverse>
+        </tests>
+    </sequential>
+
+    <invertible name="NEGATION_INTO_DISJUNCTION" onlyPart="true">
+        <match>¬(*X∨...)</match>
+        <replace>(*X∧...)</replace>
+    </invertible>
+
+    <childrenPattern name="NEGATE_IN_CONJUNCTION" onlyPart="true">
+        <outer>($*∧...)</outer>
+        <match>$X</match>
+        <replace>¬$X</replace>
+    </childrenPattern>
+
+    <sequential name="PUSH_NEGATION_OVER_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="NEGATION_INTO_DISJUNCTION"/>
+            <reference name="NEGATE_IN_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X ∨ Y)</input>
+                <expect>(¬X ∧ ¬Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="UNNEGATE_IN_CONJUNCTION" onlyPart="true">
+        <outer>((¬$)*∧...)</outer>
+        <match>¬$X</match>
+        <replace>$X</replace>
+    </childrenPattern>
+
+    <invertible name="NEGATION_OUT_OF_CONJUNCTION" onlyPart="true">
+        <match>(*X∧...)</match>
+        <replace>¬(*X∨...)</replace>
+    </invertible>
+
+    <sequential name="PULL_NEGATION_OVER_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="UNNEGATE_IN_CONJUNCTION"/>
+            <reference name="NEGATION_OUT_OF_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X ∧ ¬Y)</input>
+                <expect>¬(X ∨ Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <meta name="PUSH_DEMORGAN" groupId="DEMORGAN">
+        <references>
+            <reference name="PUSH_NEGATION_OVER_CONJUNCTION"/>
+            <reference name="PUSH_NEGATION_OVER_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X ∧ Y)</input>
+                <expect>(¬X ∨ ¬Y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X ∨ Y)</input>
+                <expect>(¬X ∧ ¬Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="PULL_DEMORGAN" groupId="DEMORGAN">
+        <references>
+            <reference name="PULL_NEGATION_OVER_CONJUNCTION"/>
+            <reference name="PULL_NEGATION_OVER_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X ∨ ¬Y)</input>
+                <expect>¬(X ∧ Y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(¬X ∧ ¬Y)</input>
+                <expect>¬(X ∨ Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="NEGATE_CONJUNCTION_TO_DISJUNCTION" onlyPart="true">
+        <match>(*X∧...)</match>
+        <replace>¬(*X∨...)</replace>
+    </invertible>
+
+    <sequential name="PUSH_NEGATION_OVER_CONJUNCTION_SHORTCUT" onlyPart="true">
+        <references>
+            <reference name="NEGATE_IN_CONJUNCTION"/>
+            <reference name="NEGATE_CONJUNCTION_TO_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X ∧ Y</input>
+                <expect>¬(¬X ∨ ¬Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <invertible name="UNNEGATE_DISJUNCTION_TO_CONJUNCTION" onlyPart="true">
+        <match>¬(*X∨...)</match>
+        <replace>(*X∧...)</replace>
+    </invertible>
+
+    <sequential name="PULL_NEGATION_OVER_DISJUNCTION_SHORTCUT" onlyPart="true">
+        <references>
+            <reference name="UNNEGATE_DISJUNCTION_TO_CONJUNCTION"/>
+            <reference name="UNNEGATE_IN_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬X ∨ ¬Y)</input>
+                <expect>X ∧ Y</expect>
+            </assertApplicationResult>
+            <assertInverse>
+                <input>(A∧B)</input>
+                <reference name="PUSH_NEGATION_OVER_CONJUNCTION_SHORTCUT"/>
+            </assertInverse>
+        </tests>
+    </sequential>
+
+    <invertible name="NEGATE_DISJUNCTION_TO_CONJUNCTION" onlyPart="true">
+        <match>(*X∨...)</match>
+        <replace>¬(*X∧...)</replace>
+    </invertible>
+
+    <sequential name="PUSH_NEGATION_OVER_DISJUNCTION_SHORTCUT" onlyPart="true">
+        <references>
+            <reference name="NEGATE_IN_DISJUNCTION"/>
+            <reference name="NEGATE_DISJUNCTION_TO_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X ∨ Y</input>
+                <expect>¬(¬X ∧ ¬Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <invertible name="UNNEGATE_CONJUNCTION_TO_DISJUNCTION" onlyPart="true">
+        <match>¬(*X∧...)</match>
+        <replace>(*X∨...)</replace>
+    </invertible>
+
+    <sequential name="PULL_NEGATION_OVER_CONJUNCTION_SHORTCUT" onlyPart="true">
+        <references>
+            <reference name="UNNEGATE_CONJUNCTION_TO_DISJUNCTION"/>
+            <reference name="UNNEGATE_IN_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬X ∧ ¬Y)</input>
+                <expect>X ∨ Y</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <meta name="PUSH_DEMORGAN_SHORTCUT" groupId="DEMORGAN">
+        <references>
+            <reference name="PUSH_NEGATION_OVER_CONJUNCTION_SHORTCUT"/>
+            <reference name="PUSH_NEGATION_OVER_DISJUNCTION_SHORTCUT"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X ∧ Y</input>
+                <expect>¬(¬X ∨ ¬Y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X ∨ Y</input>
+                <expect>¬(¬X ∧ ¬Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="PULL_DEMORGAN_SHORTCUT" groupId="DEMORGAN">
+        <references>
+            <reference name="PULL_NEGATION_OVER_CONJUNCTION_SHORTCUT"/>
+            <reference name="PULL_NEGATION_OVER_DISJUNCTION_SHORTCUT"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(¬X ∨ ¬Y)</input>
+                <expect>X ∧ Y</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(¬X ∧ ¬Y)</input>
+                <expect>X ∨ Y</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+</transformations>

@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<transformationsWithFeedbackTexts language="de">
+    <group id="BUGGY_IDEMPOTENCE_TO_TOP" name="Fehlerhafte Idempotenz zu ⊤">
+        <description type="default">
+            Eventuell hast du φ ∨ φ oder φ ∧ φ mit ⊤ verwechselt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_FORMULA_TO_IMPLICATIONAL_TAUTOLOGY" name="Fehlerhafte Implikations Tautologie">
+        <description type="default">
+            Beachte, dass φ nicht gleichwertig zu φ → φ und φ ↔ φ ist.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION" name="Fehlerhaftes Auflösen von ¬ in ∧">
+        <description type="default">
+            Eventuell hast du missachtet, dass φ ∧ ¬φ semantisch äquivalent zu ⊥ ist.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_BOTTOM" name="Fehlerhaftes Auflösen von ¬ in ∧ mit ⊥">
+        <description type="default">
+            Beachte, dass eine Formel der Form (φ ∨ ψ) ∧ (¬φ ∨ ¬ψ) erfüllbar
+            und damit insbesondere nicht äquivalent zu ⊥ ist.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION" name="Fehlerhaftes Auflösen von ¬ in ∨">
+        <description type="default">
+            Eventuell hast du missachtet, dass φ ∨ ¬φ semantisch äquivalent zu ⊤ ist.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_TOP" name="Fehlerhaftes Auflösen von ¬ in ∨ mit ⊤">
+        <description type="default">
+            Beachte, dass eine Formel der Form (φ ∧ ψ) ∨ (¬φ ∧ ¬ψ) auch nicht erfüllt sein kann
+            und damit insbesondere nicht äquivalent zu ⊤ ist.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TOP_IN_DISJUNCTION" name="Fehlerhaftes Auflösen von ⊤ in ∨">
+        <description type="default">
+            Eventuell hast du vergessen, dass ⊤ für eine Disjunktion (∨) dominierend ist, also φ ∨ ⊤ ≡ ⊤ gilt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TOP_IN_CONJUNCTION" name="Fehlerhaftes Auflösen von ⊤ in ∧">
+        <description type="default">
+            Eventuell hast du vergessen, dass ⊤ in einer Konjunktion neutral wirkt, also φ ∧ ⊤ ≡ φ gilt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_BOTTOM_IN_DISJUNCTION" name="Fehlerhaftes Auflösen von ⊥ in ∨">
+        <description type="default">
+            Eventuell hast du vergessen, dass ⊥ in einer Disjunktion (∨) neutral wirkt, also φ ∨ ⊥ ≡ φ gilt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_BOTTOM_IN_CONJUNCTION" name="Fehlerhaftes Auflösen von ⊥ in ∧">
+        <description type="default">
+            Eventuell hast du vergessen, dass ⊥ für eine Konjunktion (∧) dominierend wirkt, also φ ∧ ⊥ ≡ ⊥ gilt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="BUGGY_SWAP_PREMISE_AND_CONCLUSION" name="Austausch von Prämisse und Konklusion">
+        <description type="default">
+            Eventuell hast du die Prämisse (φ) und die Konklusion (ψ) in einer Implikation φ → ψ vertauscht.
+        </description>
+        <description type="long">
+            Mithilfe der Implikation lassen sich bedingte Aussagen modellieren. Syntaktisch wird die Aussage "Wenn φ, dann ψ" durch "φ → ψ" modelliert.
+            &lt;br&gt;&lt;b&gt;Achtung&lt;/b&gt;: Ein "Nur" in der Formulierung der Aussage dreht die Implikation um.&lt;br&gt;
+            In einer Implikation "φ → ψ" wird die erste Teilformel (φ) "Prämisse" und die zweite Teilformel (ψ) "Konklusion" genannt.
+        </description>
+        <description type="short">
+            Eventuell hast du die Prämisse (φ) und Konklusion (ψ) einer Inmplikation "φ → ψ" in deiner Formel vertauscht.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="BUGGY_MOVE_PARENTHESIS_IN_MULTILAYERED_IMPLICATION" name="Fehlerhaftes Verschieben von () in →">
+        <description type="default">
+            Eventuell hast du die Klammern in einer Verschachtelung von Implikationen (A → B) → C verschoben.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </group>
+
+    <single id="BUGGY_REDUCE_IMPLICATIONAL_TAUTOLOGY" name="Fehlerhaftes Auflösen von X → X">
+        <description type="default">
+            Eventuell hast du eine Implikation der Form φ → φ nicht mit ⊤ ersetzt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="BUGGY_REDUCE_EQUIVALENT_TAUTOLOGY" name="Fehlerhaftes Auflösen von X ↔ X">
+        <description type="default">
+            Eventuell hast du eine Equivalenz der Form φ ↔ φ nicht mit ⊤ ersetzt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="BUGGY_REMOVE_EQUIVALENCE" name="Fehlerhaftes Auflösen von ↔">
+        <description type="default">
+            Eventuell hast du eine Equivalenz φ ↔ ψ falsch aufgelöst.
+            Diese lassen sich mit (¬φ ∨ ψ) ∧ (φ ∨ ¬ψ) oder (φ → ψ) ∧ (ψ → φ) ersetzen.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REMOVE_IMPLICATION" name="Fehlerhaftes Auflösen von →">
+        <description type="default">
+            Eventuell hast du eine Implikation φ → ψ falsch aufgelöst.
+            Diese lassen sich mit ¬φ ∨ ψ ersetzen.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TO_IMPLICATION" name="Fehlerhaftes Einführen von →">
+        <description type="default">
+            Eventuell hast du eine falsche Implikation φ → ψ eingführt.
+            Die Definition dieser lautet ¬φ ∨ ψ.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PUSH_NEGATION" name="Fehlerhaft ¬ in () schieben">
+        <description type="default">
+            Eventuell hast du eine Negation (¬) fehlerhaft in eine Klammer (φ ∨ ψ) oder (φ ∧ ψ) hineingeschoben.
+            Beachte, dass dabei alle Teilformeln φ und ψ negiert werden müssen, ihnen also eine Negation vorangestellt werden muss.
+            Zudem müssen Disjunktionen (∨) und Konjunktionen (∧) vertauscht werden.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PULL_NEGATION" name="Fehlerhaftes Herausziehen von ¬ aus ()">
+        <description type="default">
+            Eventuell hast du eine Negation (¬) fehlerhaft aus einer Klammer (¬φ ∨ ¬ψ) oder (¬φ ∧ ¬ψ) herausgezogen.
+            Beachte, dass dabei alle Teilformeln φ und ψ eine Negation verlieren müssen, ihnen also eine vorangestellte Negation genommen wird.
+            Zudem müssen Disjunktionen (∨) und Konjunktionen (∧) vertauscht werden.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REMOVE_PARENTHESIS" name="Fehlerhaftes Auflösen von ()">
+        <description type="default">
+            Eventuell hast du ein Paar Klammern (φ ∨ ψ) oder (φ ∧ ψ) vergessen.
+            Beachte, dass Klammern nur entfernt werden dürfen, wenn keine Negation (¬) der Klammer vorrausgestellt ist.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION" name="Fehlerhafte Assoziation anstelle von Distribution">
+        <description type="default">
+            Eventuell hast du Klammerpaare verschoben anstatt das Distributivgesetz anzuwenden.
+            Beachte, dass Klammern nur verschoben werden können wenn sie über dem selben Operator,
+            also (∨) oder (∧), definiert sind.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TO_SUBFORMULA" name="Fehlerhaftes Reduzieren auf Teilformel">
+        <description type="default">
+            Eventuell hast du eine Teilformel vergessen.
+        </description>
+        <description type="long">
+            Damit eine Formel eine Aussage korrekt modelliert, müssen alle Teilaussagen der Aussage in der Formel berücksichtigt werden.
+        </description>
+        <description type="short">
+            Eventuell hast du einen Formelteil vergessen.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET" name="Fehlerhaftes Anwenden von Distributivität">
+        <description type="default">
+            Eventuell hast du das Distributivgesetz falsch angewendet.
+            Beachte, dass A ∨ (B ∧ C) ≡ (A ∨ B) ∧ (A ∨ C) und A ∧ (B ∨ C) ≡ (A ∧ B) ∨ (A ∧ C) gilt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET" name="Fehlerhaftes Auflösen von Distributivität">
+        <description type="default">
+            Eventuell hast du das Distributivgesetz falsch aufgelöst.
+            Beachte, dass (A ∨ B) ∧ (A ∨ C) ≡ A ∨ (B ∧ C) und (A ∧ B) ∨ (A ∧ C) ≡ A ∧ (B ∨ C) gilt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_MOVE_PARENTHESIS" name="Fehlerhafte Assoziativität">
+        <description type="default">
+            Eventuell hast du Klammern verschoben und dabei die Gesetze von DeMorgan missachtet
+            oder die Definiton von Impliaktion (→) oder Equivalenz (↔) falsch angewendet.
+        </description>
+        <description type="long">
+            Die Klammern werden benutzt um einzelne Teilformeln zu verbinden.
+            Das Bewegen von Klammern is nur zulässig wenn die Klammern innerhalb einer Disjunktion oder Konjunktion bewegt werden.
+            Daher sind die Formeln "(A ∨ B) ∨ C" und "A ∨ (B ∨ C)" äquivalent, während die Formeln "(A ∨ B) ∧ C" und "A ∨ (B ∧ C)" nicht äquivalent sind.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="BUGGY_REMOVE_NEGATION" name="Fehlerhaftes Entfernen von ¬">
+        <description type="default">
+            Eventuell hast du eine Negation (¬) vergessen.
+        </description>
+        <description type="long">
+            Mit der Negation lässt sich das Gegenteil einer Aussage ausdrücken.
+            Die Aussage "Nicht φ" wird durch die Formel "¬φ" ausgedrückt.
+        </description>
+        <description type="short">
+            Eventuell hast du eine Negation (¬) vergessen.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="BUGGY_ADD_NEGATION" name="Fehlerhaftes Hinzufügen von ¬">
+        <description type="default">
+            Eventuell hast du eine Negation (¬) hinzugefügt.
+        </description>
+        <description type="long">
+            Mit der Negation lässt sich das Gegenteil einer Aussage ausdrücken.
+            Die Aussage "Nicht φ" wird durch die Formel "¬φ" ausgedrückt.
+        </description>
+        <description type="short">
+            Eventuell hast du eine Negation (¬) zu viel eingebaut.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="BUGGY_REMOVE_SUBFORMULA" name="Fehlerhaftes Entfernen einer Teilformel">
+        <description type="default">
+            Eventuell hast du eine Teilformel vergessen.
+        </description>
+        <description type="long">
+            Damit eine Formel eine Aussage korrekt modelliert, müssen alle Teilaussagen der Aussage in der Formel berücksichtigt werden.
+        </description>
+        <description type="short">
+            Eventuell hast du einen Formelteil vergessen.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </group>
+
+    <group id="BUGGY_ADD_SUBFORMULA" name="Fehlerhaftes Hinzufügen einer Teilformel">
+        <description type="default">
+            Eventuell hast du eine neue Teilformel hinzugefügt.
+        </description>
+        <description type="long">
+            Damit eine Formel eine Aussage korrekt modelliert, dürfen nur Teilaussagen, die auch in der Aussage vorkommen, in der Formel berücksichtigt werden.
+        </description>
+        <description type="short">
+            Eventuell hast du eine Bedingung zu viel berücksichtigt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_EQUIVALENCE_IMPLICATION" name="Fehlerhaftes Austauschen von ↔ und →">
+        <description type="default">
+            Eventuell hast du Äquivalenz (↔) und Implikation (→) verwechselt.
+        </description>
+        <description type="long">
+            Über die Äquivalenz lassen sich zwei Aussagen miteinander verknüpfen, die sich bezüglich ihres Wahrheitsgehaltes genau gleich verhalten.
+            D.h. entweder sind beide Aussagen falsch oder beide sind wahr.
+            Äquivalenzaussagen beinhalten meist eine Formulierung der Form "φ genau dann, wenn ψ" und lassen sich durch die aussagenlogische Formel "φ ↔ ψ" ausdrücken.&lt;br&gt;
+            Mithilfe der Implikation lassen sich bedingte Aussagen modellieren. Syntaktisch wird die Aussage "Wenn φ, dann ψ" durch "φ → ψ" modelliert.
+            &lt;br&gt;&lt;b&gt;Achtung&lt;/b&gt;: Ein "Nur" in der Formulierung der Aussage dreht die Implikation um.
+        </description>
+        <description type="insteadOf">
+            Eventuell hast du Äquivalenz (↔) und Implikation (→) verwechselt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_EQUIVALENCE_DISJUNCTION" name="Fehlerhaftes Austauschen von ↔ und ∨">
+        <description type="default">
+            Eventuell hast du Äquivalenz (↔) und Disjunktion (∨) verwechselt.
+        </description>
+        <description type="short">
+            Über die Äquivalenz lassen sich zwei Aussagen miteinander verknüpfen, die sich bezüglich ihres Wahrheitsgehaltes genau gleich verhalten.
+            D.h. entweder sind beide Aussagen falsch oder beide sind wahr.
+            Äquivalenzaussagen beinhalten meist eine Formulierung der Form "φ genau dann, wenn ψ" und lassen sich durch die aussagenlogische Formel "φ ↔ ψ" ausdrücken.&lt;br&gt;
+            Mit der Disjunktion können Aussagen miteinander verknüpft werden, sodass die Gesamtaussage genau dann wahr ist, wenn mindestens eine der Teilaussagen wahr ist.
+            Die Aussage "φ oder ψ" wird durch  "φ ∨ ψ" ausgedrückt.
+        </description>
+        <description type="insteadOf">
+            Eventuell hast du Äquivalenz (↔) und Disjunktion (∨) verwechselt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_EQUIVALENCE_CONJUNCTION" name="Fehlerhaftes Austauschen von ↔ und ∧">
+        <description type="default">
+            Eventuell hast du Äquivalenz (↔) und Konjunktion (∧) verwechselt.
+        </description>
+        <description type="long">
+            Über die Äquivalenz lassen sich zwei Aussagen miteinander verknüpfen, die sich bezüglich ihres Wahrheitsgehaltes genau gleich verhalten.
+            D.h. entweder sind beide Aussagen falsch oder beide sind wahr.
+            Äquivalenzaussagen beinhalten meist eine Formulierung der Form "φ genau dann, wenn ψ" und lassen sich durch die aussagenlogische Formel "φ ↔ ψ" ausdrücken.&lt;br&gt;
+            Mit der Konjunktion können Aussagen miteinander verknüpft werden, sodass die Gesamtaussage wahr ist, wenn alle Teilaussagen wahr sind.
+            Die Aussage "φ und ψ" wird durch die Formel "φ ∧ ψ" ausgedrückt.
+        </description>
+        <description type="insteadOf">
+            Eventuell hast du Äquivalenz (↔) und Konjunktion (∧) verwechselt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_IMPLICATION_DISJUNCTION" name="Fehlerhaftes Austauschen von → und ∨">
+        <description type="default">
+            Eventuell hast du Implikation (→) und Disjunktion (∨) verwechselt.
+        </description>
+        <description type="long">
+            Mithilfe der Implikation lassen sich bedingte Aussagen modellieren. Syntaktisch wird die Aussage "Wenn φ, dann ψ" durch "φ → ψ" modelliert.
+            &lt;br&gt;&lt;b&gt;Achtung&lt;/b&gt;: Ein "Nur" in der Formulierung der Aussage dreht die Implikation um.&lt;br&gt;
+            Mit der Disjunktion können Aussagen miteinander verknüpft werden, sodass die Gesamtaussage genau dann wahr ist, wenn mindestens eine der Teilaussagen wahr ist.
+            Die Aussage "φ oder ψ" wird durch  "φ ∨ ψ" ausgedrückt.
+        </description>
+        <description type="insteadOf">
+            Eventuell hast du Implikation (→) und Disjunktion (∨) verwechselt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_IMPLICATION_CONJUNCTION" name="Fehlerhaftes Austauschen von → und ∧">
+        <description type="default">
+            Eventuell hast du Implikation (→) und Konjunktion (∧) verwechselt.
+        </description>
+        <description type="long">
+            Mithilfe der Implikation lassen sich bedingte Aussagen modellieren. Syntaktisch wird die Aussage "Wenn φ, dann ψ" durch "φ → ψ" modelliert.
+            &lt;br&gt;&lt;b&gt;Achtung&lt;/b&gt;: Ein "Nur" in der Formulierung der Aussage dreht die Implikation um.&lt;br&gt;
+            Mit der Konjunktion können Aussagen miteinander verknüpft werden, sodass die Gesamtaussage wahr ist, wenn alle Teilaussagen wahr sind.
+            Die Aussage "φ und ψ" wird durch die Formel "φ ∧ ψ" ausgedrückt.
+        </description>
+        <description type="insteadOf">
+            Eventuell hast du Implikation (→) und Konjunktion (∧) verwechselt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_DISJUNCTION_CONJUNCTION" name="Fehlerhaftes Austauschen von ∨ und ∧">
+        <description type="default">
+            Eventuell hast du Disjunktion (∨) und Konjunktion (∧) verwechselt.
+        </description>
+        <description type="long">
+            Mit der Disjunktion können Aussagen miteinander verknüpft werden, sodass die Gesamtaussage genau dann wahr ist, wenn mindestens eine der Teilaussagen wahr ist.
+            Die Aussage "φ oder ψ" wird durch  "φ ∨ ψ" ausgedrückt.&lt;br&gt;
+            Mit der Konjunktion können Aussagen miteinander verknüpft werden, sodass die Gesamtaussage wahr ist, wenn alle Teilaussagen wahr sind.
+            Die Aussage "φ und ψ" wird durch die Formel "φ ∧ ψ" ausgedrückt.
+        </description>
+        <description type="insteadOf">
+            Eventuell hast du Disjunktion (∨) und Konjunktion (∧) verwechselt.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REMOVE_QUANTIFIER" name="Fehlerhaftes Entfernen eines Quantors">
+        <description type="default">
+            Eventuell hast du einen Quantor (∃, ∀) vergessen.
+        </description>
+        <transformationType>FOL</transformationType>
+    </group>
+
+    <group id="BUGGY_ADD_QUANTIFIER" name="Fehlerhaftes Hinzufügen eines Quantors">
+        <description type="default">
+            Eventuell hast du einen Quantor (∃, ∀) an einer falschen Stelle hinzugefügt.
+        </description>
+        <transformationType>FOL</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_QUANTIFIER" name="Fehlerhaftes Vertauschen von Quantoren">
+        <description type="default">
+            Eventuell hast du die Quantoren (∃, ∀) vertauscht.
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_QUANTIFIER_PRECEDENCE" name="Fehlerhafte Bindungstärke der Quantoren">
+        <description type="default">
+            Eventuell hast du die Bindungsstärke der Quantoren (∃, ∀) nicht korrekt interpretiert.
+            Beachte, dass die Quantoren stärker als Disjunktionen (∨) und Konjunktionen (∧).
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_DISTRIBUTE_QUANTIFIERS" name="Fehlerhaftes Distributieren der Quantoren">
+        <description type="default">
+            Eventuell hast du die Distributivität der Quantoren nicht korrekt angewendet.
+            Beachte, dass der Allquantor (∀) nur über Konjunktionen (∧) und der Existenz-Quantor (∃) nur über
+            Disjunktionen (∨) distributiert werden kann
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_UNDISTRIBUTE_QUANTIFIERS" name="Fehlerhaftes Auflösen von Distributivität der Quantoren">
+        <description type="default">
+            Eventuell hast du die Distributivität der Quantoren nicht korrekt angewendet.
+            Beachte, dass der Allquantor (∀) nur über Konjunktionen (∧) und der Existenz-Quantor (∃) nur über
+            Disjunktionen (∨) distributiert werden kann
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_NEGATION_QUANTIFIER" name="Fehlerhaftes Bewegen von ¬ über Quantor">
+        <description type="default">
+            Eventuell hast du einen Quantor (∃, ∀) nicht korrekt negiert.
+            Beachte, dass die Quantoren sich vertauschen, wenn eine Negation (¬) über sie bewegt wird.
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_IMPLICATION_QUANTIFIER" name="Fehlerhafte Bindungsstärke von Quantoren im Vergleich zu →">
+        <description type="default">
+            Eventuell hast du die Bindungsstärke von den Quantoren (∃, ∀) und der Implikation (→) verwechselt.
+            Beachte, dass die Quantoren stärker binden als die Implikation.
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_EQUIVALENCE_QUANTIFIER" name="Fehlerhafte Bindungsstärke von Quantoren im Vergleich zu ↔">
+        <description type="default">
+            Eventuell hast du die Bindungsstärke von den Quantoren (∃, ∀) und der Äquivalenz (↔) verwechselt.
+            Beachte, dass die Quantoren stärker binden als die Äquivalenz.
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+</transformationsWithFeedbackTexts>

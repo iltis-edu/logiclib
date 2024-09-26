@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <invertible name = "REPLACE_EQUIVALENCE" groupId="REPLACE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X∧$Y) ∨ (¬$X∧¬$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ ¬Y(x,y)</input>
+                <expect>(X(x,y)∧¬Y(x,y)) ∨ (¬X(x,y)∧¬¬Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertApplicable>
+        </tests>
+    </invertible>
+
+    <invertible name= "REPLACE_EQUIVALENCE_ALTERNATIVE" groupId="REPLACE_EQUIVALENCE">
+        <match>$X ↔ $Y</match>
+        <replace>($X→$Y) ∧ ($Y→$X)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ ¬Y(x,y)</input>
+                <expect>(X(x,y)→¬Y(x,y)) ∧ (¬Y(x,y)→X(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertApplicable>
+        </tests>
+    </invertible>
+
+    <invertible name = "CREATE_EQUIVALENCE_DISJUNCTION" onlyPart="true">
+        <match>($X∧$Y) ∨ (¬$X∧¬$Y)</match>
+        <replace>$X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X(x,y)∧Y(x,y)) ∨ (¬¬X(x,y)∧¬Y(x,y))</input>
+                <expect>¬X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <invertible name= "CREATE_EQUIVALENCE_CONJUNCTION" onlyPart="true">
+        <match>($X→$Y) ∧ ($Y→$X)</match>
+        <replace>$X ↔ $Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(¬X(x,y)→Y(x,y)) ∧ (Y(x,y)→¬X(x,y))</input>
+                <expect>¬X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <meta name="CREATE_EQUIVALENCE">
+        <references>
+            <reference name="CREATE_EQUIVALENCE_DISJUNCTION"/>
+            <reference name="CREATE_EQUIVALENCE_CONJUNCTION"/>
+        </references>
+    </meta>
+
+    <invertible name="SWAP_NEGATION_IN_EQUIVALENCE_LEFT_TO_RIGHT" onlyPart="true">
+        <match>¬$X↔$Y</match>
+        <replace>$X↔¬$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y) ↔ Y(x,y)</input>
+                <expect>X(x,y) ↔ ¬Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <invertible name="SWAP_NEGATION_IN_EQUIVALENCE_RIGHT_TO_LEFT" onlyPart="true">
+        <match>$X↔¬$Y</match>
+        <replace>¬$X↔$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ ¬Y(x,y)</input>
+                <expect>¬X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <meta name="SWAP_NEGATION_IN_EQUIVALENCE">
+        <references>
+            <reference name="SWAP_NEGATION_IN_EQUIVALENCE_LEFT_TO_RIGHT"/>
+            <reference name="SWAP_NEGATION_IN_EQUIVALENCE_RIGHT_TO_LEFT"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y) ↔ ¬Y(x,y)</input>
+                <expect>¬X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬X(x,y) ↔ Y(x,y)</input>
+                <expect>X(x,y) ↔ ¬Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name ="MOVE_NEGATION_INTO_EQUIVALENCE" onlyPart="true">
+        <match>¬($X↔$Y)</match>
+        <replace>¬$X↔$Y</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X(x,y) ↔ Y(x,y))</input>
+                <expect>¬X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <invertible name ="MOVE_NEGATION_OUT_OF_EQUIVALENCE" onlyPart="true">
+        <match>¬$X↔$Y</match>
+        <replace>¬($X↔$Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y) ↔ Y(x,y)</input>
+                <expect>¬(X(x,y) ↔ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∨ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ∧ Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X(x,y) ↔ Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <meta name="MOVE_NEGATION_EQUIVALENCE">
+        <references>
+            <reference name="MOVE_NEGATION_INTO_EQUIVALENCE"/>
+            <reference name="MOVE_NEGATION_OUT_OF_EQUIVALENCE"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬X(x,y) ↔ Y(x,y)</input>
+                <expect>¬(X(x,y) ↔ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X(x,y) ↔ Y(x,y))</input>
+                <expect>¬X(x,y) ↔ Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+</transformations>

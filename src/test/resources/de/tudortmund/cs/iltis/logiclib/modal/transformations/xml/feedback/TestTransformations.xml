@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <pattern name="standalone_singleText">
+        <match>$X → $Y</match>
+        <replace>$Y → $X</replace>
+    </pattern>
+
+    <pattern name="standalone_doubleText">
+        <match>¬$X</match>
+        <replace>$X</replace>
+    </pattern>
+
+    <pattern name="group_singleText1" groupId="singleText">
+        <match>$X</match>
+        <replace>¬$X</replace>
+    </pattern>
+
+    <pattern name="group_singleText2" groupId="singleText">
+        <match>¬$X ∧ $Y</match>
+        <replace>$X → $Y</replace>
+    </pattern>
+
+    <pattern name="group_doubleText1" groupId="doubleText">
+        <match>$X ↔ $X</match>
+        <replace>$X</replace>
+    </pattern>
+
+    <pattern name="group_doubleText2" groupId="doubleText">
+        <match>$X ∨ $Y</match>
+        <replace>$X ↔ $Y</replace>
+    </pattern>
+
+    <pattern name="group_crossover" groupId="crossover">
+        <match>$X</match>
+        <replace>⊤</replace>
+    </pattern>
+
+    <pattern name="single_skipped">
+        <match>$X</match>
+        <replace>⊥</replace>
+    </pattern>
+
+    <pattern name="group_skipped" groupId="skip">
+        <match>¬$X∧$X</match>
+        <replace>⊤</replace>
+    </pattern>
+
+    <patternNewFormula name="newFormula_single">
+        <match>*X∧...</match>
+        <replace>*X∧$Y</replace>
+        <newFormula>Y</newFormula>
+    </patternNewFormula>
+
+    <patternNewFormula name="newFormula_group_onlyNewFormula1" groupId="onlyNewFormula">
+        <match>*X∨...</match>
+        <replace>*X∨$Y</replace>
+        <newFormula>Y</newFormula>
+    </patternNewFormula>
+
+    <patternNewFormula name="newFormula_group_onlyNewFormula2" groupId="onlyNewFormula">
+        <match>$X</match>
+        <replace>$X→$Y</replace>
+        <newFormula>Y</newFormula>
+    </patternNewFormula>
+
+    <patternNewFormula name="newFormula_group_mixed" groupId="mixedTransformationTypes">
+        <match>$X</match>
+        <replace>$X↔$Y</replace>
+        <newFormula>Y</newFormula>
+    </patternNewFormula>
+
+    <pattern name="noNewFormula_group_mixed" groupId="mixedTransformationTypes">
+        <match>¬(¬($X∧$Y)∧$Z)</match>
+        <replace>¬(¬$X∨¬$Y)∧$Z</replace>
+    </pattern>
+
+    <patternNewFormula name="group_crossover_newFormula" groupId="crossoverNewFormula">
+        <match>$X</match>
+        <replace>$X→$Y</replace>
+        <newFormula>Y</newFormula>
+    </patternNewFormula>
+</transformations>

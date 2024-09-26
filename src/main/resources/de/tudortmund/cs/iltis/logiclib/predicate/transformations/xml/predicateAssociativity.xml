@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <pattern name="REMOVE_PARENTHESES_FROM_CONJUNCTION" onlyPart="true">
+        <match>*X∧(*Y∧...)∧*Z</match>
+        <replace>*X∧*Y∧*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∧X(x,y))∧Z(x,y)</input>
+                <expect>X(x,y)∧Y(x,y)∧X(x,y)∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <pattern name="REMOVE_PARENTHESES_FROM_DISJUNCTION" onlyPart="true">
+        <match>*X∨(*Y∨...)∨*Z</match>
+        <replace>*X∨*Y∨*Z</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∨X(x,y))∨Z(x,y)</input>
+                <expect>X(x,y)∨Y(x,y)∨X(x,y)∨Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </pattern>
+
+    <meta name="REMOVE_PARENTHESES">
+        <references>
+            <reference name="REMOVE_PARENTHESES_FROM_CONJUNCTION"/>
+            <reference name="REMOVE_PARENTHESES_FROM_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∧X(x,y))∧Z(x,y)</input>
+                <expect>X(x,y)∧Y(x,y)∧X(x,y)∧Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∨X(x,y))∨Z(x,y)</input>
+                <expect>X(x,y)∨Y(x,y)∨X(x,y)∨Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∨(Y(x,y)∨Z(x,y))</input>
+                <expect>X(x,y)∨Y(x,y)∨Z(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X(x,y)∧(Y(x,y)∧Z(x,y))</input>
+                <expect>X(x,y)∧Y(x,y)∧Z(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+</transformations>

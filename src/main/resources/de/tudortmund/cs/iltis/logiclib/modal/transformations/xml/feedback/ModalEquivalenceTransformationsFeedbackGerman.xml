@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<transformationsWithFeedbackTexts language="de">
+    <single id ="fixpoint:REMOVE_DOUBLE_NEGATION_AND_PUSH_DEMORGAN_PROPOSITIONAL" name="Doppelnegation und DeMorgan auflösen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="CREATE_IMPLICATION" name="Implikation erstellen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="CONTRAPOSITION" name="Kontraposition">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="REPLACE_IMPLICATION" name="Implikation ersetzen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="NEGATE_CONSTANT" name="Konstante negieren">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="UNNEGATE_CONSTANT" name="Aufheben der Negation von Konstanten">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="TAUTOLOGY" name="Tautologie">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="CONTRADICTION" name="Kontradiktion">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="NEUTRALITY" name="Neutralität">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="DOMINATION" name="Dominierung">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="IDEMPOTENCE" name="Idempotenz">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="REPLACE_EQUIVALENCE" name="Äquivalenz ersetzen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="CREATE_EQUIVALENCE" name="Äquivalenz erstellen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="SWAP_NEGATION_IN_EQUIVALENCE" name="Negation in Äquivalenz vertauschen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+    </single>
+
+    <single id="MOVE_NEGATION_EQUIVALENCE" name="Negation in Äquivalenz verschieben">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+    </single>
+
+    <single id="ADD_DOUBLE_NEGATION" name="Doppelnegation hinzufügen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="REMOVE_DOUBLE_NEGATION" name="Doppelnegation entfernen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="DISTRIBUTIVITY_CONJUNCTION" name="Distributivität von Konjunktion">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="DISTRIBUTIVITY_DISJUNCTION" name="Distributivität von Disjunktion">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="REMOVE_PARENTHESES" name="Klammern entfernen">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="COMMUTE" name="Kommutativität">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+    </single>
+
+    <group id="DEMORGAN" name="DeMorgansche Gesetze">
+        <transformationType>PL</transformationType>
+        <transformationType>ML</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="DISTRIBUTIVITY_BOX" name="Distributivität von Box-Operator">
+        <transformationType>ML</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="DISTRIBUTIVITY_DIAMOND" name="Distributivität von Diamant-Operator">
+        <transformationType>ML</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="PUSH_DUALITY" name="Negation über Modaloperator verschieben">
+        <transformationType>ML</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="PULL_DUALITY" name="Modaloperator über Negation verschieben">
+        <transformationType>ML</transformationType>
+        <transformationType>ML_CREATE_FORMULA</transformationType>
+        <transformationType>ML_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+</transformationsWithFeedbackTexts>

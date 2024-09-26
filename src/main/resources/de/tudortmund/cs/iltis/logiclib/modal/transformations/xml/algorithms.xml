@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <meta name="NEGATION_NORMALFORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="REPLACE_IMPLICATION"/>
+            <reference name="REPLACE_EQUIVALENCE"/>
+            <reference name="REMOVE_DOUBLE_NEGATION"/>
+            <reference name="PUSH_DUALITY"/>
+            <reference name="PUSH_DEMORGAN"/>
+            <reference name="UNNEGATE_CONSTANT"/>
+        </references>
+    </meta>
+
+    <fixpoint name="NEGATION_NORMALFORM">
+        <reference name="NEGATION_NORMALFORM_SINGLE"/>
+    </fixpoint>
+
+    <meta name="CONJUNCTIVE_NORMALFORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="NEGATION_NORMALFORM"/>
+            <reference name="NEUTRALITY"/>
+            <reference name="DOMINATION"/>
+            <reference name="DISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="REMOVE_PARENTHESES"/>
+            <reference name="DISTRIBUTE_PART_OF_DISJUNCTION"/>
+        </references>
+    </meta>
+
+    <fixpoint name="CONJUNCTIVE_NORMALFORM">
+        <reference name="CONJUNCTIVE_NORMALFORM_SINGLE"/>
+        <tests>
+            <assertApplicationResult>
+                <input>(A ∧ B) ∨ C</input>
+                <expect>(A∨C)∧(B∨C)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(¬B∨D)∧¬(B∧C∧A∧¬D)∧(¬D∨(¬E∧(¬B∨E)))∧B</input>
+                <expect>(¬B∨D)∧(¬B∨¬C∨¬A∨D)∧(¬D∨¬E)∧(¬D∨¬B∨E)∧B</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(C→F)∧¬(F∧¬G)∧(¬¬B→E)∧¬(¬B∧G)∧(C∨F)∧((¬B∧A)∨¬E)</input>
+                <expect>(¬C∨F)∧(¬F∨G)∧(¬B∨E)∧(B∨¬G)∧(C∨F)∧(¬B∨¬E)∧(A∨¬E)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(A∨¬F)∧(¬A∨F)∧(¬N∨¬G)∧(A∨F∨G)∧(¬A∨¬F∨D)∧(¬G∨D∨N)∧⊤∧¬D</input>
+                <expect>(A∨¬F)∧(¬A∨F)∧(¬N∨¬G)∧(A∨F∨G)∧(¬A∨¬F∨D)∧(¬G∨D∨N)∧¬D</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(¬A∨¬B)∧(E∨A∨0)</input>
+                <expect>(¬A∨¬B)∧(E∨A)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(A∨1)∧0</input>
+                <expect>0</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>0∧C</input>
+                <expect>0</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>a∨c∨(b∧d)</input>
+                <expect>(a∨c∨b)∧(a∨c∨d)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(a∧c)∨(¬a∧¬c)∨b</input>
+                <expect>(a∨¬a∨b)∧(a∨¬c∨b)∧(c∨¬a∨b)∧(c∨¬c∨b)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(b↔¬d)∧((a↔c)∨b)∧¬((a↔c)∧b)</input>
+                <expect>(b∨¬b)∧(b∨d)∧(¬d∨¬b)∧(¬d∨d)∧(a∨¬a∨b)∧(a∨¬c∨b)∧(c∨¬a∨b)∧(c∨¬c∨b)∧(¬a∨¬c∨¬b)∧(a∨c∨¬b)</expect>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+
+    <meta name="REMOVE_TRUE_FROM_CNF" onlyPart="true">
+        <references>
+            <reference name="CONTRADICTION"/>
+            <reference name="TAUTOLOGY"/>
+            <reference name="NEUTRALITY"/>
+        </references>
+    </meta>
+
+    <fixpoint name="fixpoint:REMOVE_TRUE_FROM_CNF" onlyPart="true">
+        <reference name="REMOVE_TRUE_FROM_CNF"/>
+    </fixpoint>
+
+    <meta name="CONJUNCTIVE_NORMAL_FORM_TSEITIN_SINGLE" onlyPart="true">
+        <references>
+            <reference name="REMOVE_TRUE_FROM_CNF"/>
+            <reference name="CONJUNCTIVE_NORMALFORM_SINGLE"/>
+        </references>
+    </meta>
+
+    <fixpoint name="CONJUNCTIVE_NORMAL_FORM_TSEITIN">
+        <reference name="CONJUNCTIVE_NORMAL_FORM_TSEITIN_SINGLE"/>
+    </fixpoint>
+
+
+    <meta name="DISJUNCTIVE_NORMALFORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="NEGATION_NORMALFORM"/>
+            <reference name="NEUTRALITY"/>
+            <reference name="DOMINATION"/>
+            <reference name="DISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="REMOVE_PARENTHESES"/>
+            <reference name="DISTRIBUTE_PART_OF_CONJUNCTION"/>
+        </references>
+    </meta>
+
+    <fixpoint name="DISJUNCTIVE_NORMALFORM">
+        <reference name="DISJUNCTIVE_NORMALFORM_SINGLE"/>
+        <tests>
+            <assertApplicationResult>
+                <input>(A∧¬F)∨(¬A∧F)∨(¬N∧¬G)∨(A∧F∧G)∨(¬A∧¬F∧D)∨(¬G∧D∧N)∨0∨¬D</input>
+                <expect>(A∧¬F)∨(¬A∧F)∨(¬N∧¬G)∨(A∧F∧G)∨(¬A∧¬F∧D)∨(¬G∧D∧N)∨¬D</expect>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+
+    <meta name="SANITIZED_FORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="REMOVE_DOUBLE_NEGATION"/>
+            <reference name="UNNEGATE_CONSTANT"/>
+            <reference name="NEUTRALITY"/>
+            <reference name="DOMINATION"/>
+            <reference name="REMOVE_PARENTHESES"/>
+        </references>
+    </meta>
+
+    <fixpoint name="SANITIZED_FORM">
+        <reference name="SANITIZED_FORM_SINGLE"/>
+    </fixpoint>
+</transformations>

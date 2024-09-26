@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <meta name="NEGATION_NORMALFORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="REPLACE_IMPLICATION"/>
+            <reference name="REPLACE_EQUIVALENCE"/>
+            <reference name="REMOVE_DOUBLE_NEGATION"/>
+            <reference name="PUSH_DEMORGAN"/>
+            <reference name="UNNEGATE_CONSTANT"/>
+        </references>
+    </meta>
+
+    <fixpoint name="NEGATION_NORMALFORM">
+        <reference name="NEGATION_NORMALFORM_SINGLE"/>
+    </fixpoint>
+
+    <meta name="CONJUNCTIVE_NORMALFORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="NEGATION_NORMALFORM"/>
+            <reference name="NEUTRALITY"/>
+            <reference name="DOMINATION"/>
+            <reference name="DISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="REMOVE_PARENTHESES"/>
+            <reference name="DISTRIBUTE_PART_OF_DISJUNCTION"/>
+        </references>
+    </meta>
+
+    <fixpoint name="CONJUNCTIVE_NORMALFORM">
+        <reference name="CONJUNCTIVE_NORMALFORM_SINGLE"/>
+        <tests>
+            <assertApplicationResult>
+                <input>(A(x,y) ∧ B(x,y)) ∨ C(x,y)</input>
+                <expect>(A(x,y)∨C(x,y))∧(B(x,y)∨C(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(¬B(x,y)∨D(x,y))∧¬(B(x,y)∧C(x,y)∧A(x,y)∧¬D(x,y))∧(¬D(x,y)∨(¬E(x,y)∧(¬B(x,y)∨E(x,y))))∧B(x,y)</input>
+                <expect>(¬B(x,y)∨D(x,y))∧(¬B(x,y)∨¬C(x,y)∨¬A(x,y)∨D(x,y))∧(¬D(x,y)∨¬E(x,y))∧(¬D(x,y)∨¬B(x,y)∨E(x,y))∧B(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(C(x,y)→F(x,y))∧¬(F(x,y)∧¬G(x,y))∧(¬¬B(x,y)→E(x,y))∧¬(¬B(x,y)∧G(x,y))∧(C(x,y)∨F(x,y))∧((¬B(x,y)∧A(x,y))∨¬E(x,y))</input>
+                <expect>(¬C(x,y)∨F(x,y))∧(¬F(x,y)∨G(x,y))∧(¬B(x,y)∨E(x,y))∧(B(x,y)∨¬G(x,y))∧(C(x,y)∨F(x,y))∧(¬B(x,y)∨¬E(x,y))∧(A(x,y)∨¬E(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(A(x,y)∨¬F(x,y))∧(¬A(x,y)∨F(x,y))∧(¬N(x,y)∨¬G(x,y))∧(A(x,y)∨F(x,y)∨G(x,y))∧(¬A(x,y)∨¬F(x,y)∨D(x,y))∧(¬G(x,y)∨D(x,y)∨N(x,y))∧⊤∧¬D(x,y)</input>
+                <expect>(A(x,y)∨¬F(x,y))∧(¬A(x,y)∨F(x,y))∧(¬N(x,y)∨¬G(x,y))∧(A(x,y)∨F(x,y)∨G(x,y))∧(¬A(x,y)∨¬F(x,y)∨D(x,y))∧(¬G(x,y)∨D(x,y)∨N(x,y))∧¬D(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(¬A(x,y)∨¬B(x,y))∧(E(x,y)∨A(x,y)∨0)</input>
+                <expect>(¬A(x,y)∨¬B(x,y))∧(E(x,y)∨A(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(A(x,y)∨1)∧0</input>
+                <expect>0</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>0∧C(x,y)</input>
+                <expect>0</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>A(x,y)∨C(x,y)∨(B(x,y)∧D(x,y))</input>
+                <expect>(A(x,y)∨C(x,y)∨B(x,y))∧(A(x,y)∨C(x,y)∨D(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(A(x,y)∧C(x,y))∨(¬A(x,y)∧¬C(x,y))∨B(x,y)</input>
+                <expect>(A(x,y)∨¬A(x,y)∨B(x,y))∧(A(x,y)∨¬C(x,y)∨B(x,y))∧(C(x,y)∨¬A(x,y)∨B(x,y))∧(C(x,y)∨¬C(x,y)∨B(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(B(x,y)↔¬D(x,y))∧((A(x,y)↔C(x,y))∨B(x,y))∧¬((A(x,y)↔C(x,y))∧B(x,y))</input>
+                <expect>(B(x,y)∨¬B(x,y))∧(B(x,y)∨D(x,y))∧(¬D(x,y)∨¬B(x,y))∧(¬D(x,y)∨D(x,y))∧(A(x,y)∨¬A(x,y)∨B(x,y))∧(A(x,y)∨¬C(x,y)∨B(x,y))∧(C(x,y)∨¬A(x,y)∨B(x,y))∧(C(x,y)∨¬C(x,y)∨B(x,y))∧(¬A(x,y)∨¬C(x,y)∨¬B(x,y))∧(A(x,y)∨C(x,y)∨¬B(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+
+    <meta name="DISJUNCTIVE_NORMALFORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="NEGATION_NORMALFORM"/>
+            <reference name="NEUTRALITY"/>
+            <reference name="DOMINATION"/>
+            <reference name="DISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="REMOVE_PARENTHESES"/>
+            <reference name="DISTRIBUTE_PART_OF_CONJUNCTION"/>
+        </references>
+    </meta>
+
+    <fixpoint name="DISJUNCTIVE_NORMALFORM">
+        <reference name="DISJUNCTIVE_NORMALFORM_SINGLE"/>
+        <tests>
+            <assertApplicationResult>
+                <input>(A(x,y)∧¬F(x,y))∨(¬A(x,y)∧F(x,y))∨(¬N(x,y)∧¬G(x,y))∨(A(x,y)∧F(x,y)∧G(x,y))∨(¬A(x,y)∧¬F(x,y)∧D(x,y))∨(¬G(x,y)∧D(x,y)∧N(x,y))∨0∨¬D(x,y)</input>
+                <expect>(A(x,y)∧¬F(x,y))∨(¬A(x,y)∧F(x,y))∨(¬N(x,y)∧¬G(x,y))∨(A(x,y)∧F(x,y)∧G(x,y))∨(¬A(x,y)∧¬F(x,y)∧D(x,y))∨(¬G(x,y)∧D(x,y)∧N(x,y))∨¬D(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+
+    <meta name="SANITIZED_FORM_SINGLE" onlyPart="true">
+        <references>
+            <reference name="REMOVE_DOUBLE_NEGATION"/>
+            <reference name="UNNEGATE_CONSTANT"/>
+            <reference name="NEUTRALITY"/>
+            <reference name="DOMINATION"/>
+            <reference name="REMOVE_PARENTHESES"/>
+        </references>
+    </meta>
+
+    <fixpoint name="SANITIZED_FORM">
+        <reference name="SANITIZED_FORM_SINGLE"/>
+    </fixpoint>
+</transformations>

@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<transformationsWithFeedbackTexts language="en">
+    <group id="BUGGY_IDEMPOTENCE_TO_TOP" name="Buggy idempotence to ⊤">
+        <description type="default">
+            Maybe you confused φ ∨ φ or φ ∧ φ with ⊤.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_FORMULA_TO_IMPLICATIONAL_TAUTOLOGY" name="Buggy implicational tautology">
+        <description type="default">
+            Notice, that φ is not equivalent to φ → φ or φ ↔ φ.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION" name="Buggy reduction of ¬ in ∧">
+        <description type="default">
+            Maybe you forgot, that φ ∧ ¬φ and ⊥ are equivalent.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_CONJUNCTION_WITH_NEGATION_TO_BOTTOM" name="Buggy reduction of ¬ in ∧ with ⊥">
+        <description type="default">
+            Notice, that a formula of the form (φ ∨ ψ) ∧ (¬φ ∨ ¬ψ) can be satisfiable.
+            It therefore is not equivalent to ⊥.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION" name="Buggy reduction of ¬ in ∨">
+        <description type="default">
+            Maybe you forgot, that φ ∨ ¬φ and ⊤ are equivalent.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_DISJUNCTION_WITH_NEGATION_TO_TOP" name="Buggy reduction of ¬ in ∨ with ⊤">
+        <description type="default">
+            Notice, that a formula of the form (φ ∧ ψ) ∨ (¬φ ∧ ¬ψ) may not be satisfied.
+            It therefore is not equivalent to ⊤.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TOP_IN_DISJUNCTION" name="Buggy reduction of ⊤ in ∨">
+        <description type="default">
+            Maybe you forgot, that ⊤ dominates any disjunctions (∨), therefore φ ∨ ⊤ ≡ ⊤ holds.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TOP_IN_CONJUNCTION" name="Buggy reduction of ⊤ in ∧">
+        <description type="default">
+            Maybe you forgot, that ⊤ acts neutral in any conjunction (∧), therefore φ ∧ ⊤ ≡ φ holds.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_BOTTOM_IN_DISJUNCTION" name="Buggy reduction of ⊥ in ∨">
+        <description type="default">
+            Maybe you forgot, that ⊥ acts neutral in any disjunction (∨), therefore φ ∨ ⊥ ≡ φ holds.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_BOTTOM_IN_CONJUNCTION" name="Buggy reduction of ⊥ in ∧">
+        <description type="default">
+            Maybe you forgot, that ⊥ dominates any conjunction (∧), therefore φ ∧ ⊥ ≡ ⊥ holds.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="BUGGY_SWAP_PREMISE_AND_CONCLUSION" name="Austausch von Prämisse und Konklusion">
+        <description type="default">
+            Maybe you confused the premise (φ) with the conclusion (ψ) in an implication φ → ψ.
+        </description>
+        <description type="long">
+            The implication operator is used for translating conditional statements into propositional formulas.
+            For example, a statement of the form "If φ then ψ" can be written as "φ → ψ". &lt;br&gt;&lt;b&gt;Caution&lt;/b&gt;: Statements of the form
+            "φ only if ψ" are expressed by "φ → ψ" even though "if" occurs in front of ψ.&lt;br&gt;
+            In an implication "φ → ψ" the first subformula (φ) is called the premise and the second subformula (ψ) is called the conclusion.
+        </description>
+        <description type="short">
+            You might have switched the premise (φ) and conclusion (ψ) of some implication "φ → ψ" in your formula.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="BUGGY_MOVE_PARENTHESIS_IN_MULTILAYERED_IMPLICATION" name="Buggy moving of () in →">
+        <description type="default">
+            Maybe you moved the parentheses in a multilayered implication (A → B) → C.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </group>
+
+    <single id="BUGGY_REDUCE_IMPLICATIONAL_TAUTOLOGY" name="Buggy reduction of X → X">
+        <description type="default">
+            Maybe you did not replace an implication of the form φ → φ with ⊤.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="BUGGY_REDUCE_EQUIVALENT_TAUTOLOGY" name="Buggy reduction of X ↔ X">
+        <description type="default">
+            Maybe you did not replace an equivalence of the form φ ↔ φ with ⊤.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="BUGGY_REMOVE_EQUIVALENCE" name="Buggy reduction of ↔">
+        <description type="default">
+            Maybe you wrongly replaced an equivalence φ ↔ ψ.
+            Those can be replaced with (¬φ ∨ ψ) ∧ (φ ∨ ¬ψ) or (φ → ψ) ∧ (ψ → φ).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REMOVE_IMPLICATION" name="Buggy reduction of →">
+        <description type="default">
+            Maybe you wrongly replaced an implication φ → ψ.
+            Those can be replaced with ¬φ ∨ ψ.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TO_IMPLICATION" name="Buggy addition of →">
+        <description type="default">
+            Maybe you wrongly added an implication φ → ψ.
+            Those are defined as ¬φ ∨ ψ.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PUSH_NEGATION" name="Buggy moving ¬ into ()">
+        <description type="default">
+            Maybe you wrongly pushed a negation (¬) into some parentheses (φ ∨ ψ) or (φ ∧ ψ).
+            Notice that all subformulae φ and ψ must be negated in the process, meaning a negation must be added in front of each of them.
+            In addition, disjunctions (∨) and conjunctions (∧) must be switched.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PULL_NEGATION" name="Buggy moving ¬ out of ()">
+        <description type="default">
+            Maybe you wrongly pulled a negation (¬) out of some parentheses (¬φ ∨ ¬ψ) or (¬φ ∧ ¬ψ).
+            Notice that all subformulae φ and ψ must lose a negation in the process, meaning a negation must be removed from the front of each of them.
+            In addition, disjunctions (∨) and conjunctions (∧) must be switched.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REMOVE_PARENTHESIS" name="Buggy reduction of ()">
+        <description type="default">
+            Maybe you forgot some parentheses (φ ∨ ψ) or (φ ∧ ψ).
+            Notice that may only be removed if there is no leading negation (¬) directly in front of them.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_MOVE_PARENTHESIS_INSTEAD_OF_DISTRIBUTION" name="Buggy association instead of distribution">
+        <description type="default">
+            Maybe you moved some parentheses () instead of applying the law of distribution.
+            Notice that parentheses may only be moved if they are defined over the same operator (∨) or (∧).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REDUCE_TO_SUBFORMULA" name="Buggy reduction to subformula">
+        <description type="default">
+            Maybe you forgot a subformula.
+        </description>
+        <description type="long">
+            You have to consider all the information given in the scenario in order to model it correctly.
+        </description>
+        <description type="short">
+            You might have forgotten a part.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PUSH_DISTRIBUTION_TO_WRONG_TARGET" name="Buggy application of distribution">
+        <description type="default">
+            Maybe you applied the law of distribution wrongly.
+            Notice that A ∨ (B ∧ C) ≡ (A ∨ B) ∧ (A ∨ C) and A ∧ (B ∨ C) ≡ (A ∧ B) ∨ (A ∧ C) hold.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_PULL_DISTRIBUTION_TO_WRONG_TARGET" name="Buggy reduction of distribution">
+        <description type="default">
+            Maybe you applied the law of distribution wrongly.
+            Notice that (A ∨ B) ∧ (A ∨ C) ≡ A ∨ (B ∧ C) and (A ∧ B) ∨ (A ∧ C) ≡ A ∧ (B ∨ C) hold.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_MOVE_PARENTHESIS" name="Buggy associativity">
+        <description type="default">
+            Maybe you moved some parentheses and disobeyed the laws of DeMorgan in the process or
+            misused the definitions of implications (→) or equivalence (↔).
+        </description>
+        <description type="long">
+            The parentheses are used to connect parts of a formula.
+            Moving parentheses inside a formula is only valid iff they are moved within a disjunction or conjunction.
+            So "(A ∨ B) ∨ C" and "A ∨ (B ∨ C)" are equivalent formulas but "(A ∨ B) ∧ C" and "A ∨ (B ∧ C)" are not.
+        </description>
+        <description type="short">
+            You might have misplaced some parentheses somewhere in your formula.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="BUGGY_REMOVE_NEGATION" name="Buggy removing of ¬">
+        <description type="default">
+            Maybe you forgot a negation (¬).
+        </description>
+        <description type="long">
+            The negation can be used to express the opposite of a proposition.
+            The proposition "not φ" is expressed by the formula "¬φ".
+        </description>
+        <description type="short">
+            You might have forgotten a negation somewhere.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="BUGGY_ADD_NEGATION" name="Buggy addition of ¬">
+        <description type="default">
+            Maybe you added a negation (¬).
+        </description>
+        <description type="long">
+            The negation can be used to express the opposite of a proposition.
+            The proposition "not φ" is expressed by the formula "¬φ".
+        </description>
+        <description type="short">
+            You might have added too many negations.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="BUGGY_REMOVE_SUBFORMULA" name="Buggy removing of a subformula">
+        <description type="default">
+            Maybe you forgot a subformula.
+        </description>
+        <description type="long">
+            You have to consider all the information given in the scenario in order to model it correctly.
+        </description>
+        <description type="short">
+            You might have forgotten a part.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </group>
+
+    <group id="BUGGY_ADD_SUBFORMULA" name="Buggy addition of a subformula ">
+        <description type="default">
+            Maybe you added a new subformula.
+        </description>
+        <description type="long">
+            You may only consider information given in the scenario in order to model it correctly.
+        </description>
+        <description type="short">
+            You might have added too many subformulas to your formula.
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_EQUIVALENCE_IMPLICATION" name="Buggy swap ↔ with →">
+        <description type="default">
+            Maybe you confused equivalence (↔) with implication (→).
+        </description>
+        <description type="long">
+            The equivalence is used to connect two propositions whose truth values behave equally.
+            I.e. both or neither of the propositions are true.
+            The equivalence of φ and ψ is often phrased as "φ if and only if ψ" ("φ iff ψ") and is expressible as "φ ↔ ψ".&lt;br&gt;
+            The implication operator is used for translating conditional statements into propositional formulas.
+            For example, a statement of the form "If φ then ψ" can be written as "φ → ψ". &lt;br&gt;&lt;b&gt;Caution&lt;/b&gt;: Statements of the form
+            "φ only if ψ" are expressed by "φ → ψ" even though "if" occurs in front of ψ.
+        </description>
+        <description type="insteadOf">
+            You might have mixed up equivalence (↔) and implication (→).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_EQUIVALENCE_DISJUNCTION" name="Buggy swap ↔ with ∨">
+        <description type="default">
+            Maybe you confused equivalence (↔) with disjunction (∨).
+        </description>
+        <description type="short">
+            The equivalence is used to connect two propositions whose truth values behave equally.
+            I.e. both or neither of the propositions are true.
+            The equivalence of φ and ψ is often phrased as "φ if and only if ψ" ("φ iff ψ") and is expressible as "φ ↔ ψ".&lt;br&gt;
+            The disjunction is used to connect several propositions so that the resulting formula is true if at least one subformula is true.
+            The proposition "φ or ψ" is expressed by the formula "φ ∨ ψ".
+        </description>
+        <description type="insteadOf">
+            You might have mixed up equivalence (↔) and disjunction (∨).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_EQUIVALENCE_CONJUNCTION" name="Buggy swap ↔ with ∧">
+        <description type="default">
+            Maybe you confused equivalence (↔) with conjunction (∧).
+        </description>
+        <description type="long">
+            The equivalence is used to connect two propositions whose truth values behave equally.
+            I.e. both or neither of the propositions are true.
+            The equivalence of φ and ψ is often phrased as "φ if and only if ψ" ("φ iff ψ") and is expressible as "φ ↔ ψ".&lt;br&gt;
+            The conjunction is used to connect several propositions so that the resulting formula is true if all subformulas are true.
+            The proposition "φ and ψ" is expressed by the formula "φ ∧ ψ".
+        </description>
+        <description type="insteadOf">
+            You might have mixed up equivalence (↔) and conjunction (∧).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_IMPLICATION_DISJUNCTION" name="Buggy swap → with ∨">
+        <description type="default">
+            Maybe you confused implication (→) with disjunction (∨).
+        </description>
+        <description type="long">
+            The implication operator is used for translating conditional statements into propositional formulas.
+            For example, a statement of the form "If φ then ψ" can be written as "φ → ψ". &lt;br&gt;&lt;b&gt;Caution&lt;/b&gt;: Statements of the form
+            "φ only if ψ" are expressed by "φ → ψ" even though "if" occurs in front of ψ.&lt;br&gt;
+            The disjunction is used to connect several propositions so that the resulting formula is true if at least one subformula is true.
+            The proposition "φ or ψ" is expressed by the formula "φ ∨ ψ".
+        </description>
+        <description type="insteadOf">
+            You might have mixed up implication (→) and disjunction (∨).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_IMPLICATION_CONJUNCTION" name="Buggy swap → with ∧">
+        <description type="default">
+            Maybe you confused implication (→) with conjunction (∧).
+        </description>
+        <description type="long">
+            The implication operator is used for translating conditional statements into propositional formulas.
+            For example, a statement of the form "If φ then ψ" can be written as "φ → ψ". &lt;br&gt;&lt;b&gt;Caution&lt;/b&gt;: Statements of the form
+            "φ only if ψ" are expressed by "φ → ψ" even though "if" occurs in front of ψ.&lt;br&gt;
+            The conjunction is used to connect several propositions so that the resulting formula is true if all subformulas are true.
+            The proposition "φ and ψ" is expressed by the formula "φ ∧ ψ".
+        </description>
+        <description type="insteadOf">
+            You might have mixed up implication (→) and conjunction (∧).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_SWAP_DISJUNCTION_CONJUNCTION" name="Buggy swap ∨ with ∧">
+        <description type="default">
+            Maybe you confused disjunction (∨) with conjunction (∧).
+        </description>
+        <description type="long">
+            The disjunction is used to connect several propositions so that the resulting formula is true if at least one subformula is true.
+            The proposition "φ or ψ" is expressed by the formula "φ ∨ ψ".&lt;br&gt;
+            The conjunction is used to connect several propositions so that the resulting formula is true if all subformulas are true.
+            The proposition "φ and ψ" is expressed by the formula "φ ∧ ψ".
+        </description>
+        <description type="insteadOf">
+            You might have mixed up disjunction (∨) and conjunction (∧).
+        </description>
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_REMOVE_QUANTIFIER" name="Buggy removing of quantifiers">
+        <description type="default">
+            Maybe you forgot a quantifier (∃, ∀).
+        </description>
+        <transformationType>FOL</transformationType>
+    </group>
+
+    <group id="BUGGY_ADD_QUANTIFIER" name="Buggy addition of quantifier">
+        <description type="default">
+            Maybe you added a quantifier (∃, ∀).
+        </description>
+        <transformationType>FOL</transformationType>
+
+    </group>
+
+    <group id="BUGGY_SWAP_QUANTIFIER" name="Buggy switching quantifiers">
+        <description type="default">
+            Maybe you confused the quantifiers (∃, ∀).
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_QUANTIFIER_PRECEDENCE" name="Buggy operator precedence">
+        <description type="default">
+            Maybe you interpreted the precedence of the quantifiers (∃, ∀) wrongly.
+            Notice that the quantifiers have higher operator precedence than the disjunction (∨) and conjunction (∧).
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_DISTRIBUTE_QUANTIFIERS" name="Buggy distribution quantifiers">
+        <description type="default">
+            Maybe you applied the law of distribution to the quantifiers wrongly.
+            Notice that the universal quantifier (∀) may only be distributed over conjunctions (∧)
+            and the existential quantifier (∃) may only be distributed over disjunctions (∨).
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_UNDISTRIBUTE_QUANTIFIERS" name="removing of distributivity of quantifiers">
+        <description type="default">
+            Maybe you applied the law of distribution to the quantifiers wrongly.
+            Notice that the universal quantifier (∀) may only be distributed over conjunctions (∧)
+            and the existential quantifier (∃) may only be distributed over disjunctions (∨).
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_NEGATION_QUANTIFIER" name="Buggy moving ¬ over quantifier">
+        <description type="default">
+            Maybe you wrongly negated a quantifier (∃, ∀).
+            Notice that the quantifiers must be switched when moving a negation (¬) over them.
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_IMPLICATION_QUANTIFIER" name="Buggy operator precedence of → and quantifiers">
+        <description type="default">
+            Maybe you confused the operator precedence of the quantifiers (∃, ∀) and the implication (→).
+            Notice that the quantifiers have higher operator precedence.
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="BUGGY_EQUIVALENCE_QUANTIFIER" name="Buggy operator precedence of ↔ and quantifiers">
+        <description type="default">
+            Maybe you confused the operator precedence of the quantifiers (∃, ∀) and the equivalence (↔).
+            Notice that the quantifiers have higher operator precedence.
+        </description>
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+</transformationsWithFeedbackTexts>

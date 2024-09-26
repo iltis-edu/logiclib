@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <invertible name="COMMUTE_CONJUNCTION" onlyPart="true">
+        <match>$X∧$Y</match>
+        <replace>$Y∧$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X ∧ Y</input>
+                <expect>Y ∧ X</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="COMMUTE_DISJUNCTION" onlyPart="true">
+        <match>$X∨$Y</match>
+        <replace>$Y∨$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X ∨ Y</input>
+                <expect>Y ∨ X</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="COMMUTE_EQUIVALENCE" onlyPart="true">
+        <match>$X↔$Y</match>
+        <replace>$Y↔$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>X ↔ Y</input>
+                <expect>Y ↔ X</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="COMMUTE">
+        <references>
+            <reference name="COMMUTE_CONJUNCTION"/>
+            <reference name="COMMUTE_DISJUNCTION"/>
+            <reference name="COMMUTE_EQUIVALENCE"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X ∧ Y</input>
+                <expect>Y ∧ X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X ∨ Y</input>
+                <expect>Y ∨ X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X ↔ Y</input>
+                <expect>Y ↔ X</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>x∧(y∧z)</input>
+                <expect>(y∧z)∧x</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>x∨(y∨z)</input>
+                <expect>(y∨z)∨x</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X ∨ Z) ↔ Y</input>
+                <expect>Y ↔ (X ∨ Z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+</transformations>

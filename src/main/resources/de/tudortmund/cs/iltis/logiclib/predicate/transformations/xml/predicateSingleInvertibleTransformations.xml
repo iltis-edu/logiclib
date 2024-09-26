@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transformations>
+    <invertible name="ADD_DOUBLE_NEGATION">
+        <match>$X</match>
+        <replace>¬¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <expect>¬¬A(x,y)</expect>
+                <input>A(x,y)</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>¬¬¬A(x,y)</expect>
+                <input>¬A(x,y)</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>¬¬¬forall x A(x,y)</expect>
+                <input>¬forall x A(x,y)</input>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="REMOVE_DOUBLE_NEGATION" groupId="REMOVE_DOUBLE_NEGATION">
+        <match>¬¬$X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <expect>A(x,y)</expect>
+                <input>¬¬A(x,y)</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>¬exists x A(x,y)</expect>
+                <input>¬¬¬exists x A(x,y)</input>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>¬exists x A(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </invertible>
+
+    <fixpoint name="fixpoint:REMOVE_DOUBLE_NEGATION" groupId="REMOVE_DOUBLE_NEGATION">
+        <reference name="REMOVE_DOUBLE_NEGATION"/>
+        <tests>
+            <assertApplicationResult>
+                <expect>forall x A(x,y)</expect>
+                <input>¬¬forall x A(x,y)</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>¬forall x A(x,y)</expect>
+                <input>¬¬¬forall x A(x,y)</input>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <expect>forall x A(x,y)</expect>
+                <input>¬¬¬¬forall x A(x,y)</input>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+</transformations>

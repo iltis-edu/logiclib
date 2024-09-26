@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config>
+	<library name="vampire">
+		<function name="checkSmtlib">
+			<!-- use this in production -->
+			<uri>https://iltis-comp.cs.tu-dortmund.de/Vampire/checkSmtlib</uri>
+			<!-- use this for local testing when you want to see vampires output directly on the console -->
+			<!--uri>http://0.0.0.0:8892/Vampire/checkSmtlib</uri-->
+			<contenttype>application/json</contenttype>
+		</function>
+	</library>
+</config>

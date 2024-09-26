@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <meta name="REMOVE_DOUBLE_NEGATION_AND_PUSH_DEMORGAN_PROPOSITIONAL_SINGLE_STEP" onlyPart="true">
+        <references>
+            <reference name="REMOVE_DOUBLE_NEGATION"/>
+            <reference name="PUSH_DEMORGAN"/>
+        </references>
+    </meta>
+
+    <fixpoint name="fixpoint:REMOVE_DOUBLE_NEGATION_AND_PUSH_DEMORGAN_PROPOSITIONAL">
+        <reference name="REMOVE_DOUBLE_NEGATION_AND_PUSH_DEMORGAN_PROPOSITIONAL_SINGLE_STEP"/>
+        <tests>
+            <assertApplicationResult>
+                <input>¬(X ∨ ¬Y)  ∨  ¬¬¬(¬A ∨ ¬¬B)</input>
+                <expect>(¬X ∧ Y)  ∨  (A ∧ ¬B)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X ∧ ¬Y)  ∧  ¬¬¬(¬A ∧ ¬¬B)</input>
+                <expect>(¬X ∨ Y)  ∧  (A ∨ ¬B)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X ∨ (Y ∨ ¬Z)) </input>
+                <expect>¬X ∧ (¬Y ∧ Z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬(X ∧ (Y ∧ ¬Z)) </input>
+                <expect>¬X ∨ (¬Y ∨ Z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </fixpoint>
+
+</transformations>

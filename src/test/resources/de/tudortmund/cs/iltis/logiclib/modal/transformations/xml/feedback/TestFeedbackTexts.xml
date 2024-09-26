@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<transformationsWithFeedbackTexts language="en">
+    <single id="standalone_singleText" name="single transformation 1 feedbacktext">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+        <transformationType>transformationType1</transformationType>
+        <transformationType>transformationType2</transformationType>
+    </single>
+
+    <single id="standalone_doubleText" name="single transformation 2 feedbacktext">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+        <description type="type2">
+            sample feedback text 2
+        </description>
+        <transformationType>transformationType1</transformationType>
+    </single>
+
+    <group id="singleText" name="group 1 feedbacktext">
+        <description type="type1">
+                sample Feedback text 1
+        </description>
+        <transformationType>transformationType1</transformationType>
+        <transformationType>transformationType2</transformationType>
+    </group>
+
+    <group id="doubleText" name="group 2 feedbacktext">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+        <description type="type2">
+            sample Feedback text 2
+        </description>
+        <transformationType>transformationType1</transformationType>
+    </group>
+
+    <single id="group_crossover" name="crossover transformation">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+    </single>
+
+    <group id="crossover" name="crossover transformation group">
+        <description type="type2">
+            sample Feedback text 2
+        </description>
+        <transformationType>transformationType2</transformationType>
+    </group>
+
+    <single id="newFormula_single" name="new formula single">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+    </single>
+
+    <group id="onlyNewFormula" name="only new formulas group">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+        <description type="type2">
+            sample Feedback text 2
+        </description>
+    </group>
+
+    <group id="mixedTransformationTypes" name="both transformation types group">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+        <description type="type2">
+            sample Feedback text 2
+        </description>
+    </group>
+
+    <single id="group_crossover_newFormula" name="crossover transformation new formula">
+        <description type="type1">
+            sample Feedback text 1
+        </description>
+    </single>
+
+    <group id="crossoverNewFormula" name="crossover transformation new formula group">
+        <description type="type2">
+            sample Feedback text 2
+        </description>
+    </group>
+</transformationsWithFeedbackTexts>

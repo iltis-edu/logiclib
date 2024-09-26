@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <childrenPattern name="DISTRIBUTE_INTO_LEFT_CONJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>($*∧...) ∨ $Y</outer>
+        <match>$X</match>
+        <replace>$X∨$Y</replace>
+    </childrenPattern>
+
+    <pattern name="REMOVE_DISJUNCTION_APPENDAGE" onlyPart="true">
+        <match>(*X∧...)∨$</match>
+        <replace>(*X∧...)</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_INTO_LEFT_CONJUNCTION"/>
+            <reference name="REMOVE_DISJUNCTION_APPENDAGE"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∨ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∧ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ↔ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◇X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◻X</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>(x∧y)∨z</input>
+                <expect>(x∨z)∧(y∨z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∧y∧z)∨(x↔y)</input>
+                <expect>(x∨(x↔y))∧(y∨(x↔y))∧(z∨(x↔y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <invertible name="ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_LEFT" onlyPart="true">
+        <match>X@(($∨$Y)*∧...)</match>
+        <replace>$X∨$Y</replace>
+    </invertible>
+
+    <childrenPattern name="UNDISTRIBUTE_INTO_LEFT_CONJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>(($∨$)*∧...) ∨ $Y</outer>
+        <match>$X∨$Y</match>
+        <replace>$X</replace>
+    </childrenPattern>
+
+    <sequential name="UNDISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_LEFT"/>
+            <reference name="UNDISTRIBUTE_INTO_LEFT_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∨ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∧ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ↔ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◇X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◻X</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>(x∨z)∧(y∨z)</input>
+                <expect>(x∧y)∨z</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∨(x↔y))∧(y∨(x↔y))∧(z∨(x↔y))</input>
+                <expect>(x∧y∧z)∨(x↔y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="DISTRIBUTE_INTO_RIGHT_CONJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∨ ($*∧...)</outer>
+        <match>$Y</match>
+        <replace>$X∨$Y</replace>
+    </childrenPattern>
+
+    <pattern name="REMOVE_DISJUNCTION_PREPOSITION" onlyPart="true">
+        <match>$∨(*Y∧...)</match>
+        <replace>(*Y∧...)</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_INTO_RIGHT_CONJUNCTION"/>
+            <reference name="REMOVE_DISJUNCTION_PREPOSITION"/>
+        </references>
+    </sequential>
+
+    <invertible name="ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_RIGHT" onlyPart="true">
+        <match>Y@(($X∨$)*∧...)</match>
+        <replace>$X∨$Y</replace>
+    </invertible>
+
+    <childrenPattern name="UNDISTRIBUTE_INTO_RIGHT_CONJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∨ (($∨$)*∧...)</outer>
+        <match>$X∨$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <sequential name="UNDISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="ISOLATE_DISTRIBUTED_DISJUNCTIONS_FROM_RIGHT"/>
+            <reference name="UNDISTRIBUTE_INTO_RIGHT_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertInverse>
+                <input>(A∧B∧C)∨(X∧Y∧Z)</input>
+                <reference name="DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+            </assertInverse>
+        </tests>
+    </sequential>
+
+    <pattern name="GUARD_CONJUNCTION" onlyPart="true">
+        <match>X@(($*∧...)∨($*∧...))</match>
+        <replace>$X</replace>
+    </pattern>
+
+    <children name="children:DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <reference name="DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+    </children>
+
+    <fixpoint name="fixpoint:REMOVE_PARENTHESES" onlyPart="true">
+        <reference name="REMOVE_PARENTHESES"/>
+    </fixpoint>
+
+    <sequential name="DISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="GUARD_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="children:DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="fixpoint:REMOVE_PARENTHESES"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∨ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∧ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ↔ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◇X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◻X</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>(x∧y)∨(y∧x)</input>
+                <expect>(x∨y)∧(x∨x)∧(y∨y)∧(y∨x)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∧y∧z)∨(z∧y∧x)</input>
+                <expect>(x∨z)∧(x∨y)∧(x∨x)∧(y∨z)∧(y∨y)∧(y∨x)∧(z∨z)∧(z∨y)∧(z∨x)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <pattern name="UNDISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION_HELPER" onlyPart="true">
+        <match>A@(($∨$)*∧...)*∧Y@($X∨$)∧Z@($X∨$)*∧B@($∨$)*</match>
+        <replace>$A∧($Y∧*Z)∧*B</replace>
+    </pattern>
+
+    <targetedIteration name="targetedIteration:UNDISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION_HELPER" onlyPart="true">
+        <target>(($∨$)*∧...)*∧...</target>
+        <reference name="UNDISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION_HELPER"/>
+    </targetedIteration>
+
+    <children name="children:UNDISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <reference name="UNDISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+    </children>
+
+    <sequential name="UNDISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="targetedIteration:UNDISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION_HELPER"/>
+            <reference name="children:UNDISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="UNDISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∨ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∧ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ↔ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◇X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◻X</input>
+            </assertNotApplicable>
+            <assertInverse>
+                <input>(A∧B∧C)∨(X∧Y∧Z)</input>
+                <reference name="DISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION"/>
+            </assertInverse>
+            <assertApplicationResult>
+                <input>(x∨y)∧(x∨x)∧(y∨y)∧(y∨x)</input>
+                <expect>(x∧y)∨(y∧x)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∨z)∧(x∨y)∧(x∨x)∧(y∨z)∧(y∨y)∧(y∨x)∧(z∨z)∧(z∨y)∧(z∨x)</input>
+                <expect>(x∧y∧z)∨(z∧y∧x)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <meta name="DISTRIBUTE_LEFT_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∨ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∧ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ↔ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◇X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◻X</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>(x∧y)∨(y∧x)</input>
+                <expect>(x∨y)∧(x∨x)∧(y∨y)∧(y∨x)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∧y∧z)∨(z∧y∧x)</input>
+                <expect>(x∨z)∧(x∨y)∧(x∨x)∧(y∨z)∧(y∨y)∧(y∨x)∧(z∨z)∧(z∨y)∧(z∨x)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∧y)∨z</input>
+                <expect>(x∨z)∧(y∨z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∧y∧z)∨(x↔y)</input>
+                <expect>(x∨(x↔y))∧(y∨(x↔y))∧(z∨(x↔y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_LEFT_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="UNDISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION"/>
+            <reference name="UNDISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>⊤</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>⊥</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∨ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ∧ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>X ↔ Y</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◇X</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>◻X</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>(x∨z)∧(x∨y)∧(x∨x)∧(y∨z)∧(y∨y)∧(y∨x)∧(z∨z)∧(z∨y)∧(z∨x)</input>
+                <expect>(x∧y∧z)∨(z∧y∧x)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(x∨y)∧(x∨x)∧(y∨y)∧(y∨x)</input>
+                <expect>(x∧y)∨(y∧x)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="DISTRIBUTE_RIGHT_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+        </references>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_RIGHT_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="UNDISTRIBUTE_CONJUNCTION_OVER_CONJUNCTION"/>
+            <reference name="UNDISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+        </references>
+    </meta>
+
+    <meta name="DISTRIBUTE_CONJUNCTION" groupId="DISTRIBUTIVITY_CONJUNCTION">
+        <references>
+            <reference name="DISTRIBUTE_LEFT_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_RIGHT_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>Z ∨ (X ∧ Y)</input>
+                <expect>(Z ∨ X) ∧ (Z ∨ Y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X ∧ Y)∨ Z</input>
+                <expect>(X ∨ Z) ∧ (Y ∨ Z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_CONJUNCTION_UNCLEANED" onlyPart="true" >
+        <references>
+            <reference name="UNDISTRIBUTE_LEFT_CONJUNCTION"/>
+            <reference name="UNDISTRIBUTE_RIGHT_CONJUNCTION"/>
+        </references>
+    </meta>
+
+    <clean name="CLEAN_DISTRIBUTION"  onlyPart="true"></clean>
+
+    <sequential name="UNDISTRIBUTE_CONJUNCTION" groupId="DISTRIBUTIVITY_CONJUNCTION">
+        <references>
+            <reference name="UNDISTRIBUTE_CONJUNCTION_UNCLEANED"/>
+            <reference name="CLEAN_DISTRIBUTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(Z ∨ X) ∧ (Z ∨ Y)</input>
+                <expect>Z ∨ (X ∧ Y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X ∨ Z) ∧ (Y ∨ Z)</input>
+                <expect>(X ∧ Y)∨ Z</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="DISTRIBUTE_INTO_LEFT_DISJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>($*∨...) ∧ $Y</outer>
+        <match>$X</match>
+        <replace>$X∧$Y</replace>
+    </childrenPattern>
+
+    <pattern name="REMOVE_CONJUNCTION_APPENDAGE" onlyPart="true">
+        <match>(*X∨...)∧$</match>
+        <replace>(*X∨...)</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_INTO_LEFT_DISJUNCTION"/>
+            <reference name="REMOVE_CONJUNCTION_APPENDAGE"/>
+        </references>
+    </sequential>
+
+    <invertible name="ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_LEFT" onlyPart="true">
+        <match>X@(($∧$Y)*∨...)</match>
+        <replace>$X∧$Y</replace>
+    </invertible>
+
+    <childrenPattern name="UNDISTRIBUTE_INTO_LEFT_DISJUNCTION" onlyPart="true">
+        <pathChild>0</pathChild>
+        <outer>(($∧$)*∨...) ∧ $Y</outer>
+        <match>$X∧$Y</match>
+        <replace>$X</replace>
+    </childrenPattern>
+
+    <sequential name="UNDISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_LEFT"/>
+            <reference name="UNDISTRIBUTE_INTO_LEFT_DISJUNCTION"/>
+        </references>
+    </sequential>
+
+    <childrenPattern name="DISTRIBUTE_INTO_RIGHT_DISJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∧ ($*∨...)</outer>
+        <match>$Y</match>
+        <replace>$X∧$Y</replace>
+    </childrenPattern>
+
+    <pattern name="REMOVE_CONJUNCTION_PREPOSITION" onlyPart="true">
+        <match>$∧(*Y∨...)</match>
+        <replace>(*Y∨...)</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_INTO_RIGHT_DISJUNCTION"/>
+            <reference name="REMOVE_CONJUNCTION_PREPOSITION"/>
+        </references>
+    </sequential>
+
+    <invertible name="ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_RIGHT" onlyPart="true">
+        <match>Y@(($X∧$)*∨...)</match>
+        <replace>$X∧$Y</replace>
+    </invertible>
+
+    <childrenPattern name="UNDISTRIBUTE_INTO_RIGHT_DISJUNCTION" onlyPart="true">
+        <pathChild>1</pathChild>
+        <outer>$X ∧ (($∧$)*∨...)</outer>
+        <match>$X∧$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <sequential name="UNDISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="ISOLATE_DISTRIBUTED_CONJUNCTIONS_FROM_RIGHT"/>
+            <reference name="UNDISTRIBUTE_INTO_RIGHT_DISJUNCTION"/>
+        </references>
+    </sequential>
+
+    <pattern name="GUARD_DISJUNCTION" onlyPart="true">
+        <match>X@(($*∧...)∨($*∧...))</match>
+        <replace>$X</replace>
+    </pattern>
+
+    <children name="children:DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <reference name="DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+    </children>
+
+    <sequential name="DISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="GUARD_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="children:DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="fixpoint:REMOVE_PARENTHESES"/>
+        </references>
+    </sequential>
+
+    <pattern name="UNDISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION_HELPER" onlyPart="true">
+        <match>A@(($∧$)*∨...)*∨Y@($X∧$)∨Z@($X∧$)*∨B@($∧$)*</match>
+        <replace>$A∨($Y∨*Z)∨*B</replace>
+    </pattern>
+
+    <targetedIteration name="targetedIteration:UNDISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION_HELPER" onlyPart="true">
+        <target>(($∧$)*∨...)*∨...</target>
+        <reference name="UNDISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION_HELPER"/>
+    </targetedIteration>
+
+    <children name="children:UNDISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <reference name="UNDISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+    </children>
+
+    <sequential name="UNDISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="targetedIteration:UNDISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION_HELPER"/>
+            <reference name="children:UNDISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="UNDISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>¬A∨B</input>
+            </assertNotApplicable>
+        </tests>
+    </sequential>
+
+    <meta name="DISTRIBUTE_LEFT_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER"/>
+        </references>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_LEFT_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="UNDISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION"/>
+            <reference name="UNDISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER"/>
+        </references>
+    </meta>
+
+    <meta name="DISTRIBUTE_RIGHT_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+        </references>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_RIGHT_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="UNDISTRIBUTE_DISJUNCTION_OVER_DISJUNCTION"/>
+            <reference name="UNDISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+        </references>
+    </meta>
+
+    <meta name="DISTRIBUTE_DISJUNCTION" groupId="DISTRIBUTIVITY_DISJUNCTION">
+        <references>
+            <reference name="DISTRIBUTE_LEFT_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_RIGHT_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>Z ∧ (X ∨ Y)</input>
+                <expect>(Z ∧ X) ∨ (Z ∧ Y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X ∨ Y) ∧ Z</input>
+                <expect>(X ∧ Z) ∨ (Y ∧ Z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_DISJUNCTION_UNCLEANED" onlyPart="true" >
+        <references>
+            <reference name="UNDISTRIBUTE_LEFT_DISJUNCTION"/>
+            <reference name="UNDISTRIBUTE_RIGHT_DISJUNCTION"/>
+        </references>
+    </meta>
+
+    <sequential name="UNDISTRIBUTE_DISJUNCTION" groupId="DISTRIBUTIVITY_DISJUNCTION">
+        <references>
+            <reference name="UNDISTRIBUTE_DISJUNCTION_UNCLEANED"/>
+            <reference name="CLEAN_DISTRIBUTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(Z ∧ X) ∨ (Z ∧ Y)</input>
+                <expect>Z ∧ (X ∨ Y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>(X ∧ Z) ∨ (Y ∧ Z)</input>
+                <expect>(X ∨ Y) ∧ Z</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <invertible name="REMOVE_BOX_FROM_FRONT_OF_CONJUNCTION" onlyPart="true">
+        <match>☐(*Y∧...)</match>
+        <replace>(*Y∧...)</replace>
+    </invertible>
+
+    <childrenPattern name="ADD_BOX_INTO_CONJUNCTION" onlyPart="true">
+        <outer>($*∧...)</outer>
+        <match>$Y</match>
+        <replace>☐$Y</replace>
+    </childrenPattern>
+
+    <sequential name="DISTRIBUTE_BOX_OVER_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="REMOVE_BOX_FROM_FRONT_OF_CONJUNCTION"/>
+            <reference name="ADD_BOX_INTO_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>☐(X ∧ Y)</input>
+                <expect>(☐X ∧ ☐Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="REMOVE_BOX_FROM_INSIDE_CONJUNCTION" onlyPart="true">
+        <outer>((☐$)*∧...)</outer>
+        <match>☐$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <invertible name="ADD_BOX_TO_FRONT_OF_CONJUNCTION" onlyPart="true">
+        <match>(*Y∧...)</match>
+        <replace>☐(*Y∧...)</replace>
+    </invertible>
+
+    <sequential name="UNDISTRIBUTE_BOX_OVER_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="REMOVE_BOX_FROM_INSIDE_CONJUNCTION"/>
+            <reference name="ADD_BOX_TO_FRONT_OF_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>(☐X ∧ ☐Y)</input>
+                <expect>☐(X ∧ Y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <meta name="DISTRIBUTE_BOX" groupId="DISTRIBUTIVITY_BOX">
+        <references>
+            <reference name="DISTRIBUTE_BOX_OVER_CONJUNCTION"/>
+        </references>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_BOX" groupId="DISTRIBUTIVITY_BOX">
+        <references>
+            <reference name="UNDISTRIBUTE_BOX_OVER_CONJUNCTION"/>
+        </references>
+    </meta>
+
+    <invertible name="REMOVE_DIAMOND_FROM_FRONT_OF_DISJUNCTION" onlyPart="true">
+        <match>◇(*Y∨...)</match>
+        <replace>(*Y∨...)</replace>
+    </invertible>
+
+    <childrenPattern name="ADD_DIAMOND_INTO_DISJUNCTION" onlyPart="true">
+        <outer>($*∨...)</outer>
+        <match>$Y</match>
+        <replace>◇$Y</replace>
+    </childrenPattern>
+
+    <sequential name="DISTRIBUTE_DIAMOND_OVER_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="REMOVE_DIAMOND_FROM_FRONT_OF_DISJUNCTION"/>
+            <reference name="ADD_DIAMOND_INTO_DISJUNCTION"/>
+        </references>
+
+        <tests>
+            <assertApplicationResult>
+                <input>◇(X ∨ Y)</input>
+                <expect>(◇X ∨ ◇Y)</expect>
+            </assertApplicationResult>
+        </tests>
+
+    </sequential>
+
+    <childrenPattern name="REMOVE_DIAMOND_FROM_INSIDE_DISJUNCTION" onlyPart="true">
+        <outer>((◇$)*∨...)</outer>
+        <match>◇$Y</match>
+        <replace>$Y</replace>
+    </childrenPattern>
+
+    <invertible name="ADD_DIAMOND_TO_FRONT_OF_DISJUNCTION" onlyPart="true">
+        <match>(*Y∨...)</match>
+        <replace>◇(*Y∨...)</replace>
+    </invertible>
+
+    <sequential name="UNDISTRIBUTE_DIAMOND_OVER_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="REMOVE_DIAMOND_FROM_INSIDE_DISJUNCTION"/>
+            <reference name="ADD_DIAMOND_TO_FRONT_OF_DISJUNCTION"/>
+        </references>
+
+        <tests>
+            <assertApplicationResult>
+                <input>(◇X ∨ ◇Y)</input>
+                <expect>◇(X ∨ Y)</expect>
+            </assertApplicationResult>
+        </tests>
+
+    </sequential>
+
+    <invertible name="DISTRIBUTE_DIAMOND_OVER_IMPLICATION" onlyPart="true">
+        <match>◇($X→$Y)</match>
+        <replace>☐$X→◇$Y</replace>
+
+        <tests>
+            <assertApplicationResult>
+                <input>◇(X→Y)</input>
+                <expect>☐X→◇Y</expect>
+            </assertApplicationResult>
+        </tests>
+
+    </invertible>
+
+    <invertible name="UNDISTRIBUTE_DIAMOND_OVER_IMPLICATION" onlyPart="true">
+        <match>☐$X→◇$Y</match>
+        <replace>◇($X→$Y)</replace>
+
+        <tests>
+            <assertApplicationResult>
+                <input>☐X→◇Y</input>
+                <expect>◇(X→Y)</expect>
+            </assertApplicationResult>
+        </tests>
+
+    </invertible>
+
+    <meta name="DISTRIBUTE_DIAMOND" groupId="DISTRIBUTIVITY_DIAMOND">
+        <references>
+            <reference name="DISTRIBUTE_DIAMOND_OVER_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_DIAMOND_OVER_IMPLICATION"/>
+        </references>
+    </meta>
+
+    <meta name="UNDISTRIBUTE_DIAMOND" groupId="DISTRIBUTIVITY_DIAMOND">
+        <references>
+            <reference name="UNDISTRIBUTE_DIAMOND_OVER_DISJUNCTION"/>
+            <reference name="UNDISTRIBUTE_DIAMOND_OVER_IMPLICATION"/>
+        </references>
+    </meta>
+
+    <!-- The following 2 transformations are not used, but all their parts are directly used in order to create more suiting feedback-->
+    <meta name="DISTRIBUTE" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_BOX"/>
+            <reference name="DISTRIBUTE_DIAMOND"/>
+        </references>
+    </meta>
+
+    <meta name="UNDISTRIBUTE" onlyPart="true">
+        <references>
+            <reference name="UNDISTRIBUTE_CONJUNCTION"/>
+            <reference name="UNDISTRIBUTE_DISJUNCTION"/>
+            <reference name="UNDISTRIBUTE_BOX"/>
+            <reference name="UNDISTRIBUTE_DIAMOND"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>(T∧R)∨¬¬(¬T∧¬R)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>¬A∨B</input>
+            </assertNotApplicable>
+        </tests>
+    </meta>
+
+    <!-- used only in algorithms -->
+    <pattern name="ASSOCIATE_LEFT_CONJUNCTION_WITH_FIRST_RIGHT_DISJUNCTION" onlyPart="true">
+        <match>(*X∧...)∨$Y∨*Z</match>
+        <replace>((*X∧...)∨$Y)∨*Z</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_LEFT_PART_OF_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="ASSOCIATE_LEFT_CONJUNCTION_WITH_FIRST_RIGHT_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_LEFT_CONJUNCTION_OVER_OTHER" forPathChild="0"/>
+        </references>
+    </sequential>
+
+    <pattern name="ASSOCIATE_MIDDLE_CONJUNCTION_WITH_DIRECT_LEFT_DISJUNCTION" onlyPart="true">
+        <match>*A∨$X∨(*Y∧...)∨*Z</match>
+        <replace>*A∨($X∨(*Y∧...))∨*Z</replace>
+    </pattern>
+
+    <pattern name="OPTIONAL_PART_FOR_META" onlyPart="true">
+        <match>$X</match>
+        <replace>$X</replace>
+    </pattern>
+
+    <meta name="OPTIONAL_DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+            <reference name="OPTIONAL_PART_FOR_META"/>
+        </references>
+    </meta>
+
+    <children name="children:OPTIONAL_DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER" onlyPart="true">
+        <reference name="OPTIONAL_DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+    </children>
+
+    <sequential name="DISTRIBUTE_MIDDLE_PART_OF_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="ASSOCIATE_MIDDLE_CONJUNCTION_WITH_DIRECT_LEFT_DISJUNCTION"/>
+            <reference name="children:OPTIONAL_DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+        </references>
+    </sequential>
+
+    <pattern name="ASSOCIATE_RIGHT_CONJUNCTION_WITH_FIRST_LEFT_DISJUNCTION" onlyPart="true">
+        <match>*X∨$Y∨(*Z∧...)</match>
+        <replace>*X∨($Y∨(*Z∧...))</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_RIGHT_PART_OF_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="ASSOCIATE_RIGHT_CONJUNCTION_WITH_FIRST_LEFT_DISJUNCTION"/>
+            <reference name="children:OPTIONAL_DISTRIBUTE_RIGHT_CONJUNCTION_OVER_OTHER"/>
+        </references>
+    </sequential>
+
+    <meta name="DISTRIBUTE_PART_OF_DISJUNCTION" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_LEFT_PART_OF_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_MIDDLE_PART_OF_DISJUNCTION"/>
+            <reference name="DISTRIBUTE_RIGHT_PART_OF_DISJUNCTION"/>
+        </references>
+    </meta>
+
+    <pattern name="ASSOCIATE_LEFT_DISJUNCTION_WITH_FIRST_RIGHT_CONJUNCTION" onlyPart="true">
+        <match>(*X∨...)∧$Y∧*Z</match>
+        <replace>((*X∨...)∧$Y)∧*Z</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_LEFT_PART_OF_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="ASSOCIATE_LEFT_DISJUNCTION_WITH_FIRST_RIGHT_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_LEFT_DISJUNCTION_OVER_OTHER" forPathChild="0"/>
+        </references>
+    </sequential>
+
+    <pattern name="ASSOCIATE_MIDDLE_DISJUNCTION_WITH_DIRECT_LEFT_CONJUNCTION" onlyPart="true">
+        <match>*A∧$X∧(*Y∨...)∧*Z</match>
+        <replace>*A∧($X∧(*Y∨...))∧*Z</replace>
+    </pattern>
+
+    <meta name="OPTIONAL_DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+            <reference name="OPTIONAL_PART_FOR_META"/>
+        </references>
+    </meta>
+
+    <children name="children:OPTIONAL_DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER" onlyPart="true">
+        <reference name="OPTIONAL_DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+    </children>
+
+    <sequential name="DISTRIBUTE_MIDDLE_PART_OF_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="ASSOCIATE_MIDDLE_DISJUNCTION_WITH_DIRECT_LEFT_CONJUNCTION"/>
+            <reference name="children:OPTIONAL_DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+        </references>
+    </sequential>
+
+    <pattern name="ASSOCIATE_RIGHT_DISJUNCTION_WITH_FIRST_LEFT_CONJUNCTION" onlyPart="true">
+        <match>*X∧$Y∧(*Z∨...)</match>
+        <replace>*X∧($Y∧(*Z∨...))</replace>
+    </pattern>
+
+    <sequential name="DISTRIBUTE_RIGHT_PART_OF_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="ASSOCIATE_RIGHT_DISJUNCTION_WITH_FIRST_LEFT_CONJUNCTION"/>
+            <reference name="children:OPTIONAL_DISTRIBUTE_RIGHT_DISJUNCTION_OVER_OTHER"/>
+        </references>
+    </sequential>
+
+    <meta name="DISTRIBUTE_PART_OF_CONJUNCTION" onlyPart="true">
+        <references>
+            <reference name="DISTRIBUTE_LEFT_PART_OF_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_MIDDLE_PART_OF_CONJUNCTION"/>
+            <reference name="DISTRIBUTE_RIGHT_PART_OF_CONJUNCTION"/>
+        </references>
+    </meta>
+
+</transformations>

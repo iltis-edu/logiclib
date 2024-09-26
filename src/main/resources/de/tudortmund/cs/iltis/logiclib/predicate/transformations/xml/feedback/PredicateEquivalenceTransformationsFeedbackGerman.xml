@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<transformationsWithFeedbackTexts language="de">
+    <single id ="fixpoint:REMOVE_DOUBLE_NEGATION_AND_PUSH_DEMORGAN_PROPOSITIONAL" name="Doppelnegation und DeMorgan auflösen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="CREATE_IMPLICATION" name="Implikation erstellen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="CONTRAPOSITION" name="Kontraposition">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="REPLACE_IMPLICATION" name="Implikation ersetzen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="NEGATE_CONSTANT" name="Konstante negieren">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="UNNEGATE_CONSTANT" name="Aufheben der Negation von Konstanten">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="TAUTOLOGY" name="Tautologie">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="CONTRADICTION" name="Kontradiktion">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="NEUTRALITY" name="Neutralität">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="DOMINATION" name="Dominierung">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="IDEMPOTENCE" name="Idempotenz">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="REPLACE_EQUIVALENCE" name="Äquivalenz ersetzen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="CREATE_EQUIVALENCE" name="Äquivalenz erstellen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="SWAP_NEGATION_IN_EQUIVALENCE" name="Negation in Äquivalenz vertauschen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </single>
+
+    <single id="MOVE_NEGATION_EQUIVALENCE" name="Negation in Äquivalenz verschieben">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+    </single>
+
+    <single id="ADD_DOUBLE_NEGATION" name="Doppelnegation hinzufügen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="REMOVE_DOUBLE_NEGATION" name="Doppelnegation entfernen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="DISTRIBUTIVITY_CONJUNCTION" name="Distributivität von Konjunktion">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="DISTRIBUTIVITY_DISJUNCTION" name="Distributivität von Disjunktion">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="REMOVE_PARENTHESES" name="Klammern entfernen">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="COMMUTE" name="Kommutativität">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+    </single>
+
+    <group id="DEMORGAN" name="DeMorgansche Gesetze">
+        <transformationType>PL</transformationType>
+        <transformationType>FOL</transformationType>
+        <transformationType>PL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>PL_MANUAL_TRANSFORMATION</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="PUSH_NEGATION_OVER_QUANTIFIER" name="Negation hinter Quantor bewegen">
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="PULL_NEGATION_OVER_QUANTIFIER" name="Negation vor Quantor bewegen">
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="SWAP_QUANTIFIERS" name="Quantorenreihenfolge verändern">
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+    </single>
+
+    <single id="STRONG_DISTRIBUTE_QUANTIFIERS" name="Starke Distributivität der Quantoren einführen">
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <single id="STRONG_UNDISTRIBUTE_QUANTIFIERS" name="Starke Distributivität der Quantoren auflösen">
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </single>
+
+    <group id="WEAK_DISTRIBUTE_QUANTIFIERS" name="Schwache Distributivität der Quantoren einführen">
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <group id="WEAK_UNDISTRIBUTE_QUANTIFIERS" name="Schwache Distributivität der Quantoren auflösen">
+        <transformationType>FOL</transformationType>
+        <transformationType>FOL_CREATE_FORMULA</transformationType>
+        <transformationType>FOL_MANUAL_TRANSFORMATION</transformationType>
+    </group>
+
+    <single id="REDUCE_UNNECESSARY_QUANTIFIER" name="Überflüssigen Quantor entfernen">
+        <transformationType>FOL</transformationType>
+    </single>
+
+    <group id="ADD_UNNECESSARY_QUANTIFIER" name="Überflüssigen Quantor hinzufügen">
+        <transformationType>FOL</transformationType>
+    </group>
+</transformationsWithFeedbackTexts>

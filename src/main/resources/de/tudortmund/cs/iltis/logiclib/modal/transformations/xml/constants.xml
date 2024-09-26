@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+    <invertible name="NEGATE_TRUE" onlyPart="true">
+        <match>⊤</match>
+        <replace>¬⊥</replace>
+    </invertible>
+
+    <invertible name="NEGATE_FALSE" onlyPart="true">
+        <match>⊥</match>
+        <replace>¬⊤</replace>
+    </invertible>
+
+    <meta name="NEGATE_CONSTANT">
+        <references>
+            <reference name="NEGATE_TRUE"/>
+            <reference name="NEGATE_FALSE"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>⊤</input>
+                <expect>¬⊥</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>⊥</input>
+                <expect>¬⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="UNNEGATE_TRUE" onlyPart="true">
+        <match>¬⊤</match>
+        <replace>⊥</replace>
+    </invertible>
+
+    <invertible name="UNNEGATE_FALSE" onlyPart="true">
+        <match>¬⊥</match>
+        <replace>⊤</replace>
+    </invertible>
+
+    <meta name="UNNEGATE_CONSTANT">
+        <references>
+            <reference name="UNNEGATE_TRUE"/>
+            <reference name="UNNEGATE_FALSE"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬⊥</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬⊤</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>A∨(C→B)</input>
+            </assertNotApplicable>
+        </tests>
+    </meta>
+
+    <pattern name="TAUTOLOGY_UNNEGATED_FIRST" onlyPart="true">
+        <match>*X ∨ $U ∨ *Y ∨ ¬$U ∨ *Z</match>
+        <replace>⊤</replace>
+    </pattern>
+
+    <pattern name="TAUTOLOGY_NEGATED_FIRST" onlyPart="true">
+        <match>*X ∨ ¬$U ∨ *Y ∨ $U ∨ *Z</match>
+        <replace>⊤</replace>
+    </pattern>
+
+    <meta name="TAUTOLOGY">
+        <references>
+            <reference name="TAUTOLOGY_UNNEGATED_FIRST"/>
+            <reference name="TAUTOLOGY_NEGATED_FIRST"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>Y ∨ ¬X ∨ Y ∨ X ∨ Y</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y ∨ X ∨ Y ∨ ¬X ∨ Y</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <pattern name="CONTRADICTION_UNNEGATED_FIRST" onlyPart="true">
+        <match>*X ∧ $U ∧ *Y ∧ ¬$U ∧ *Z</match>
+        <replace>⊥</replace>
+    </pattern>
+
+    <pattern name="CONTRADICTION_NEGATED_FIRST" onlyPart="true">
+        <match>*X ∧ ¬$U ∧ *Y ∧ $U ∧ *Z</match>
+        <replace>⊥</replace>
+    </pattern>
+
+    <meta name="CONTRADICTION">
+        <references>
+            <reference name="CONTRADICTION_UNNEGATED_FIRST"/>
+            <reference name="CONTRADICTION_NEGATED_FIRST"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>Y ∧ ¬X ∧ Y ∧ X ∧ Y</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y ∧ X ∧ Y ∧ ¬X ∧ Y</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <pattern name="NEUTRALITY_TOP" onlyPart="true">
+        <match>*X∧⊤∧*Y</match>
+        <replace>*X∧*Y</replace>
+    </pattern>
+
+    <pattern name="NEUTRALITY_BOTTOM" onlyPart="true">
+        <match>*X∨⊥∨*Y</match>
+        <replace>*X∨*Y</replace>
+    </pattern>
+
+    <pattern name="NEUTRALITY_TOP_STAND_ALONE_LEFT" onlyPart="true">
+        <match>⊤∧$Y</match>
+        <replace>$Y</replace>
+    </pattern>
+
+    <pattern name="NEUTRALITY_BOTTOM_STAND_ALONE_LEFT" onlyPart="true">
+        <match>⊥∨$Y</match>
+        <replace>$Y</replace>
+    </pattern>
+
+    <pattern name="NEUTRALITY_TOP_STAND_ALONE_RIGHT" onlyPart="true">
+        <match>$X∧⊤</match>
+        <replace>$X</replace>
+    </pattern>
+
+    <pattern name="NEUTRALITY_BOTTOM_STAND_ALONE_RIGHT" onlyPart="true">
+        <match>$X∨⊥</match>
+        <replace>$X</replace>
+    </pattern>
+
+    <meta name="NEUTRALITY">
+        <references>
+            <reference name="NEUTRALITY_TOP_STAND_ALONE_LEFT"/>
+            <reference name="NEUTRALITY_BOTTOM_STAND_ALONE_LEFT"/>
+            <reference name="NEUTRALITY_TOP_STAND_ALONE_RIGHT"/>
+            <reference name="NEUTRALITY_BOTTOM_STAND_ALONE_RIGHT"/>
+            <reference name="NEUTRALITY_TOP"/>
+            <reference name="NEUTRALITY_BOTTOM"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X∧⊤∧Y</input>
+                <expect>X∧Y</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X∨⊥∨Y</input>
+                <expect>X∨Y</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>⊤∧Y</input>
+                <expect>Y</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X∨⊥</input>
+                <expect>X</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <pattern name="DOMINATION_TOP" onlyPart="true">
+        <match>*X∨⊤∨*Y</match>
+        <replace>⊤</replace>
+    </pattern>
+
+    <pattern name="DOMINATION_BOTTOM" onlyPart="true">
+        <match>*X∧⊥∧*Y</match>
+        <replace>⊥</replace>
+    </pattern>
+
+    <meta name="DOMINATION">
+        <references>
+            <reference name="DOMINATION_TOP"/>
+            <reference name="DOMINATION_BOTTOM"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X∧⊥∧Y</input>
+                <expect>⊥</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X∨⊤∨Y</input>
+                <expect>⊤</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="IDEMPOTENCE_CONJUNCTION" onlyPart="true">
+        <match>*X ∧ $U ∧ *Y ∧ $U ∧ *Z</match>
+        <replace>*X ∧ $U ∧ *Y ∧ *Z</replace>
+    </invertible>
+
+    <invertible name="IDEMPOTENCE_DISJUNCTION" onlyPart="true">
+        <match>*X ∨ $U ∨ *Y ∨ $U ∨ *Z</match>
+        <replace>*X ∨ $U ∨ *Y ∨ *Z</replace>
+    </invertible>
+
+    <meta name="IDEMPOTENCE">
+        <references>
+            <reference name="IDEMPOTENCE_CONJUNCTION"/>
+            <reference name="IDEMPOTENCE_DISJUNCTION"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>X ∧ U ∧ Y ∧ U ∧ Z</input>
+                <expect>X ∧ U ∧ Y ∧ Z</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>X ∨ U ∨ Y ∨ U ∨ Z</input>
+                <expect>X ∨ U ∨ Y ∨ Z</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+</transformations>

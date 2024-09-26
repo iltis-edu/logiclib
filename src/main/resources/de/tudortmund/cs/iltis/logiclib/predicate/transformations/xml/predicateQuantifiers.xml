@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transformations>
+    <clean name="QUANTIFIER_CLEAN" onlyPart="true"></clean>
+
+    <invertible name="PUSH_NEGATION_OVER_UNIVERSAL_QUANTIFIER" onlyPart="true">
+        <match>¬forall x $X</match>
+        <replace>exists x ¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬forall x X(x,y)</input>
+                <expect>exists x ¬X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬forall y X(x,y)</input>
+                <expect>exists y ¬X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="PUSH_NEGATION_OVER_EXISTENTIAL_QUANTIFIER" onlyPart="true">
+        <match>¬exists x $X</match>
+        <replace>forall x ¬$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>¬exists x X(x,y)</input>
+                <expect>forall x ¬X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬exists y X(x,y)</input>
+                <expect>forall y ¬X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="PUSH_NEGATION_OVER_QUANTIFIER">
+        <references>
+            <reference name="PUSH_NEGATION_OVER_UNIVERSAL_QUANTIFIER"/>
+            <reference name="PUSH_NEGATION_OVER_EXISTENTIAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>¬forall x X(x,y)</input>
+                <expect>exists x ¬X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬forall y X(x,y)</input>
+                <expect>exists y ¬X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬exists x X(x,y)</input>
+                <expect>forall x ¬X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>¬exists y X(x,y)</input>
+                <expect>forall y ¬X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="PULL_NEGATION_OVER_UNIVERSAL_QUANTIFIER" onlyPart="true">
+        <match>forall x ¬$X</match>
+        <replace>¬exists x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x ¬X(x,y)</input>
+                <expect>¬exists x X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y ¬X(x,y)</input>
+                <expect>¬exists y X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="PULL_NEGATION_OVER_EXISTENTIAL_QUANTIFIER" onlyPart="true">
+        <match>exists x ¬$X</match>
+        <replace>¬forall x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x ¬X(x,y)</input>
+                <expect>¬forall x X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y ¬X(x,y)</input>
+                <expect>¬forall y X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="PULL_NEGATION_OVER_QUANTIFIER">
+        <references>
+            <reference name="PULL_NEGATION_OVER_UNIVERSAL_QUANTIFIER"/>
+            <reference name="PULL_NEGATION_OVER_EXISTENTIAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x ¬X(x,y)</input>
+                <expect>¬exists x X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y ¬X(x,y)</input>
+                <expect>¬exists y X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x ¬X(x,y)</input>
+                <expect>¬forall x X(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y ¬X(x,y)</input>
+                <expect>¬forall y X(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="SWAP_UNIVERSAL_QUANTIFIERS" onlyPart="true">
+        <match>forall x forall y $X</match>
+        <replace>forall y forall x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x forall y X(x,y,z)</input>
+                <expect>forall y forall x X(x,y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y forall x X(x,y,z)</input>
+                <expect>forall x forall y X(x,y,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="SWAP_EXISTENTIAL_QUANTIFIERS" onlyPart="true">
+        <match>exists x exists y $X</match>
+        <replace>exists y exists x $X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x exists y X(x,y,z)</input>
+                <expect>exists y exists x X(x,y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y exists x X(x,y,z)</input>
+                <expect>exists x exists y X(x,y,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="SWAP_QUANTIFIERS">
+        <references>
+            <reference name="SWAP_UNIVERSAL_QUANTIFIERS"/>
+            <reference name="SWAP_EXISTENTIAL_QUANTIFIERS"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x forall y X(x,y,z)</input>
+                <expect>forall y forall x X(x,y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y forall x X(x,y,z)</input>
+                <expect>forall x forall y X(x,y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x exists y X(x,y,z)</input>
+                <expect>exists y exists x X(x,y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y exists x X(x,y,z)</input>
+                <expect>exists x exists y X(x,y,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <childrenPattern name="STRONG_DISTRIBUTE_UNIVERSAL_QUANTIFIER_INTO_CONJUNCTION" onlyPart="true">
+        <outer>forall x ($*∧...)</outer>
+        <match>$X</match>
+        <replace>forall x $X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∧ Y(x,y))</input>
+                <expect>forall x (forall x X(x,y) ∧ forall x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <invertible name="STRONG_DISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_INITIAL_UNIVERSAL_QUANTIFIER" onlyPart="true">
+        <match>forall x $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (forall x X(x,y) ∧ forall x Y(x,y))</input>
+                <expect>forall x X(x,y) ∧ forall x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <sequential name="STRONG_DISTRIBUTE_UNIVERSAL_QUANTIFIER" onlyPart="true">
+        <references>
+            <reference name="STRONG_DISTRIBUTE_UNIVERSAL_QUANTIFIER_INTO_CONJUNCTION"/>
+            <reference name="STRONG_DISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_INITIAL_UNIVERSAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∧ Y(x,y))</input>
+                <expect>forall x X(x,y) ∧ forall x Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y (X(x,y) ∧ Y(x,y))</input>
+                <expect>forall y X(x,y) ∧ forall y Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <childrenPattern name="STRONG_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_INTO_DISJUNCTION" onlyPart="true">
+        <outer>exists x ($*∨...)</outer>
+        <match>$X</match>
+        <replace>exists x $X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x,y) ∨ Y(x,y))</input>
+                <expect>exists x (exists x X(x,y) ∨ exists x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </childrenPattern>
+
+    <invertible name="STRONG_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_INITIAL_EXISTENTIAL_QUANTIFIER" onlyPart="true">
+        <match>exists x $X</match>
+        <replace>$X</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (exists x X(x,y) ∨ exists x Y(x,y))</input>
+                <expect>exists x X(x,y) ∨ exists x Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <sequential name="STRONG_DISTRIBUTE_EXISTENTIAL_QUANTIFIER" onlyPart="true">
+        <references>
+            <reference name="STRONG_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_INTO_DISJUNCTION"/>
+            <reference name="STRONG_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_INITIAL_EXISTENTIAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (X(x,y) ∨ Y(x,y))</input>
+                <expect>exists x X(x,y) ∨ exists x Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y (X(x,y) ∨ Y(x,y))</input>
+                <expect>exists y X(x,y) ∨ exists y Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </sequential>
+
+    <meta name="STRONG_DISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="STRONG_DISTRIBUTE_UNIVERSAL_QUANTIFIER"/>
+            <reference name="STRONG_DISTRIBUTE_EXISTENTIAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (X(x,y) ∧ Y(x,y))</input>
+                <expect>forall x X(x,y) ∧ forall x Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y (X(x,y) ∧ Y(x,y))</input>
+                <expect>forall y X(x,y) ∧ forall y Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x (X(x,y) ∨ Y(x,y))</input>
+                <expect>exists x X(x,y) ∨ exists x Y(x,y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y (X(x,y) ∨ Y(x,y))</input>
+                <expect>exists y X(x,y) ∨ exists y Y(x,y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="STRONG_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_ADD_TO_FRONT" onlyPart="true">
+        <match>forall x $X ∧*Y</match>
+        <replace>forall x (forall x $X ∧*Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(forall x X(x,y)) ∧ (forall x Y(x,y))</input>
+                <expect>forall x (forall x X(x,y) ∧ forall x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="STRONG_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_UNIVERSAL_QUANTIFIER_IN_SUBFORMULAE" onlyPart="true">
+        <outer>forall x ((forall x $)*∧...)</outer>
+        <match>forall x $X</match>
+        <replace>$X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x (forall x X(x,y) ∧ forall x Y(x,y))</input>
+                <expect>forall x (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>forall x (forall x X(x,y) ∧ forall y Y(x,y))</input>
+            </assertNotApplicable>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="STRONG_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER" onlyPart="true">
+        <references>
+            <reference name="STRONG_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_ADD_TO_FRONT"/>
+            <reference name="STRONG_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_REMOVE_UNIVERSAL_QUANTIFIER_IN_SUBFORMULAE"/>
+            <reference name="QUANTIFIER_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ∧ forall x Y(x,y)</input>
+                <expect>forall x (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y X(x,y) ∧ forall y Y(x,y)</input>
+                <expect>forall y (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>forall x X(x,y) ∧ forall y Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </sequential>
+
+    <invertible name="STRONG_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_ADD_TO_FRONT" onlyPart="true">
+        <match>exists x $X ∨*Y</match>
+        <replace>exists x (exists x $X ∨*Y)</replace>
+        <tests>
+            <assertApplicationResult>
+                <input>(exists x X(x,y)) ∨ (exists x Y(x,y))</input>
+                <expect>exists x (exists x X(x,y) ∨ exists x Y(x,y))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <childrenPattern name="STRONG_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_EXISTENTIAL_QUANTIFIER_IN_SUBFORMULAE" onlyPart="true">
+        <outer>exists x ((exists x $)*∨...)</outer>
+        <match>exists x $X</match>
+        <replace>$X</replace>
+        <pathChild>1</pathChild>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x (exists x X(x,y) ∨ exists x Y(x,y))</input>
+                <expect>exists x (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>exists x (exists x X(x,y) ∨ exists y Y(x,y))</input>
+            </assertNotApplicable>
+        </tests>
+    </childrenPattern>
+
+    <sequential name="STRONG_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER" onlyPart="true">
+        <references>
+            <reference name="STRONG_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_ADD_TO_FRONT"/>
+            <reference name="STRONG_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_REMOVE_EXISTENTIAL_QUANTIFIER_IN_SUBFORMULAE"/>
+            <reference name="QUANTIFIER_CLEAN"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>exists x X(x,y) ∨ exists x Y(x,y)</input>
+                <expect>exists x (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y X(x,y) ∨ exists y Y(x,y)</input>
+                <expect>exists y (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>exists x X(x,y) ∨ exists y Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </sequential>
+
+    <meta name="STRONG_UNDISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="STRONG_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER"/>
+            <reference name="STRONG_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(x,y) ∧ forall x Y(x,y)</input>
+                <expect>forall x (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall y X(x,y) ∧ forall y Y(x,y)</input>
+                <expect>forall y (X(x,y) ∧ Y(x,y))</expect>
+            </assertApplicationResult>
+            <input>forall x X(x,y) ∧ forall y Y(x,y)</input>
+            <assertApplicationResult>
+                <input>exists x X(x,y) ∨ exists x Y(x,y)</input>
+                <expect>exists x (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists y X(x,y) ∨ exists y Y(x,y)</input>
+                <expect>exists y (X(x,y) ∨ Y(x,y))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>exists x X(x,y) ∨ exists y Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>exists x X(x,y) ∨ exists y Y(x,y)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>forall x X(x,y) ∧ forall y Y(x,y)</input>
+            </assertNotApplicable>
+        </tests>
+    </meta>
+
+    <invertible name="WEAK_DISTRIBUTE_UNIVERSAL_QUANTIFIER_DISJUNCTION" onlyPart="true">
+        <!-- matchPattern: forall x (*A ∨ $X ∨ *B) but A and B must not contain x freely-->
+        <match javaReference="true">WeakDistributeUniversalQuantifierDisjunctionMatch</match>
+        <replace>*A ∨ forall x $X ∨ *B</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>forall x (Y(y) ∨ X(x,y) ∨ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∨ X(x,y) ∨ Z(y,z))</input>
+                <expect>Y(y) ∨ forall x X(x,y) ∨ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∨ X(x,y) ∨ exists x Z(x,z))</input>
+                <expect>Y(y) ∨ forall x X(x,y) ∨ exists x Z(x,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="WEAK_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_CONJUNCTION" onlyPart="true">
+        <!-- matchPattern: exists x (*A ∧ $X ∧ *B) but A and B must not contain x freely-->
+        <match javaReference="true">WeakDistributeExistentialQuantifierConjunctionMatch</match>
+        <replace>*A ∧ exists x $X ∧ *B</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>exists x (Y(y) ∧ X(x,y) ∧ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∧ X(x,y) ∧ Z(y,z))</input>
+                <expect>Y(y) ∧ exists x X(x,y) ∧ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∧ X(x,y) ∧ forall x Z(x,z))</input>
+                <expect>Y(y) ∧ exists x X(x,y) ∧ forall x Z(x,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="WEAK_DISTRIBUTE_UNIVERSAL_QUANTIFIER_CONJUNCTION" onlyPart="true">
+        <!-- matchPattern: forall x (*A ∧ $X ∧ *B) but A and B must not contain x freely-->
+        <match javaReference="true">WeakDistributeUniversalQuantifierConjunctionMatch</match>
+        <replace>*A ∧ forall x $X ∧ *B</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>forall x (Y(y) ∧ X(x,y) ∧ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∧ X(x,y) ∧ Z(y,z))</input>
+                <expect>Y(y) ∧ forall x X(x,y) ∧ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∧ X(x,y) ∧ exists x Z(x,z))</input>
+                <expect>Y(y) ∧ forall x X(x,y) ∧ exists x Z(x,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="WEAK_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_DISJUNCTION" onlyPart="true">
+        <!-- matchPattern: exists x (*A ∨ $X ∨ *B) but A and B must not contain x freely-->
+        <match javaReference="true">WeakDistributeExistentialQuantifierDisjunctionMatch</match>
+        <replace>*A ∨ exists x $X ∨ *B</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>exists x (Y(y) ∨ X(x,y) ∨ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∨ X(x,y) ∨ Z(y,z))</input>
+                <expect>Y(y) ∨ exists x X(x,y) ∨ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∨ X(x,y) ∨ forall x Z(x,z))</input>
+                <expect>Y(y) ∨ exists x X(x,y) ∨ forall x Z(x,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="WEAK_DISTRIBUTE_UNIVERSAL_QUANTIFIER" groupId="WEAK_DISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="WEAK_DISTRIBUTE_UNIVERSAL_QUANTIFIER_DISJUNCTION"/>
+            <reference name="WEAK_DISTRIBUTE_UNIVERSAL_QUANTIFIER_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>forall x (Y(y) ∨ X(x,y) ∨ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∨ X(x,y) ∨ Z(y,z))</input>
+                <expect>Y(y) ∨ forall x X(x,y) ∨ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∨ X(x,y) ∨ exists x Z(x,z))</input>
+                <expect>Y(y) ∨ forall x X(x,y) ∨ exists x Z(x,z)</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>forall x (Y(y) ∧ X(x,y) ∧ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∧ X(x,y) ∧ Z(y,z))</input>
+                <expect>Y(y) ∧ forall x X(x,y) ∧ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x (Y(y) ∧ X(x,y) ∧ exists x Z(x,z))</input>
+                <expect>Y(y) ∧ forall x X(x,y) ∧ exists x Z(x,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="WEAK_DISTRIBUTE_EXISTENTIAL_QUANTIFIER" groupId="WEAK_DISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="WEAK_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_DISJUNCTION"/>
+            <reference name="WEAK_DISTRIBUTE_EXISTENTIAL_QUANTIFIER_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>exists x (Y(y) ∧ X(x,y) ∧ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∧ X(x,y) ∧ Z(y,z))</input>
+                <expect>Y(y) ∧ exists x X(x,y) ∧ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∧ X(x,y) ∧ forall x Z(x,z))</input>
+                <expect>Y(y) ∧ exists x X(x,y) ∧ forall x Z(x,z)</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>exists x (Y(y) ∨ X(x,y) ∨ Z(y,x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∨ X(x,y) ∨ Z(y,z))</input>
+                <expect>Y(y) ∨ exists x X(x,y) ∨ Z(y,z)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x (Y(y) ∨ X(x,y) ∨ forall x Z(x,z))</input>
+                <expect>Y(y) ∨ exists x X(x,y) ∨ forall x Z(x,z)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="WEAK_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_DISJUNCTION" onlyPart="true">
+        <!-- matchPattern: *A ∨ forall x $X ∨ *B but A and B must not contain x freely-->
+        <match javaReference="true">WeakUndistributeUniversalQuantifierDisjunctionMatch</match>
+        <replace>forall x (*A ∨ $X ∨ *B)</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>Y(y) ∨ forall x X(x,y) ∨ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∨ forall x X(x,y) ∨ Z(y,z)</input>
+                <expect>forall x (Y(y) ∨ X(x,y) ∨ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∨ forall x X(x,y) ∨ exists x Z(x,z)</input>
+                <expect>forall x (Y(y) ∨ X(x,y) ∨ exists x Z(x,z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="WEAK_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_CONJUNCTION" onlyPart="true">
+        <!-- matchPattern: *A ∧ exists x $X ∧ *B but A and B must not contain x freely-->
+        <match javaReference="true">WeakUndistributeExistentialQuantifierConjunctionMatch</match>
+        <replace>exists x (*A ∧ $X ∧ *B)</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>Y(y) ∧ exists x X(x,y) ∧ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∧ exists x X(x,y) ∧ Z(y,z)</input>
+                <expect>exists x (Y(y) ∧ X(x,y) ∧ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∧ exists x X(x,y) ∧ forall x Z(x,z)</input>
+                <expect>exists x (Y(y) ∧ X(x,y) ∧ forall x Z(x,z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="WEAK_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_CONJUNCTION" onlyPart="true">
+        <!-- matchPattern: *A ∧ forall x $X ∧ *B but A and B must not contain x freely-->
+        <match javaReference="true">WeakUndistributeUniversalQuantifierConjunctionMatch</match>
+        <replace>forall x (*A ∧ $X ∧ *B)</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>Y(y) ∧ forall x X(x,y) ∧ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∧ forall x X(x,y) ∧ Z(y,z)</input>
+                <expect>forall x (Y(y) ∧ X(x,y) ∧ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∧ forall x X(x,y) ∧ exists x Z(x,z)</input>
+                <expect>forall x (Y(y) ∧ X(x,y) ∧ exists x Z(x,z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="WEAK_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_DISJUNCTION" onlyPart="true">
+        <!-- matchPattern: *A ∨ exists x $X ∨ *B but A and B must not contain x freely-->
+        <match javaReference="true">WeakUndistributeExistentialQuantifierDisjunctionMatch</match>
+        <replace>exists x (*A ∨ $X ∨ *B)</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>Y(y) ∨ exists x X(x,y) ∨ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∨ exists x X(x,y) ∨ Z(y,z)</input>
+                <expect>exists x (Y(y) ∨ X(x,y) ∨ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∨ exists x X(x,y) ∨ forall x Z(x,z)</input>
+                <expect>exists x (Y(y) ∨ X(x,y) ∨ forall x Z(x,z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="WEAK_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER" groupId="WEAK_UNDISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="WEAK_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_DISJUNCTION"/>
+            <reference name="WEAK_UNDISTRIBUTE_UNIVERSAL_QUANTIFIER_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>Y(y) ∨ forall x X(x,y) ∨ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∨ forall x X(x,y) ∨ Z(y,z)</input>
+                <expect>forall x (Y(y) ∨ X(x,y) ∨ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∨ forall x X(x,y) ∨ exists x Z(x,z)</input>
+                <expect>forall x (Y(y) ∨ X(x,y) ∨ exists x Z(x,z))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>Y(y) ∧ forall x X(x,y) ∧ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∧ forall x X(x,y) ∧ Z(y,z)</input>
+                <expect>forall x (Y(y) ∧ X(x,y) ∧ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∧ forall x X(x,y) ∧ exists x Z(x,z)</input>
+                <expect>forall x (Y(y) ∧ X(x,y) ∧ exists x Z(x,z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <meta name="WEAK_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER" groupId="WEAK_UNDISTRIBUTE_QUANTIFIERS">
+        <references>
+            <reference name="WEAK_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_DISJUNCTION"/>
+            <reference name="WEAK_UNDISTRIBUTE_EXISTENTIAL_QUANTIFIER_CONJUNCTION"/>
+        </references>
+        <tests>
+            <assertNotApplicable>
+                <input>Y(y) ∧ exists x X(x,y) ∧ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∧ exists x X(x,y) ∧ Z(y,z)</input>
+                <expect>exists x (Y(y) ∧ X(x,y) ∧ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∧ exists x X(x,y) ∧ forall x Z(x,z)</input>
+                <expect>exists x (Y(y) ∧ X(x,y) ∧ forall x Z(x,z))</expect>
+            </assertApplicationResult>
+            <assertNotApplicable>
+                <input>Y(y) ∨ exists x X(x,y) ∨ Z(y,x)</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>Y(y) ∨ exists x X(x,y) ∨ Z(y,z)</input>
+                <expect>exists x (Y(y) ∨ X(x,y) ∨ Z(y,z))</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>Y(y) ∨ exists x X(x,y) ∨ forall x Z(x,z)</input>
+                <expect>exists x (Y(y) ∨ X(x,y) ∨ forall x Z(x,z))</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <invertible name="REDUCE_UNNECESSARY_UNIVERSAL_QUANTIFIER" onlyPart="true">
+        <!-- matchPattern: forall x $X where X does not contain x freely -->
+        <match javaReference="true">ReduceUnnecessaryUniversalQuantifierMatch</match>
+        <replace>$X</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>forall x X(x)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>forall x (X(y) ∧ Y(x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>forall x X(y)</input>
+                <expect>X(y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x exists y X(y)</input>
+                <expect>exists y X(y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <invertible name="REDUCE_UNNECESSARY_EXISTENTIAL_QUANTIFIER" onlyPart="true">
+        <!-- matchPattern: exists x $X where X does not contain x freely -->
+        <match javaReference="true">ReduceUnnecessaryExistentialQuantifierMatch</match>
+        <replace>$X</replace>
+        <tests>
+            <assertNotApplicable>
+                <input>exists x X(x)</input>
+            </assertNotApplicable>
+            <assertNotApplicable>
+                <input>exists x (X(y) ∧ Y(x))</input>
+            </assertNotApplicable>
+            <assertApplicationResult>
+                <input>exists x X(y)</input>
+                <expect>X(y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x forall y X(y)</input>
+                <expect>forall y X(y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </invertible>
+
+    <meta name="REDUCE_UNNECESSARY_QUANTIFIER">
+        <references>
+            <reference name="REDUCE_UNNECESSARY_EXISTENTIAL_QUANTIFIER"/>
+            <reference name="REDUCE_UNNECESSARY_UNIVERSAL_QUANTIFIER"/>
+        </references>
+        <tests>
+            <assertApplicationResult>
+                <input>forall x X(y)</input>
+                <expect>X(y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>forall x exists y X(y)</input>
+                <expect>exists y X(y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x X(y)</input>
+                <expect>X(y)</expect>
+            </assertApplicationResult>
+            <assertApplicationResult>
+                <input>exists x forall y X(y)</input>
+                <expect>forall y X(y)</expect>
+            </assertApplicationResult>
+        </tests>
+    </meta>
+
+    <patternNewTerm name="ADD_UNNECESSARY_UNIVERSAL_QUANTIFIER" onlyAtomar="true" groupId="ADD_UNNECESSARY_QUANTIFIER">
+        <!-- matchPattern: $X where X does not contain x freely -->
+        <match javaReference="true">AddUnnecessaryUniversalQuantifierMatch</match>
+        <replace>forall x $X</replace>
+        <newTerm>x</newTerm>
+        <tests>
+            <assertApplicationResult>
+                <input>X(y)</input>
+                <expect>forall x X(y)</expect>
+                <newVariable>x</newVariable>
+            </assertApplicationResult>
+        </tests>
+    </patternNewTerm>
+
+    <patternNewTerm name="ADD_UNNECESSARY_EXISTENTIAL_QUANTIFIER" onlyAtomar="true" groupId="ADD_UNNECESSARY_QUANTIFIER">
+        <!-- matchPattern: $X where X does not contain x freely -->
+        <match javaReference="true">AddUnnecessaryExistentialQuantifierMatch</match>
+        <replace>exists x $X</replace>
+        <newTerm>x</newTerm>
+        <tests>
+            <assertApplicationResult>
+                <input>X(y)</input>
+                <expect>exists x X(y)</expect>
+                <newVariable>x</newVariable>
+            </assertApplicationResult>
+        </tests>
+    </patternNewTerm>
+
+</transformations>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformations>
+	<invertible name="REPLACE_IMPLICATION_DIRECT" onlyPart="true">
+		<match>$X → $Y</match>
+		<replace>¬$X ∨ $Y</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>X(x,y) → Y(x,y)</input>
+				<expect>¬X(x,y) ∨ Y(x,y)</expect>
+			</assertApplicationResult>
+			<assertNotApplicable>
+				<input>⊤</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>⊥</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>¬X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∨ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∧ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ↔ Y(x,y)</input>
+			</assertNotApplicable>
+		</tests>
+	</invertible>
+
+	<invertible name="REPLACE_IMPLICATION_CONJUNCTION" onlyPart="true">
+		<match>*U∧($X → $Y)∧*V</match>
+		<replace>*U∧(¬$X ∨ $Y)∧*V</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>Z(x,z)∧(X(x,y) → Y(x,y))∧Z(x,y)</input>
+				<expect>Z(x,z)∧(¬X(x,y) ∨ Y(x,y))∧Z(x,y)</expect>
+			</assertApplicationResult>
+			<assertNotApplicable>
+				<input>⊤</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>⊥</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>¬X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∨ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∧ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ↔ Y(x,y)</input>
+			</assertNotApplicable>
+		</tests>
+	</invertible>
+
+	<invertible name="REPLACE_IMPLICATION_DISJUNCTION" onlyPart="true">
+		<match>*U∨($X → $Y)∨*V</match>
+		<replace>*U∨(¬$X ∨ $Y)∨*V</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>Z(x,y) ∨ ( X(x,y) → Y(x,y)) ∨ Z(x,z)</input>
+				<expect>Z(x,y) ∨ (¬X(x,y) ∨ Y(x,y)) ∨ Z(x,z)</expect>
+			</assertApplicationResult>
+			<assertNotApplicable>
+				<input>⊤</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>⊥</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>¬X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∨ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∧ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ↔ Y(x,y)</input>
+			</assertNotApplicable>
+		</tests>
+	</invertible>
+
+	<invertible name="CREATE_IMPLICATION_DIRECT" onlyPart="true">
+		<match>¬$X ∨ $Y</match>
+		<replace>$X → $Y</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>¬X(x,y) ∨ Y(x,y)</input>
+				<expect>X(x,y) → Y(x,y)</expect>
+			</assertApplicationResult>
+			<assertNotApplicable>
+				<input>⊤</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>⊥</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>¬X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∨ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∧ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ↔ Y(x,y)</input>
+			</assertNotApplicable>
+		</tests>
+	</invertible>
+
+	<invertible name="CREATE_IMPLICATION_CONJUNCTION" onlyPart="true">
+		<match>*U∧(¬$X ∨ $Y)∧*V</match>
+		<replace>*U∧($X → $Y)∧*V</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>Z(x,y)∧(¬X(x,y) ∨ Y(x,y))∧Z(x,z)</input>
+				<expect>Z(x,y)∧(X(x,y) → Y(x,y))∧Z(x,z)</expect>
+			</assertApplicationResult>
+			<assertNotApplicable>
+				<input>⊤</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>⊥</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>¬X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∨ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∧ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ↔ Y(x,y)</input>
+			</assertNotApplicable>
+		</tests>
+	</invertible>
+
+	<invertible name="CREATE_IMPLICATION_DISJUNCTION" onlyPart="true">
+		<match>*U∨(¬$X ∨ $Y)∨*V</match>
+		<replace>*U∨($X → $Y)∨*V</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>Z(x,y)∨(¬X(x,y) ∨ Y(x,y))∨Z(x,z)</input>
+				<expect>Z(x,y)∨(X(x,y) → Y(x,y))∨Z(x,z)</expect>
+			</assertApplicationResult>
+			<assertNotApplicable>
+				<input>⊤</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>⊥</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>¬X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∨ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∧ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ↔ Y(x,y)</input>
+			</assertNotApplicable>
+		</tests>
+	</invertible>
+
+	<meta name = "CREATE_IMPLICATION">
+		<references>
+			<reference name="CREATE_IMPLICATION_DIRECT"/>
+			<reference name="CREATE_IMPLICATION_DISJUNCTION"/>
+			<reference name="CREATE_IMPLICATION_CONJUNCTION"/>
+		</references>
+		<tests>
+			<assertApplicationResult>
+				<input>¬X(x,y) ∨ Y(x,y)</input>
+				<expect>X(x,y) → Y(x,y)</expect>
+			</assertApplicationResult>
+			<assertApplicationResult>
+				<input>Z(x,y)∧(¬X(x,y) ∨ Y(x,y))∧Z(x,z)</input>
+				<expect>Z(x,y)∧(X(x,y) → Y(x,y))∧Z(x,z)</expect>
+			</assertApplicationResult>
+			<assertApplicationResult>
+				<input>Z(x,y)∨(¬X(x,y) ∨ Y(x,y))∨Z(x,z)</input>
+				<expect>Z(x,y)∨(X(x,y) → Y(x,y))∨Z(x,z)</expect>
+			</assertApplicationResult>
+		</tests>
+	</meta>
+
+	<invertible name="CONTRAPOSITION" groupId="CONTRAPOSITION">
+		<match>$X → $Y</match>
+		<replace>¬$Y → ¬$X</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>¬X(x,y) → Y(x,y)</input>
+				<expect>¬Y(x,y) → ¬¬X(x,y)</expect>
+			</assertApplicationResult>
+			<assertNotApplicable>
+				<input>⊤</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>⊥</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>¬X(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∨ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ∧ Y(x,y)</input>
+			</assertNotApplicable>
+			<assertNotApplicable>
+				<input>X(x,y) ↔ Y(x,y)</input>
+			</assertNotApplicable>
+		</tests>
+	</invertible>
+
+	<invertible name="CONTRAPOSITION_INVERSE" groupId="CONTRAPOSITION">
+		<match>¬$Y → ¬$X</match>
+		<replace>$X → $Y</replace>
+		<tests>
+			<assertApplicationResult>
+				<input>¬X(x,y) → ¬¬Y(x,y)</input>
+				<expect>¬Y(x,y) → X(x,y)</expect>
+			</assertApplicationResult>
+		</tests>
+	</invertible>
+
+	<meta name = "REPLACE_IMPLICATION" groupId="REPLACE_IMPLICATION">
+		<references>
+			<reference name="REPLACE_IMPLICATION_DIRECT"/>
+			<reference name="REPLACE_IMPLICATION_DISJUNCTION"/>
+			<reference name="REPLACE_IMPLICATION_CONJUNCTION"/>
+		</references>
+		<tests>
+			<assertApplicationResult>
+				<input>X(x,y) → Y(x,y)</input>
+				<expect>¬X(x,y) ∨ Y(x,y)</expect>
+			</assertApplicationResult>
+			<assertApplicationResult>
+				<input>Z(x,y)∧(X(x,y) → Y(x,y))∧Z(x,z)</input>
+				<expect>Z(x,y)∧(¬X(x,y) ∨ Y(x,y))∧Z(x,z)</expect>
+			</assertApplicationResult>
+			<assertApplicationResult>
+				<input>Z(x,y) ∨ ( X(x,y) → Y(x,y)) ∨ Z(x,z)</input>
+				<expect>Z(x,y) ∨ (¬X(x,y) ∨ Y(x,y)) ∨ Z(x,z)</expect>
+			</assertApplicationResult>
+		</tests>
+	</meta>
+
+	<fixpoint name="fixpoint:REPLACE_IMPLICATION" groupId="REPLACE_IMPLICATION">
+		<reference name="REPLACE_IMPLICATION"/>
+		<tests>
+			<assertApplicationResult>
+				<input>Z(x,y)∧(X(x,y) → (Y(x,y)→Z(x,z)))∧Z(y,z)</input>
+				<expect>Z(x,y)∧(¬X(x,y) ∨ (¬Y(x,y) ∨ Z(x,z)))∧Z(y,z)</expect>
+			</assertApplicationResult>
+		</tests>
+	</fixpoint>
+</transformations>
